@@ -101,7 +101,7 @@ export default async function Roadmap({
 				<p className="mt-1 text-sm text-fg-secondary">
 					{t('portal.roadmap.subtitle')}
 				</p>
-				<div className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
+				<div className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain pb-2 touch-pan-x sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
 					{COLUMNS.map(col => {
 						const items = list
 							.filter(p => p.status === col.status)
