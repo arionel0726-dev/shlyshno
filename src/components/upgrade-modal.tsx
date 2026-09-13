@@ -81,7 +81,7 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
 			<div
 				ref={ref}
-				className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-border bg-background p-5 shadow-xl sm:p-8"
+				className="relative grid max-h-[90vh] w-full max-w-3xl grid-rows-[auto_auto_minmax(0,1fr)_auto] overflow-hidden rounded-3xl border border-border bg-background p-5 shadow-xl sm:p-8"
 			>
 				<button
 					onClick={() => setOpen(false)}
@@ -97,7 +97,7 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 					{t('upgrade.subtitle')}
 				</p>
 
-				<div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
+				<div className="mt-6 grid min-h-0 gap-4 overflow-y-auto sm:mt-8 sm:grid-cols-2">
 					{/* Free */}
 					<div className="rounded-2xl border border-border p-4 sm:p-6">
 						<div className="flex items-center justify-between">
