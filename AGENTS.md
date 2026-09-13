@@ -117,15 +117,34 @@ Orbit Design Template v2 (у пользователя, бренд Orbit = пле
     meta.custom); ID через Number(); redirectUrl только https
 16. Виджет в Firefox может блокироваться ETP/блокировщиками — тестировать в
     Chrome
-17. i18n НЕТ — весь UI на русском (задача в очереди)
+17. i18n: cookie 'slyshno-locale' → Accept-Language → ru; словари
+    src/i18n/dictionaries/{ru,en}.ts (typed keys); серверные компоненты —
+    const { t } = await getT() из src/i18n/server; клиентские — useI18n() из
+    src/i18n/context (Provider в корневом layout). Переключатель — в
+    профиль-меню сайдбара. Контент из БД (посты, чейнджлог) и /docs не
+    переводим
 
 ## Команды
 
 - bun dev / bun run build
+- bun run test (Vitest, отдельная test-база slyshno_test — см. ниже)
 - bunx drizzle-kit push
 - bunx @better-auth/cli generate --output ./src/db/auth-schema.ts
 - docker compose up -d (dev Postgres)
 - curl -H "x-cron-secret: $CRON_SECRET" localhost:3000/api/cron/outbox
+
+## Тесты (Vitest)
+
+- tests/ — вызывают обработчики API-роутов напрямую (import { POST } from
+  '@/app/api/.../route'), getSession мокается (`vi.mock('@/lib/session', ...)`)
+  — иначе better-auth дёргает next/headers вне request-контекста и падает
+- БД: отдельная база slyshno_test на том же dev-постгресе (порт 5435, тот же
+  контейнер) — создать один раз: `docker exec slyshno-db-1 createdb -U
+  slyshno slyshno_test`, затем `DATABASE_URL=postgres://slyshno:slyshno_dev@localhost:5435/slyshno_test
+  bunx drizzle-kit push`. Не пересекается с dev-данными, можно гонять
+  параллельно с bun dev
+- tests/db.ts — resetDb() (TRUNCATE ... CASCADE перед каждым тестом) и
+  фабрики (createProject/createBoard/createPost/createSubscription)
 
 ## Прогресс
 
@@ -139,8 +158,8 @@ Orbit Design Template v2 (у пользователя, бренд Orbit = пле
 - [x] Деплой-файлы: Dockerfile (standalone), docker-compose.prod.yml, Caddyfile
 - [ ] ДЕПЛОЙ: DNS A slyshno.app → Contabo, env.production, compose up, drizzle
       push, webhook URL на прод, LS test mode OFF
-- [ ] i18n RU+EN (задача для агента)
-- [ ] Тесты базовые (задача для агента)
+- [x] i18n RU+EN (кабинет, auth, публичный портал, виджет, лендинг, /pricing)
+- [x] Тесты базовые (webhook, голосование, права, импорт CSV — 18 тестов)
 - [ ] v1.1: кастомный домен (Caddy on-demand TLS), search, MCP + mobile SDK,
       Apple/Google Pay проверка в live, цена MDL→180
 
