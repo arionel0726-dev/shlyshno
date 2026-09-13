@@ -3,8 +3,28 @@ import { boards, posts, projects, votes } from '@/db/schema'
 import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
+import { breadcrumbJsonLd, jsonLdScript, pageMetadata } from '@/lib/seo'
 import { and, eq, inArray, sql } from 'drizzle-orm'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+
+export async function generateMetadata({
+	params
+}: {
+	params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+	const { slug } = await params
+	const project = await db.query.projects.findFirst({
+		where: eq(projects.slug, slug)
+	})
+	if (!project) return {}
+
+	return pageMetadata({
+		title: `${project.name} roadmap · Slyshno`,
+		description: `What's planned and what's shipping next for ${project.name}.`,
+		path: `/p/${slug}/roadmap`
+	})
+}
 
 const COLUMNS: { status: string; labelKey: DictionaryKey; dot: string }[] = [
 	{ status: 'reviewing', labelKey: 'postStatus.reviewing', dot: 'bg-amber-500' },
@@ -60,6 +80,18 @@ export default async function Roadmap({
 
 	return (
 		<div className="min-h-screen">
+			<script
+				type="application/ld+json"
+				// eslint-disable-next-line react/no-danger
+				dangerouslySetInnerHTML={{
+					__html: jsonLdScript(
+						breadcrumbJsonLd([
+							{ name: project.name, path: `/p/${slug}` },
+							{ name: 'Roadmap', path: `/p/${slug}/roadmap` }
+						])
+					)
+				}}
+			/>
 			<PortalHeader
 				slug={slug}
 				projectName={project.name}

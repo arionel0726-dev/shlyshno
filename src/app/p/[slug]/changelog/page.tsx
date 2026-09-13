@@ -4,11 +4,31 @@ import { changelogPosts, projects } from '@/db/schema'
 import type { Locale } from '@/i18n/config'
 import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
+import { breadcrumbJsonLd, jsonLdScript, pageMetadata } from '@/lib/seo'
 import { desc, eq } from 'drizzle-orm'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
+
+export async function generateMetadata({
+	params
+}: {
+	params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+	const { slug } = await params
+	const project = await db.query.projects.findFirst({
+		where: eq(projects.slug, slug)
+	})
+	if (!project) return {}
+
+	return pageMetadata({
+		title: `${project.name} changelog · Slyshno`,
+		description: `What's new in ${project.name} — release notes and updates.`,
+		path: `/p/${slug}/changelog`
+	})
+}
 
 export default async function Changelog({
 	params
@@ -40,6 +60,18 @@ export default async function Changelog({
 
 	return (
 		<div className="min-h-screen">
+			<script
+				type="application/ld+json"
+				// eslint-disable-next-line react/no-danger
+				dangerouslySetInnerHTML={{
+					__html: jsonLdScript(
+						breadcrumbJsonLd([
+							{ name: project.name, path: `/p/${slug}` },
+							{ name: 'Changelog', path: `/p/${slug}/changelog` }
+						])
+					)
+				}}
+			/>
 			<PortalHeader
 				slug={slug}
 				projectName={project.name}
