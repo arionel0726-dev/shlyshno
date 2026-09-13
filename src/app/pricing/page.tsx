@@ -85,7 +85,7 @@ export default async function Pricing() {
 				<p className="text-xs font-medium tracking-widest text-blue-500 uppercase">
 					{t('landing.nav.pricing')}
 				</p>
-				<h1 className="mt-4 text-5xl font-bold tracking-tight text-fg">
+				<h1 className="mt-4 text-4xl font-bold tracking-tight text-fg sm:text-5xl">
 					{t('pricing.hero.title')}
 				</h1>
 				<p className="mx-auto mt-4 max-w-xl text-lg text-fg-secondary">
@@ -97,7 +97,7 @@ export default async function Pricing() {
 			<section className="mx-auto max-w-4xl px-6">
 				<div className="grid gap-6 md:grid-cols-2">
 					{/* Free */}
-					<div className="rounded-3xl border border-border p-8">
+					<div className="rounded-3xl border border-border p-6 sm:p-8">
 						<div className="flex items-center justify-between">
 							<p className="text-lg font-semibold text-fg">Free</p>
 							{session && (
@@ -135,13 +135,13 @@ export default async function Pricing() {
 
 					{/* Pro */}
 					<div className="overflow-hidden rounded-3xl border border-border">
-						<div className="flex items-center justify-between bg-gradient-to-r from-neutral-900 via-indigo-950 to-orange-900 px-8 py-5">
+						<div className="flex items-center justify-between bg-gradient-to-r from-neutral-900 via-indigo-950 to-orange-900 px-6 py-5 sm:px-8">
 							<p className="text-lg font-semibold text-white">Pro</p>
 							<span className="text-xs text-orange-200">
 								{t('upgrade.pro.popular')}
 							</span>
 						</div>
-						<div className="p-8">
+						<div className="p-6 sm:p-8">
 							<p>
 								<span className="text-4xl font-bold text-fg">$10</span>{' '}
 								<span className="text-sm text-fg-muted">
