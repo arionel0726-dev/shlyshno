@@ -1,10 +1,12 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { Loader2, Trash2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export function DeletePostButton({ postId }: { postId: string }) {
+	const { t } = useI18n()
 	const [confirming, setConfirming] = useState(false)
 	const [deleting, setDeleting] = useState(false)
 	const router = useRouter()
@@ -24,13 +26,13 @@ export function DeletePostButton({ postId }: { postId: string }) {
 					className="flex items-center gap-1 text-xs font-medium text-red-600 hover:underline"
 				>
 					{deleting && <Loader2 className="h-3 w-3 animate-spin" />}
-					Точно удалить?
+					{t('common.confirmDelete')}
 				</button>
 				<button
 					onClick={() => setConfirming(false)}
 					className="text-xs text-fg-muted hover:text-fg"
 				>
-					Отмена
+					{t('common.cancel')}
 				</button>
 			</span>
 		)
@@ -39,7 +41,7 @@ export function DeletePostButton({ postId }: { postId: string }) {
 	return (
 		<button
 			onClick={() => setConfirming(true)}
-			title="Удалить"
+			title={t('common.delete')}
 			className="rounded-lg p-1.5 text-fg-faint hover:bg-surface hover:text-red-600"
 		>
 			<Trash2 className="h-4 w-4" />

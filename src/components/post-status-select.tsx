@@ -1,15 +1,17 @@
 // src/components/post-status-select.tsx
 'use client'
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-const STATUSES = [
-	{ value: 'pending', label: 'Новое' },
-	{ value: 'reviewing', label: 'Рассматриваем' },
-	{ value: 'planned', label: 'В плане' },
-	{ value: 'in_progress', label: 'В работе' },
-	{ value: 'completed', label: 'Сделано' },
-	{ value: 'closed', label: 'Закрыто' }
+const STATUSES: { value: string; labelKey: DictionaryKey }[] = [
+	{ value: 'pending', labelKey: 'postStatus.pending' },
+	{ value: 'reviewing', labelKey: 'postStatus.reviewing' },
+	{ value: 'planned', labelKey: 'postStatus.planned' },
+	{ value: 'in_progress', labelKey: 'postStatus.in_progress' },
+	{ value: 'completed', labelKey: 'postStatus.completed' },
+	{ value: 'closed', labelKey: 'postStatus.closed' }
 ]
 
 export function PostStatusSelect({
@@ -19,6 +21,7 @@ export function PostStatusSelect({
 	postId: string
 	status: string
 }) {
+	const { t } = useI18n()
 	const [value, setValue] = useState(status)
 	const [saving, setSaving] = useState(false)
 	const router = useRouter()
@@ -54,7 +57,7 @@ export function PostStatusSelect({
 					key={s.value}
 					value={s.value}
 				>
-					{s.label}
+					{t(s.labelKey)}
 				</option>
 			))}
 		</select>

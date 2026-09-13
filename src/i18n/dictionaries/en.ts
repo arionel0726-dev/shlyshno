@@ -11,8 +11,10 @@ const en: Dictionary = {
 	'common.close': 'Close',
 	'common.copy': 'Copy',
 	'common.copied': 'Copied',
+	'common.copyLink': 'Copy link',
 	'common.back': 'Back',
 	'common.error.generic': 'Something went wrong',
+	'common.confirmDelete': 'Delete for sure?',
 	'common.error.short': 'Error',
 	'common.optional': 'optional',
 
@@ -119,6 +121,43 @@ const en: Dictionary = {
 	'account.subscription.cancelled': 'Cancelled',
 	'account.form.saved': 'Saved ✓',
 	'account.subscription.cancelButton': 'Cancel subscription',
+	'appShell.signOut': 'Sign out',
+
+	// --- Post statuses (shared across Feedback/Roadmap/portal) ---
+	'status.pending': 'New',
+	'status.reviewing': 'Reviewing',
+	'status.planned': 'Planned',
+	'status.in_progress': 'In progress',
+	'status.completed': 'Completed',
+	'status.closed': 'Closed',
+
+	// --- Feedback workspace ---
+	'feedback.subtitle': 'Collect, prioritize, and close the loop.',
+	'feedback.filterAll': 'All feedback',
+	'feedback.tabAll': 'All',
+	'feedback.searchPlaceholder': 'Search feedback...',
+	'feedback.empty': 'Nothing found',
+	'feedback.newRequestButton': '+ New request',
+	'common.create': 'Create',
+
+	// --- New request modal ---
+	'newRequest.you': 'Me',
+	'newRequest.type.feature': 'Feature',
+	'newRequest.type.bug': 'Bug',
+	'newRequest.typeMenu.label': 'Request type',
+	'newRequest.title.placeholder': 'Request title',
+	'newRequest.body.placeholder': 'Describe what users are asking for...',
+	'newRequest.statusMenu.label': 'Status',
+	'newRequest.status.done': 'Done',
+	'newRequest.tag.label': 'Tag',
+
+	// --- Post status dropdown (owner) ---
+	'postStatus.pending': 'New',
+	'postStatus.reviewing': 'Reviewing',
+	'postStatus.planned': 'Planned',
+	'postStatus.in_progress': 'In progress',
+	'postStatus.completed': 'Completed',
+	'postStatus.closed': 'Closed',
 
 	// --- App shell (sidebar) ---
 	'appShell.newRequest': 'New request',

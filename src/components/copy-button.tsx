@@ -1,10 +1,12 @@
 // src/components/copy-button.tsx
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { Check, Copy } from 'lucide-react'
 import { useState } from 'react'
 
 export function CopyButton({ text }: { text: string }) {
+	const { t } = useI18n()
 	const [copied, setCopied] = useState(false)
 
 	async function copy() {
@@ -23,7 +25,7 @@ export function CopyButton({ text }: { text: string }) {
 			) : (
 				<Copy className="h-4 w-4" />
 			)}
-			{copied ? 'Скопировано' : 'Copy link'}
+			{copied ? t('common.copied') : t('common.copyLink')}
 		</button>
 	)
 }

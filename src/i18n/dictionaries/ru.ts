@@ -10,8 +10,10 @@ const ru = {
 	'common.close': 'Закрыть',
 	'common.copy': 'Копировать',
 	'common.copied': 'Скопировано',
+	'common.copyLink': 'Скопировать ссылку',
 	'common.back': 'Назад',
 	'common.error.generic': 'Что-то пошло не так',
+	'common.confirmDelete': 'Точно удалить?',
 	'common.error.short': 'Ошибка',
 	'common.optional': 'необязательно',
 
@@ -118,6 +120,43 @@ const ru = {
 	'account.subscription.cancelled': 'Отменена',
 	'account.form.saved': 'Сохранено ✓',
 	'account.subscription.cancelButton': 'Отменить подписку',
+	'appShell.signOut': 'Выйти',
+
+	// --- Статусы карточек (общие для Feedback/Roadmap/портала) ---
+	'status.pending': 'Новые',
+	'status.reviewing': 'На рассмотрении',
+	'status.planned': 'Запланировано',
+	'status.in_progress': 'В работе',
+	'status.completed': 'Готово',
+	'status.closed': 'Закрыто',
+
+	// --- Feedback workspace ---
+	'feedback.subtitle': 'Собирайте, приоритизируйте и закрывайте цикл.',
+	'feedback.filterAll': 'Все обращения',
+	'feedback.tabAll': 'Все',
+	'feedback.searchPlaceholder': 'Поиск по обращениям...',
+	'feedback.empty': 'Ничего не найдено',
+	'feedback.newRequestButton': '+ Новый запрос',
+	'common.create': 'Создать',
+
+	// --- Модалка New request ---
+	'newRequest.you': 'Я',
+	'newRequest.type.feature': 'Идея',
+	'newRequest.type.bug': 'Баг',
+	'newRequest.typeMenu.label': 'Тип запроса',
+	'newRequest.title.placeholder': 'Название запроса',
+	'newRequest.body.placeholder': 'Опишите, что просят пользователи...',
+	'newRequest.statusMenu.label': 'Статус',
+	'newRequest.status.done': 'Готово',
+	'newRequest.tag.label': 'Тег',
+
+	// --- Выпадающий список статуса карточки (owner) ---
+	'postStatus.pending': 'Новое',
+	'postStatus.reviewing': 'Рассматриваем',
+	'postStatus.planned': 'В плане',
+	'postStatus.in_progress': 'В работе',
+	'postStatus.completed': 'Сделано',
+	'postStatus.closed': 'Закрыто',
 
 	// --- App shell (сайдбар) ---
 	'appShell.newRequest': 'Новый реквест',

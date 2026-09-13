@@ -1,23 +1,30 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { ChevronDown, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
-const TYPES = [
-	{ value: 'feature', label: 'Feature', dot: 'bg-blue-500' },
-	{ value: 'bug', label: 'Bug', dot: 'bg-red-500' }
+const TYPES: { value: string; labelKey: DictionaryKey; dot: string }[] = [
+	{ value: 'feature', labelKey: 'newRequest.type.feature', dot: 'bg-blue-500' },
+	{ value: 'bug', labelKey: 'newRequest.type.bug', dot: 'bg-red-500' }
 ]
 
-const STATUSES = [
-	{ value: 'reviewing', label: 'Reviewing', dot: 'bg-amber-500' },
-	{ value: 'planned', label: 'Planned', dot: 'bg-blue-500' },
-	{ value: 'in_progress', label: 'In progress', dot: 'bg-violet-500' },
-	{ value: 'completed', label: 'Done', dot: 'bg-emerald-500' },
-	{ value: 'closed', label: 'Closed', dot: 'bg-neutral-400' }
+const STATUSES: { value: string; labelKey: DictionaryKey; dot: string }[] = [
+	{ value: 'reviewing', labelKey: 'postStatus.reviewing', dot: 'bg-amber-500' },
+	{ value: 'planned', labelKey: 'postStatus.planned', dot: 'bg-blue-500' },
+	{
+		value: 'in_progress',
+		labelKey: 'postStatus.in_progress',
+		dot: 'bg-violet-500'
+	},
+	{ value: 'completed', labelKey: 'newRequest.status.done', dot: 'bg-emerald-500' },
+	{ value: 'closed', labelKey: 'postStatus.closed', dot: 'bg-neutral-400' }
 ]
 
 export function NewRequestModal({ slug }: { slug: string }) {
+	const { t } = useI18n()
 	const [open, setOpen] = useState(false)
 	const [title, setTitle] = useState('')
 	const [body, setBody] = useState('')
@@ -54,8 +61,8 @@ export function NewRequestModal({ slug }: { slug: string }) {
 
 	if (!open) return null
 
-	const activeType = TYPES.find(t => t.value === type)!
-	const activeStatus = STATUSES.find(s => s.value === status)!
+	const activeType = TYPES.find(opt => opt.value === type)!
+	const activeStatus = STATUSES.find(opt => opt.value === status)!
 
 	async function create(e: React.FormEvent) {
 		e.preventDefault()
@@ -68,7 +75,7 @@ export function NewRequestModal({ slug }: { slug: string }) {
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		setOpen(false)
@@ -88,7 +95,7 @@ export function NewRequestModal({ slug }: { slug: string }) {
 				{/* Шапка: юзер › Type */}
 				<div className="relative flex items-center gap-2 px-6 pt-5 pb-2">
 					<span className="flex h-8 w-8 items-center justify-center rounded-full bg-surface text-sm font-medium text-fg">
-						Я
+						{t('newRequest.you')}
 					</span>
 					<ChevronDown className="h-3 w-3 text-fg-faint" />
 					<div className="relative">
@@ -97,25 +104,25 @@ export function NewRequestModal({ slug }: { slug: string }) {
 							className="flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm text-fg hover:bg-surface"
 						>
 							<span className={`h-2 w-2 rounded-full ${activeType.dot}`} />
-							{activeType.label}
+							{t(activeType.labelKey)}
 							<ChevronDown className="h-3 w-3 text-fg-faint" />
 						</button>
 						{menu === 'type' && (
 							<div className="absolute top-full left-0 z-10 mt-1 w-44 rounded-xl border border-border bg-background py-1 shadow-lg">
 								<p className="px-3 pt-1 pb-1 text-xs text-fg-faint">
-									Request type
+									{t('newRequest.typeMenu.label')}
 								</p>
-								{TYPES.map(t => (
+								{TYPES.map(opt => (
 									<button
-										key={t.value}
+										key={opt.value}
 										onClick={() => {
-											setType(t.value)
+											setType(opt.value)
 											setMenu('')
 										}}
 										className="flex w-full items-center gap-2.5 px-3 py-1.5 text-sm text-fg hover:bg-surface"
 									>
-										<span className={`h-2 w-2 rounded-full ${t.dot}`} />
-										{t.label}
+										<span className={`h-2 w-2 rounded-full ${opt.dot}`} />
+										{t(opt.labelKey)}
 									</button>
 								))}
 							</div>
@@ -135,7 +142,7 @@ export function NewRequestModal({ slug }: { slug: string }) {
 						<input
 							value={title}
 							onChange={e => setTitle(e.target.value)}
-							placeholder="Request title"
+							placeholder={t('newRequest.title.placeholder')}
 							required
 							minLength={3}
 							className="w-full bg-transparent text-2xl font-semibold text-fg outline-none placeholder:text-fg-faint"
@@ -143,7 +150,7 @@ export function NewRequestModal({ slug }: { slug: string }) {
 						<textarea
 							value={body}
 							onChange={e => setBody(e.target.value)}
-							placeholder="Describe what users are asking for..."
+							placeholder={t('newRequest.body.placeholder')}
 							rows={5}
 							className="mt-3 w-full resize-none bg-transparent text-sm text-fg outline-none placeholder:text-fg-faint"
 						/>
@@ -159,24 +166,26 @@ export function NewRequestModal({ slug }: { slug: string }) {
 								className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-fg hover:bg-surface"
 							>
 								<span className={`h-2 w-2 rounded-full ${activeStatus.dot}`} />
-								{activeStatus.label}
+								{t(activeStatus.labelKey)}
 								<ChevronDown className="h-3 w-3 text-fg-faint" />
 							</button>
 							{menu === 'status' && (
 								<div className="absolute bottom-full left-0 z-10 mb-1 w-44 rounded-xl border border-border bg-background py-1 shadow-lg">
-									<p className="px-3 pt-1 pb-1 text-xs text-fg-faint">Status</p>
-									{STATUSES.map(s => (
+									<p className="px-3 pt-1 pb-1 text-xs text-fg-faint">
+										{t('newRequest.statusMenu.label')}
+									</p>
+									{STATUSES.map(opt => (
 										<button
-											key={s.value}
+											key={opt.value}
 											type="button"
 											onClick={() => {
-												setStatus(s.value)
+												setStatus(opt.value)
 												setMenu('')
 											}}
 											className="flex w-full items-center gap-2.5 px-3 py-1.5 text-sm text-fg hover:bg-surface"
 										>
-											<span className={`h-2 w-2 rounded-full ${s.dot}`} />
-											{s.label}
+											<span className={`h-2 w-2 rounded-full ${opt.dot}`} />
+											{t(opt.labelKey)}
 										</button>
 									))}
 								</div>
@@ -187,17 +196,17 @@ export function NewRequestModal({ slug }: { slug: string }) {
 						<button
 							type="button"
 							disabled
-							title="Скоро"
+							title={t('common.soon')}
 							className="rounded-full border border-border px-4 py-2 text-sm text-fg-faint"
 						>
-							Tag
+							{t('newRequest.tag.label')}
 						</button>
 
 						<button
 							disabled={saving}
 							className="ml-auto rounded-full bg-primary px-6 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
 						>
-							{saving ? 'Создаю…' : 'Create'}
+							{saving ? t('onboarding.submit.creating') : t('common.create')}
 						</button>
 					</div>
 				</form>
