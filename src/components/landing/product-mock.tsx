@@ -1,19 +1,5 @@
-const ROWS = [
-	{
-		title: 'Тёмная тема',
-		votes: 42,
-		status: 'Рассматриваем',
-		dot: 'bg-amber-500'
-	},
-	{ title: 'Публичный API', votes: 28, status: 'В плане', dot: 'bg-blue-500' },
-	{
-		title: 'Уведомления в Telegram',
-		votes: 16,
-		status: 'В работе',
-		dot: 'bg-violet-500'
-	},
-	{ title: 'Свой домен', votes: 11, status: 'В плане', dot: 'bg-blue-500' }
-]
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
+import { getT } from '@/i18n/server'
 
 function Frame({ children }: { children: React.ReactNode }) {
 	return (
@@ -31,7 +17,36 @@ function Frame({ children }: { children: React.ReactNode }) {
 	)
 }
 
-export function AppMock() {
+export async function AppMock() {
+	const { t } = await getT()
+
+	const ROWS: { titleKey: DictionaryKey; votes: number; statusKey: DictionaryKey; dot: string }[] = [
+		{
+			titleKey: 'landing.mock.row1.title',
+			votes: 42,
+			statusKey: 'postStatus.reviewing',
+			dot: 'bg-amber-500'
+		},
+		{
+			titleKey: 'landing.mock.row2.title',
+			votes: 28,
+			statusKey: 'postStatus.planned',
+			dot: 'bg-blue-500'
+		},
+		{
+			titleKey: 'landing.mock.row3.title',
+			votes: 16,
+			statusKey: 'postStatus.in_progress',
+			dot: 'bg-violet-500'
+		},
+		{
+			titleKey: 'landing.mock.row4.title',
+			votes: 11,
+			statusKey: 'postStatus.planned',
+			dot: 'bg-blue-500'
+		}
+	]
+
 	return (
 		<Frame>
 			<div className="flex">
@@ -62,17 +77,17 @@ export function AppMock() {
 				<div className="min-w-0 flex-1 p-4">
 					<p className="text-sm font-bold text-fg">Feedback</p>
 					<div className="mt-2 rounded-lg border border-border px-3 py-1.5 text-xs text-fg-faint">
-						Поиск по фидбеку…
+						{t('landing.mock.searchPlaceholder')}
 					</div>
 					<div className="mt-3 space-y-1">
 						{ROWS.map(r => (
 							<div
-								key={r.title}
+								key={r.titleKey}
 								className="flex items-center gap-2 rounded-lg px-2 py-1.5"
 							>
 								<span className={`h-1.5 w-1.5 rounded-full ${r.dot}`} />
 								<span className="min-w-0 flex-1 truncate text-xs text-fg">
-									{r.title}
+									{t(r.titleKey)}
 								</span>
 								<span className="text-[10px] text-fg-muted">↑ {r.votes}</span>
 							</div>
@@ -81,14 +96,22 @@ export function AppMock() {
 				</div>
 				{/* Детали */}
 				<div className="hidden w-40 shrink-0 border-l border-border p-4 md:block">
-					<p className="text-[10px] text-fg-faint">ДЕТАЛИ</p>
-					<p className="mt-3 text-xs font-medium text-fg">Тёмная тема</p>
-					<p className="mt-2 text-[10px] text-fg-faint">СТАТУС</p>
+					<p className="text-[10px] text-fg-faint">
+						{t('landing.mock.detailsHeading')}
+					</p>
+					<p className="mt-3 text-xs font-medium text-fg">
+						{t('landing.mock.row1.title')}
+					</p>
+					<p className="mt-2 text-[10px] text-fg-faint">
+						{t('landing.mock.statusHeading')}
+					</p>
 					<p className="mt-0.5 flex items-center gap-1.5 text-xs text-fg-secondary">
 						<span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-						Рассматриваем
+						{t('postStatus.reviewing')}
 					</p>
-					<p className="mt-2 text-[10px] text-fg-faint">ГОЛОСА</p>
+					<p className="mt-2 text-[10px] text-fg-faint">
+						{t('landing.mock.votesHeading')}
+					</p>
 					<p className="text-xs text-fg-secondary">42</p>
 				</div>
 			</div>

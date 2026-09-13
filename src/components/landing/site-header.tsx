@@ -1,8 +1,10 @@
+import { getT } from '@/i18n/server'
 import { getSession } from '@/lib/session'
 import Link from 'next/link'
 
 export async function SiteHeader() {
 	const session = await getSession()
+	const { t } = await getT()
 
 	return (
 		<header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
@@ -19,19 +21,19 @@ export async function SiteHeader() {
 						href="/#features"
 						className="hover:text-fg"
 					>
-						Возможности
+						{t('landing.nav.features')}
 					</Link>
 					<Link
 						href="/docs"
 						className="hover:text-fg"
 					>
-						Доки
+						{t('landing.nav.docs')}
 					</Link>
 					<Link
 						href="/pricing"
 						className="hover:text-fg"
 					>
-						Цены
+						{t('landing.nav.pricing')}
 					</Link>
 				</nav>
 
@@ -41,7 +43,7 @@ export async function SiteHeader() {
 							href="/dashboard"
 							className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-fg"
 						>
-							Дашборд
+							{t('appShell.menu.dashboard')}
 						</Link>
 					) : (
 						<>
@@ -49,7 +51,7 @@ export async function SiteHeader() {
 								href="/login"
 								className="rounded-lg px-4 py-2 text-sm text-fg-secondary hover:text-fg"
 							>
-								Войти
+								{t('auth.submit.signin')}
 							</Link>
 						</>
 					)}

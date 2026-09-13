@@ -282,6 +282,133 @@ const en: Dictionary = {
 	'widget.submit.emailPlaceholder': 'Email for updates (optional)',
 	'widget.roadmap.empty': 'The roadmap will show up once votes come in',
 
+	// --- Landing ---
+	'landing.hero.eyebrow': 'Feedback, roadmap, and updates — in one place',
+	'landing.hero.title': 'Turn feedback into product decisions.',
+	'landing.hero.subtitle':
+		"Collect ideas, understand what matters, plan what's next, and keep users in the loop — without five different tools.",
+	'landing.cta.startFree': 'Start for free',
+	'landing.cta.howItWorks': 'How it works',
+	'landing.freeForever': 'Free forever · No card required',
+
+	'landing.outcomes.eyebrow': 'Outcome',
+	'landing.outcomes.title':
+		'A system where feedback turns into product progress.',
+	'landing.outcomes.subtitle':
+		"Slyshno brings collection, prioritization, roadmap, and release communication into one workflow — ideas don't get lost between support, planning, and development.",
+	'landing.outcomes.item1.title': 'Feedback in one place',
+	'landing.outcomes.item1.text':
+		'Customer requests, team ideas, and internal insights — in one system.',
+	'landing.outcomes.item2.title': 'Priorities in plain sight',
+	'landing.outcomes.item2.text':
+		"Show what's under review, planned, and in progress — everyone sees the movement.",
+	'landing.outcomes.item3.title': 'Updates actually reach people',
+	'landing.outcomes.item3.text':
+		'Shipped features become a changelog — subscribers hear about it first.',
+	'landing.outcomes.item4.title': 'The loop grows on its own',
+	'landing.outcomes.item4.text':
+		'Visible progress brings users back with votes and comments.',
+
+	'landing.engagement.eyebrow': 'Engagement',
+	'landing.engagement.title': "Feedback shouldn't disappear after it's submitted.",
+	'landing.engagement.subtitle':
+		'Most tools stop at collection. Slyshno keeps the conversation alive from the first request to the release — users always know what changed and what’s coming next.',
+	'landing.engagement.stat1': 'steps, one loop',
+	'landing.engagement.stat2': 'source of truth',
+	'landing.engagement.stat3': 'emails sent by hand',
+	'landing.engagement.step1.title': 'Acknowledge the request',
+	'landing.engagement.step1.text':
+		"The user sees their idea was accepted, and where to follow it from here.",
+	'landing.engagement.step2.title': 'Show the progress',
+	'landing.engagement.step2.text':
+		'A status change tells a story: from review to in progress.',
+	'landing.engagement.step3.title': 'Close the loop with a release',
+	'landing.engagement.step3.text':
+		'When the feature ships, everyone who voted gets an email.',
+	'landing.engagement.step4.title': 'Bring people back naturally',
+	'landing.engagement.step4.text':
+		'Votes and updates give people a reason to come back — without spam.',
+
+	'landing.gettingStarted.eyebrow': 'Getting started',
+	'landing.gettingStarted.title': 'Start small. Useful right away.',
+	'landing.gettingStarted.subtitle':
+		"No need to configure anything for weeks. Create a workspace, show one board to your users — and the first requests will set their own priorities.",
+	'landing.gettingStarted.freeTariff': 'Free plan · no card required',
+	'landing.gettingStarted.panelEyebrow': 'Your first loop',
+	'landing.gettingStarted.step1.title': 'Create a workspace',
+	'landing.gettingStarted.step1.desc': "A name, a board address — and you're set.",
+	'landing.gettingStarted.step2.title': 'Open a feedback channel',
+	'landing.gettingStarted.step2.desc':
+		'Share a link or embed the widget on your site.',
+	'landing.gettingStarted.step3.title': 'Turn a request into progress',
+	'landing.gettingStarted.step3.desc':
+		'Review it, change its status, publish an update.',
+	'landing.gettingStarted.footer':
+		'First request → first decision → first update',
+
+	'landing.cta.eyebrow': "Ready whenever you are",
+	'landing.cta.title': 'Turn feedback into something with visible momentum.',
+	'landing.cta.subtitle':
+		'Start on the free plan. Pro is $10 — whenever your feedback loop needs more.',
+	'landing.cta.pricingLink': 'See pricing →',
+
+	'landing.faq.title': 'Questions before you start?',
+	'landing.faq.subtitle':
+		'Everything you need to know about Slyshno, the free plan, and growing.',
+	'landing.nav.features': 'Features',
+	'landing.nav.docs': 'Docs',
+	'landing.nav.pricing': 'Pricing',
+
+	// --- Landing: FAQ ---
+	'landing.faq.q1': 'Can I use it for free?',
+	'landing.faq.a1':
+		'Yes. The Free plan is built for small teams and early products: a public board, roadmap, changelog, and up to 100 votes a month — no card required.',
+	'landing.faq.q2': 'What do I get with Pro at $10?',
+	'landing.faq.a2':
+		'Unlimited projects, unlimited votes, a board on your own domain, and priority support. No hidden fees or "per-seat" surcharges.',
+	'landing.faq.q3': 'Do users need an account to leave feedback?',
+	'landing.faq.a3':
+		'No. Voting and submitting ideas works without signing up — one click. That noticeably improves conversion.',
+	'landing.faq.q4': 'Can I embed Slyshno in my own product?',
+	'landing.faq.a4':
+		'Yes. One snippet, and the feedback widget lives right on your site. Users send ideas without leaving the page.',
+	'landing.faq.q5': 'Is there a dark theme?',
+	'landing.faq.a5':
+		'Yes, light and dark themes in the app and on public boards. Defaults to your system setting.',
+	'landing.faq.q6': 'Can I migrate from another tool?',
+	'landing.faq.a6':
+		"Canny and CSV import are coming in a future update. In the meantime we'll help you move your data manually — just reach out.",
+
+	// --- Landing: product mockup ---
+	'landing.mock.row1.title': 'Dark theme',
+	'landing.mock.row2.title': 'Public API',
+	'landing.mock.row3.title': 'Telegram notifications',
+	'landing.mock.row4.title': 'Custom domain',
+	'landing.mock.searchPlaceholder': 'Search feedback…',
+	'landing.mock.detailsHeading': 'DETAILS',
+	'landing.mock.statusHeading': 'STATUS',
+	'landing.mock.votesHeading': 'VOTES',
+
+	// --- Landing: footer ---
+	'footer.tagline': 'Feedback, roadmap, and product updates — in one loop.',
+	'footer.col.product': 'Product',
+	'footer.col.product.feedback': 'Feedback',
+	'footer.col.product.roadmap': 'Roadmap',
+	'footer.col.product.changelog': 'Changelog',
+	'footer.col.product.widget': 'Widget',
+	'footer.col.product.pricing': 'Pricing',
+	'footer.col.resources': 'Resources',
+	'footer.col.resources.docs': 'Docs',
+	'footer.col.resources.api': 'API',
+	'footer.col.resources.guides': 'Guides',
+	'footer.col.resources.status': 'Status',
+	'footer.col.company': 'Company',
+	'footer.col.company.about': 'About',
+	'footer.col.company.blog': 'Blog',
+	'footer.col.company.contacts': 'Contact',
+	'footer.bottomTagline':
+		'Built for teams that care about progress, not just collecting requests.',
+
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',
 	'postStatus.reviewing': 'Reviewing',

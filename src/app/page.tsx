@@ -3,54 +3,56 @@ import { FaqAccordion } from '@/components/landing/faq-accordion'
 import { AppMock } from '@/components/landing/product-mock'
 import { SiteFooter } from '@/components/landing/site-footer'
 import { SiteHeader } from '@/components/landing/site-header'
+import { getT } from '@/i18n/server'
 import { getSession } from '@/lib/session'
 import { redirect } from 'next/navigation'
-
-const OUTCOMES = [
-	{
-		title: 'Фидбек в одном месте',
-		text: 'Запросы клиентов, идеи команды и внутренние инсайты — в одной системе.',
-		marker: 'bg-orange-400'
-	},
-	{
-		title: 'Приоритеты на виду',
-		text: 'Показывайте, что на рассмотрении, в плане и в работе — все видят движение.',
-		marker: 'bg-blue-500'
-	},
-	{
-		title: 'Обновления доходят',
-		text: 'Готовые фичи становятся чейнджлогом, подписчики узнают первыми.',
-		marker: 'bg-violet-500'
-	},
-	{
-		title: 'Цикл растёт сам',
-		text: 'Видимый прогресс возвращает пользователей с голосами и комментариями.',
-		marker: 'bg-emerald-500'
-	}
-]
-
-const STEPS = [
-	{
-		title: 'Подтвердите запрос',
-		text: 'Пользователь видит, что идея принята, и где следить за ней дальше.'
-	},
-	{
-		title: 'Покажите прогресс',
-		text: 'Смена статуса рассказывает историю: от рассмотрения до работы.'
-	},
-	{
-		title: 'Закройте цикл релизом',
-		text: 'Когда фича готова, все проголосовавшие получают письмо.'
-	},
-	{
-		title: 'Возвращайте людей естественно',
-		text: 'Голоса и обновления дают повод вернуться без спама.'
-	}
-]
 
 export default async function Home() {
 	const session = await getSession()
 	if (session) redirect('/dashboard')
+	const { t } = await getT()
+
+	const OUTCOMES = [
+		{
+			title: t('landing.outcomes.item1.title'),
+			text: t('landing.outcomes.item1.text'),
+			marker: 'bg-orange-400'
+		},
+		{
+			title: t('landing.outcomes.item2.title'),
+			text: t('landing.outcomes.item2.text'),
+			marker: 'bg-blue-500'
+		},
+		{
+			title: t('landing.outcomes.item3.title'),
+			text: t('landing.outcomes.item3.text'),
+			marker: 'bg-violet-500'
+		},
+		{
+			title: t('landing.outcomes.item4.title'),
+			text: t('landing.outcomes.item4.text'),
+			marker: 'bg-emerald-500'
+		}
+	]
+
+	const STEPS = [
+		{
+			title: t('landing.engagement.step1.title'),
+			text: t('landing.engagement.step1.text')
+		},
+		{
+			title: t('landing.engagement.step2.title'),
+			text: t('landing.engagement.step2.text')
+		},
+		{
+			title: t('landing.engagement.step3.title'),
+			text: t('landing.engagement.step3.text')
+		},
+		{
+			title: t('landing.engagement.step4.title'),
+			text: t('landing.engagement.step4.text')
+		}
+	]
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -59,30 +61,27 @@ export default async function Home() {
 			{/* Hero */}
 			<section className="mx-auto max-w-6xl px-6 pt-20 pb-16 text-center">
 				<p className="text-xs font-medium tracking-widest text-fg-muted uppercase">
-					Фидбек, роадмап и обновления — в одном месте
+					{t('landing.hero.eyebrow')}
 				</p>
 				<h1 className="mx-auto mt-4 max-w-3xl text-5xl font-bold tracking-tight text-fg sm:text-6xl">
-					Превращайте фидбек в решения о продукте.
+					{t('landing.hero.title')}
 				</h1>
 				<p className="mx-auto mt-5 max-w-xl text-lg text-fg-secondary">
-					Собирайте идеи, понимайте, что важно, планируйте следующие шаги и
-					держите пользователей в курсе — без пяти разных инструментов.
+					{t('landing.hero.subtitle')}
 				</p>
 				<div className="mt-8 flex items-center justify-center gap-3">
 					<LandingAuth
 						mode="cta"
-						label="Начать бесплатно"
+						label={t('landing.cta.startFree')}
 					/>
 					<a
 						href="#how"
 						className="rounded-full border border-border px-6 py-3 text-sm font-medium text-fg hover:bg-surface"
 					>
-						Как это работает
+						{t('landing.cta.howItWorks')}
 					</a>
 				</div>
-				<p className="mt-3 text-xs text-fg-muted">
-					Бесплатно навсегда · Без карты
-				</p>
+				<p className="mt-3 text-xs text-fg-muted">{t('landing.freeForever')}</p>
 
 				<div className="mx-auto mt-14 max-w-4xl">
 					<AppMock />
@@ -97,15 +96,13 @@ export default async function Home() {
 				<div className="grid gap-12 md:grid-cols-2">
 					<div>
 						<p className="text-xs font-medium tracking-widest text-blue-500 uppercase">
-							Результат
+							{t('landing.outcomes.eyebrow')}
 						</p>
 						<h2 className="mt-3 text-4xl font-bold tracking-tight text-fg">
-							Система, в которой фидбек превращается в прогресс продукта.
+							{t('landing.outcomes.title')}
 						</h2>
 						<p className="mt-4 max-w-md text-fg-secondary">
-							Slyshno объединяет сбор, приоритизацию, роадмап и коммуникацию
-							релизов в один рабочий процесс — идеи не теряются между
-							поддержкой, планированием и разработкой.
+							{t('landing.outcomes.subtitle')}
 						</p>
 					</div>
 					<div className="grid gap-8 sm:grid-cols-2">
@@ -128,21 +125,19 @@ export default async function Home() {
 				<div className="grid gap-12 md:grid-cols-2">
 					<div>
 						<p className="text-xs font-medium tracking-widest text-blue-500 uppercase">
-							Вовлечённость
+							{t('landing.engagement.eyebrow')}
 						</p>
 						<h2 className="mt-3 text-4xl font-bold tracking-tight text-fg">
-							Фидбек не должен исчезать после отправки.
+							{t('landing.engagement.title')}
 						</h2>
 						<p className="mt-4 max-w-md text-fg-secondary">
-							Большинство инструментов заканчиваются на сборе. Slyshno держит
-							разговор живым от первого запроса до релиза — пользователи всегда
-							знают, что изменилось и что движется дальше.
+							{t('landing.engagement.subtitle')}
 						</p>
 						<div className="mt-10 flex gap-12">
 							{[
-								{ n: '4', label: 'шага одним циклом', cls: 'text-blue-500' },
-								{ n: '1', label: 'источник правды', cls: 'text-emerald-500' },
-								{ n: '0', label: 'писем вручную', cls: 'text-violet-500' }
+								{ n: '4', label: t('landing.engagement.stat1'), cls: 'text-blue-500' },
+								{ n: '1', label: t('landing.engagement.stat2'), cls: 'text-emerald-500' },
+								{ n: '0', label: t('landing.engagement.stat3'), cls: 'text-violet-500' }
 							].map(s => (
 								<div key={s.label}>
 									<p className={`text-4xl font-bold ${s.cls}`}>{s.n}</p>
@@ -175,43 +170,41 @@ export default async function Home() {
 				<div className="grid gap-12 md:grid-cols-2">
 					<div>
 						<p className="text-xs font-medium tracking-widest text-blue-500 uppercase">
-							Старт
+							{t('landing.gettingStarted.eyebrow')}
 						</p>
 						<h2 className="mt-3 text-4xl font-bold tracking-tight text-fg">
-							Начните маленьким. Полезен — сразу.
+							{t('landing.gettingStarted.title')}
 						</h2>
 						<p className="mt-4 max-w-md text-fg-secondary">
-							Не нужно ничего настраивать неделями. Создайте пространство,
-							покажите одну доску пользователям — и первые запросы сами
-							расставят приоритеты.
+							{t('landing.gettingStarted.subtitle')}
 						</p>
 						<div className="mt-6 flex items-center gap-3">
 							<LandingAuth
 								mode="cta"
-								label="Начать бесплатно"
+								label={t('landing.cta.startFree')}
 							/>
 							<span className="text-xs text-fg-muted">
-								Free-тариф · без карты
+								{t('landing.gettingStarted.freeTariff')}
 							</span>
 						</div>
 					</div>
 					<div className="rounded-2xl border border-border p-8">
 						<p className="text-xs font-medium tracking-widest text-fg-faint uppercase">
-							Ваш первый цикл
+							{t('landing.gettingStarted.panelEyebrow')}
 						</p>
 						<ol className="mt-6 space-y-6">
 							{[
 								{
-									t: 'Создайте пространство',
-									d: 'Название, адрес доски — и готово.'
+									t: t('landing.gettingStarted.step1.title'),
+									d: t('landing.gettingStarted.step1.desc')
 								},
 								{
-									t: 'Откройте канал фидбека',
-									d: 'Поделитесь ссылкой или вставьте виджет на сайт.'
+									t: t('landing.gettingStarted.step2.title'),
+									d: t('landing.gettingStarted.step2.desc')
 								},
 								{
-									t: 'Превратите запрос в прогресс',
-									d: 'Рассмотрите, смените статус, опубликуйте обновление.'
+									t: t('landing.gettingStarted.step3.title'),
+									d: t('landing.gettingStarted.step3.desc')
 								}
 							].map((s, i) => (
 								<li
@@ -230,7 +223,7 @@ export default async function Home() {
 						</ol>
 						<div className="mt-8 border-t border-border pt-5">
 							<p className="text-xs text-fg-faint">
-								Первый запрос → первое решение → первое обновление
+								{t('landing.gettingStarted.footer')}
 							</p>
 						</div>
 					</div>
@@ -241,30 +234,27 @@ export default async function Home() {
 			<section className="mx-auto max-w-6xl px-6 py-20">
 				<div className="rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-800 to-blue-900 px-8 py-20 text-center">
 					<p className="text-xs font-medium tracking-widest text-blue-200 uppercase">
-						Готовы, когда вы готовы
+						{t('landing.cta.eyebrow')}
 					</p>
 					<h2 className="mx-auto mt-4 max-w-2xl text-4xl font-bold text-white">
-						Превратите фидбек во что-то, что видно движение.
+						{t('landing.cta.title')}
 					</h2>
 					<p className="mx-auto mt-4 max-w-md text-blue-100">
-						Начните с бесплатного тарифа. Pro за $10 — когда цикл фидбека
-						потребует больше.
+						{t('landing.cta.subtitle')}
 					</p>
 					<div className="mt-8 flex items-center justify-center gap-3">
 						<LandingAuth
 							mode="cta"
-							label="Начать бесплатно"
+							label={t('landing.cta.startFree')}
 						/>
 						<a
 							href="/pricing"
 							className="rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10"
 						>
-							Смотреть цены →
+							{t('landing.cta.pricingLink')}
 						</a>
 					</div>
-					<p className="mt-3 text-xs text-blue-200">
-						Бесплатно навсегда · Без карты
-					</p>
+					<p className="mt-3 text-xs text-blue-200">{t('landing.freeForever')}</p>
 				</div>
 			</section>
 
@@ -274,11 +264,9 @@ export default async function Home() {
 					FAQ
 				</p>
 				<h2 className="mt-3 text-4xl font-bold tracking-tight text-fg">
-					Вопросы перед стартом?
+					{t('landing.faq.title')}
 				</h2>
-				<p className="mt-3 text-fg-secondary">
-					Всё, что нужно знать о Slyshno, бесплатном тарифе и росте.
-				</p>
+				<p className="mt-3 text-fg-secondary">{t('landing.faq.subtitle')}</p>
 				<div className="mt-8">
 					<FaqAccordion />
 				</div>

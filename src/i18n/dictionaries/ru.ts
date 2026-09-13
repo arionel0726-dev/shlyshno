@@ -281,6 +281,133 @@ const ru = {
 	'widget.submit.emailPlaceholder': 'Email для уведомления (необязательно)',
 	'widget.roadmap.empty': 'Роадмап появится вместе с голосами',
 
+	// --- Лендинг ---
+	'landing.hero.eyebrow': 'Фидбек, роадмап и обновления — в одном месте',
+	'landing.hero.title': 'Превращайте фидбек в решения о продукте.',
+	'landing.hero.subtitle':
+		'Собирайте идеи, понимайте, что важно, планируйте следующие шаги и держите пользователей в курсе — без пяти разных инструментов.',
+	'landing.cta.startFree': 'Начать бесплатно',
+	'landing.cta.howItWorks': 'Как это работает',
+	'landing.freeForever': 'Бесплатно навсегда · Без карты',
+
+	'landing.outcomes.eyebrow': 'Результат',
+	'landing.outcomes.title':
+		'Система, в которой фидбек превращается в прогресс продукта.',
+	'landing.outcomes.subtitle':
+		'Slyshno объединяет сбор, приоритизацию, роадмап и коммуникацию релизов в один рабочий процесс — идеи не теряются между поддержкой, планированием и разработкой.',
+	'landing.outcomes.item1.title': 'Фидбек в одном месте',
+	'landing.outcomes.item1.text':
+		'Запросы клиентов, идеи команды и внутренние инсайты — в одной системе.',
+	'landing.outcomes.item2.title': 'Приоритеты на виду',
+	'landing.outcomes.item2.text':
+		'Показывайте, что на рассмотрении, в плане и в работе — все видят движение.',
+	'landing.outcomes.item3.title': 'Обновления доходят',
+	'landing.outcomes.item3.text':
+		'Готовые фичи становятся чейнджлогом, подписчики узнают первыми.',
+	'landing.outcomes.item4.title': 'Цикл растёт сам',
+	'landing.outcomes.item4.text':
+		'Видимый прогресс возвращает пользователей с голосами и комментариями.',
+
+	'landing.engagement.eyebrow': 'Вовлечённость',
+	'landing.engagement.title': 'Фидбек не должен исчезать после отправки.',
+	'landing.engagement.subtitle':
+		'Большинство инструментов заканчиваются на сборе. Slyshno держит разговор живым от первого запроса до релиза — пользователи всегда знают, что изменилось и что движется дальше.',
+	'landing.engagement.stat1': 'шага одним циклом',
+	'landing.engagement.stat2': 'источник правды',
+	'landing.engagement.stat3': 'писем вручную',
+	'landing.engagement.step1.title': 'Подтвердите запрос',
+	'landing.engagement.step1.text':
+		'Пользователь видит, что идея принята, и где следить за ней дальше.',
+	'landing.engagement.step2.title': 'Покажите прогресс',
+	'landing.engagement.step2.text':
+		'Смена статуса рассказывает историю: от рассмотрения до работы.',
+	'landing.engagement.step3.title': 'Закройте цикл релизом',
+	'landing.engagement.step3.text':
+		'Когда фича готова, все проголосовавшие получают письмо.',
+	'landing.engagement.step4.title': 'Возвращайте людей естественно',
+	'landing.engagement.step4.text':
+		'Голоса и обновления дают повод вернуться без спама.',
+
+	'landing.gettingStarted.eyebrow': 'Старт',
+	'landing.gettingStarted.title': 'Начните маленьким. Полезен — сразу.',
+	'landing.gettingStarted.subtitle':
+		'Не нужно ничего настраивать неделями. Создайте пространство, покажите одну доску пользователям — и первые запросы сами расставят приоритеты.',
+	'landing.gettingStarted.freeTariff': 'Free-тариф · без карты',
+	'landing.gettingStarted.panelEyebrow': 'Ваш первый цикл',
+	'landing.gettingStarted.step1.title': 'Создайте пространство',
+	'landing.gettingStarted.step1.desc': 'Название, адрес доски — и готово.',
+	'landing.gettingStarted.step2.title': 'Откройте канал фидбека',
+	'landing.gettingStarted.step2.desc':
+		'Поделитесь ссылкой или вставьте виджет на сайт.',
+	'landing.gettingStarted.step3.title': 'Превратите запрос в прогресс',
+	'landing.gettingStarted.step3.desc':
+		'Рассмотрите, смените статус, опубликуйте обновление.',
+	'landing.gettingStarted.footer':
+		'Первый запрос → первое решение → первое обновление',
+
+	'landing.cta.eyebrow': 'Готовы, когда вы готовы',
+	'landing.cta.title': 'Превратите фидбек во что-то, что видно движение.',
+	'landing.cta.subtitle':
+		'Начните с бесплатного тарифа. Pro за $10 — когда цикл фидбека потребует больше.',
+	'landing.cta.pricingLink': 'Смотреть цены →',
+
+	'landing.faq.title': 'Вопросы перед стартом?',
+	'landing.faq.subtitle':
+		'Всё, что нужно знать о Slyshno, бесплатном тарифе и росте.',
+	'landing.nav.features': 'Возможности',
+	'landing.nav.docs': 'Доки',
+	'landing.nav.pricing': 'Цены',
+
+	// --- Лендинг: FAQ ---
+	'landing.faq.q1': 'Можно ли пользоваться бесплатно?',
+	'landing.faq.a1':
+		'Да. Free-тариф создан для маленьких команд и ранних продуктов: публичная доска, роадмап, чейнджлог и до 100 голосов в месяц — без карты.',
+	'landing.faq.q2': 'Что даёт Pro за $10?',
+	'landing.faq.a2':
+		'Три проекта безлимитно, безлимит голосов, доска на вашем домене и приоритетная поддержка. Без скрытых платежей и «командных» надбавок.',
+	'landing.faq.q3': 'Нужен ли пользователям аккаунт, чтобы оставить фидбек?',
+	'landing.faq.a3':
+		'Нет. Голосовать и предлагать идеи можно без регистрации — один клик. Это заметно поднимает конверсию.',
+	'landing.faq.q4': 'Можно ли встроить Slyshno в свой продукт?',
+	'landing.faq.a4':
+		'Да. Один сниппет — и виджет обратной связи живёт на вашем сайте. Пользователи шлют идеи, не уходя со страницы.',
+	'landing.faq.q5': 'Есть ли тёмная тема?',
+	'landing.faq.a5':
+		'Да, светлая и тёмная темы в приложении и на публичных досках. По умолчанию — системная.',
+	'landing.faq.q6': 'Можно ли перенестись с другого инструмента?',
+	'landing.faq.a6':
+		'Импорт из Canny и CSV — в ближайшем обновлении. Пока поможем перенести данные вручную — напишите нам.',
+
+	// --- Лендинг: мокап продукта ---
+	'landing.mock.row1.title': 'Тёмная тема',
+	'landing.mock.row2.title': 'Публичный API',
+	'landing.mock.row3.title': 'Уведомления в Telegram',
+	'landing.mock.row4.title': 'Свой домен',
+	'landing.mock.searchPlaceholder': 'Поиск по фидбеку…',
+	'landing.mock.detailsHeading': 'ДЕТАЛИ',
+	'landing.mock.statusHeading': 'СТАТУС',
+	'landing.mock.votesHeading': 'ГОЛОСА',
+
+	// --- Лендинг: футер ---
+	'footer.tagline': 'Фидбек, роадмап и обновления продукта — в одном цикле.',
+	'footer.col.product': 'Продукт',
+	'footer.col.product.feedback': 'Фидбек',
+	'footer.col.product.roadmap': 'Роадмап',
+	'footer.col.product.changelog': 'Чейнджлог',
+	'footer.col.product.widget': 'Виджет',
+	'footer.col.product.pricing': 'Цены',
+	'footer.col.resources': 'Ресурсы',
+	'footer.col.resources.docs': 'Документация',
+	'footer.col.resources.api': 'API',
+	'footer.col.resources.guides': 'Гайды',
+	'footer.col.resources.status': 'Статус',
+	'footer.col.company': 'Компания',
+	'footer.col.company.about': 'О нас',
+	'footer.col.company.blog': 'Блог',
+	'footer.col.company.contacts': 'Контакты',
+	'footer.bottomTagline':
+		'Сделано для команд, которым важен прогресс, а не просто сбор заявок.',
+
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',
 	'postStatus.reviewing': 'Рассматриваем',
