@@ -41,7 +41,7 @@ export function PortalHeader({
 								<Link
 									key={tab.href}
 									href={tab.href}
-									className={`pb-1 ${
+									className={`flex min-h-11 items-center pb-1 lg:min-h-0 ${
 										active
 											? 'border-b-2 border-fg font-medium text-fg'
 											: 'text-fg-secondary hover:text-fg'

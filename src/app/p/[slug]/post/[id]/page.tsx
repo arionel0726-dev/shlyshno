@@ -72,9 +72,11 @@ export default async function PublicPostPage({
 							{t('portal.postedIn', { category: typeLabel })}
 						</span>
 					</p>
-					<h1 className="mt-1.5 text-2xl font-bold text-fg">{post.title}</h1>
+					<h1 className="mt-1.5 break-words text-2xl font-bold text-fg">
+						{post.title}
+					</h1>
 					{post.body && (
-						<p className="mt-3 whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
+						<p className="mt-3 break-words whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
 							{post.body}
 						</p>
 					)}

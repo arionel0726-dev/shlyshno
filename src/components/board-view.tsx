@@ -146,8 +146,8 @@ export function BoardView({
 			/>
 
 			{/* Фильтры-табы статусов */}
-			<div className="overflow-hidden border-b border-border">
-				<div className="mx-auto flex max-w-6xl min-w-max items-center gap-x-5 overflow-x-auto px-6 py-3 text-sm">
+			<div className="overflow-x-auto border-b border-border overscroll-x-contain">
+				<div className="mx-auto flex max-w-6xl min-w-max items-center gap-x-5 px-6 py-3 text-sm">
 					{STATUSES.map(s => (
 						<button
 							key={s.key}
@@ -165,7 +165,7 @@ export function BoardView({
 					<span className="h-4 w-px bg-border" />
 					<button
 						onClick={() => setPopular(!popular)}
-						className={`flex items-center gap-1.5 ${
+						className={`flex min-h-11 items-center gap-1.5 lg:min-h-0 ${
 							popular ? 'font-medium text-fg' : 'text-fg-secondary'
 						}`}
 					>
@@ -269,7 +269,7 @@ export function BoardView({
 				</main>
 
 				{/* Сайдбар */}
-				<aside className="w-full shrink-0 lg:w-60">
+				<aside className="hidden w-60 shrink-0 lg:block">
 					<button
 						onClick={() => setComposerOpen(true)}
 						className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 py-2.5 text-sm font-medium text-white hover:bg-violet-500"
@@ -464,7 +464,7 @@ function Composer({
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
 			<div
 				ref={ref}
-				className="w-full max-w-lg rounded-2xl border border-border bg-background p-6 shadow-xl"
+				className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-background p-4 shadow-xl sm:p-6"
 			>
 				{sent ? (
 					<div className="py-8 text-center">
@@ -483,7 +483,7 @@ function Composer({
 							</h2>
 							<button
 								onClick={onClose}
-								className="rounded-lg p-1.5 text-fg-muted hover:bg-surface"
+								className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-fg-muted hover:bg-surface lg:min-h-0 lg:min-w-0 lg:p-1.5"
 							>
 								<X className="h-4 w-4" />
 							</button>
@@ -498,26 +498,26 @@ function Composer({
 								placeholder={t('portal.composer.titlePlaceholder')}
 								required
 								minLength={3}
-								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							<textarea
 								value={body}
 								onChange={e => setBody(e.target.value)}
 								placeholder={t('portal.composer.bodyPlaceholder')}
 								rows={4}
-								className="resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="resize-none rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							<input
 								type="email"
 								value={email}
 								onChange={e => setEmail(e.target.value)}
 								placeholder={t('portal.composer.emailPlaceholder')}
-								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							{error && <p className="text-sm text-red-600">{error}</p>}
 							<button
 								disabled={saving}
-								className="mt-1 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
+								className="mt-1 min-h-11 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50 lg:min-h-0"
 							>
 								{saving ? t('portal.composer.sending') : t('portal.composer.send')}
 							</button>

@@ -59,7 +59,7 @@ export default async function Changelog({
 		.orderBy(desc(changelogPosts.publishAt))
 
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen overflow-x-hidden">
 			<script
 				type="application/ld+json"
 				// eslint-disable-next-line react/no-danger
@@ -76,7 +76,7 @@ export default async function Changelog({
 				slug={slug}
 				projectName={project.name}
 			/>
-			<main className="mx-auto max-w-3xl px-6 py-10">
+			<main className="mx-auto min-w-0 max-w-3xl px-6 py-10">
 				<h1 className="text-2xl font-bold text-fg">
 					{t('portal.tab.changelog')}
 				</h1>
