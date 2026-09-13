@@ -1,10 +1,14 @@
 import { PortalHeader } from '@/components/portal-header'
 import { user } from '@/db/auth-schema'
 import { changelogPosts, projects } from '@/db/schema'
+import type { Locale } from '@/i18n/config'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { desc, eq } from 'drizzle-orm'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+
+const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
 
 export default async function Changelog({
 	params
@@ -12,6 +16,7 @@ export default async function Changelog({
 	params: Promise<{ slug: string }>
 }) {
 	const { slug } = await params
+	const { t, locale } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -40,9 +45,11 @@ export default async function Changelog({
 				projectName={project.name}
 			/>
 			<main className="mx-auto max-w-3xl px-6 py-10">
-				<h1 className="text-2xl font-bold text-fg">Обновления</h1>
+				<h1 className="text-2xl font-bold text-fg">
+					{t('portal.tab.changelog')}
+				</h1>
 				<p className="mt-1 text-sm text-fg-secondary">
-					Что нового в {project.name}.
+					{t('portal.changelog.subtitle', { name: project.name })}
 				</p>
 
 				<div className="mt-10">
@@ -54,11 +61,14 @@ export default async function Changelog({
 						>
 							<p className="text-xs text-fg-muted">
 								{e.publishAt
-									? new Date(e.publishAt).toLocaleDateString('ru-RU', {
-											day: 'numeric',
-											month: 'long',
-											year: 'numeric'
-										})
+									? new Date(e.publishAt).toLocaleDateString(
+											DATE_LOCALE[locale],
+											{
+												day: 'numeric',
+												month: 'long',
+												year: 'numeric'
+											}
+										)
 									: ''}
 							</p>
 							<p className="mt-1.5 text-lg font-semibold text-fg group-hover:underline">
@@ -80,13 +90,13 @@ export default async function Changelog({
 										{e.authorName?.[0]?.toUpperCase() ?? '?'}
 									</span>
 								)}
-								{e.authorName ?? 'Команда'}
+								{e.authorName ?? t('portal.changelog.team')}
 							</div>
 						</Link>
 					))}
 					{list.length === 0 && (
 						<p className="py-12 text-center text-sm text-fg-muted">
-							Пока пусто — следите за обновлениями.
+							{t('portal.changelog.empty')}
 						</p>
 					)}
 				</div>

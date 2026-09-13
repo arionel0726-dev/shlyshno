@@ -2,9 +2,13 @@ import { PortalActions } from '@/components/portal-actions'
 import { PortalHeader } from '@/components/portal-header'
 import { user } from '@/db/auth-schema'
 import { boards, changelogPosts, posts, projects } from '@/db/schema'
+import type { Locale } from '@/i18n/config'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { and, eq, inArray } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
+
+const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
 
 export default async function ChangelogEntry({
 	params
@@ -12,6 +16,7 @@ export default async function ChangelogEntry({
 	params: Promise<{ slug: string; id: string }>
 }) {
 	const { slug, id } = await params
+	const { t, locale } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -57,11 +62,14 @@ export default async function ChangelogEntry({
 				<article className="min-w-0 flex-1 max-w-2xl">
 					<p className="text-sm text-fg-muted">
 						{entry.publishAt
-							? new Date(entry.publishAt).toLocaleDateString('ru-RU', {
-									day: 'numeric',
-									month: 'long',
-									year: 'numeric'
-								})
+							? new Date(entry.publishAt).toLocaleDateString(
+									DATE_LOCALE[locale],
+									{
+										day: 'numeric',
+										month: 'long',
+										year: 'numeric'
+									}
+								)
 							: ''}
 					</p>
 					<h1 className="mt-2 text-3xl font-bold tracking-tight text-fg">
@@ -84,7 +92,9 @@ export default async function ChangelogEntry({
 							)}
 							<div>
 								<p className="text-sm font-medium text-fg">{author.name}</p>
-								<p className="text-xs text-fg-muted">Команда {project.name}</p>
+								<p className="text-xs text-fg-muted">
+									{t('portal.changelog.teamOf', { name: project.name })}
+								</p>
 							</div>
 						</div>
 					)}
@@ -95,7 +105,9 @@ export default async function ChangelogEntry({
 				</article>
 
 				<aside className="hidden w-64 shrink-0 lg:block">
-					<p className="text-sm font-semibold text-fg">В планах</p>
+					<p className="text-sm font-semibold text-fg">
+						{t('portal.changelog.upcoming')}
+					</p>
 					<ul className="mt-3 space-y-2.5">
 						{upcoming.map(p => (
 							<li
@@ -114,13 +126,15 @@ export default async function ChangelogEntry({
 						))}
 						{upcoming.length === 0 && (
 							<li className="text-sm text-fg-faint">
-								План появится вместе с голосами
+								{t('portal.changelog.upcomingEmpty')}
 							</li>
 						)}
 					</ul>
 
 					<div className="mt-8 border-t border-border pt-5">
-						<p className="text-xs font-medium text-fg-faint">ДЕЙСТВИЯ</p>
+						<p className="text-xs font-medium text-fg-faint">
+							{t('portal.sidebar.actionsHeading')}
+						</p>
 						<div className="mt-2">
 							<PortalActions />
 						</div>

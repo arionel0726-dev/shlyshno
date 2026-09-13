@@ -1,5 +1,7 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
+import type { TranslateFn } from '@/i18n/translate'
 import { Reply, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -11,6 +13,8 @@ type Comment = {
 	createdAt: Date
 }
 
+const DATE_LOCALE = { ru: 'ru-RU', en: 'en-US' } as const
+
 function getGuestKey(): string {
 	let key = localStorage.getItem('slyshno_guest')
 	if (!key) {
@@ -20,16 +24,16 @@ function getGuestKey(): string {
 	return key
 }
 
-function timeAgo(d: Date): string {
+function timeAgo(d: Date, locale: keyof typeof DATE_LOCALE, t: TranslateFn): string {
 	const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000)
-	if (s < 60) return 'только что'
+	if (s < 60) return t('time.justNow')
 	const m = Math.floor(s / 60)
-	if (m < 60) return `${m} мин назад`
+	if (m < 60) return t('time.minutesAgo', { count: m })
 	const h = Math.floor(m / 60)
-	if (h < 24) return `${h} ч назад`
+	if (h < 24) return t('time.hoursAgo', { count: h })
 	const days = Math.floor(h / 24)
-	if (days < 7) return `${days} дн назад`
-	return new Date(d).toLocaleDateString('ru-RU', {
+	if (days < 7) return t('time.daysAgo', { count: days })
+	return new Date(d).toLocaleDateString(DATE_LOCALE[locale], {
 		day: 'numeric',
 		month: 'short'
 	})
@@ -46,6 +50,7 @@ export function PublicPost({
 	isLoggedIn: boolean
 	initialComments: Comment[]
 }) {
+	const { t, locale } = useI18n()
 	const [votes, setVotes] = useState(votesCount)
 	const [myVote, setMyVote] = useState(false)
 	const [list, setList] = useState(initialComments)
@@ -97,7 +102,7 @@ export function PublicPost({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		const created = await r.json()
@@ -120,7 +125,7 @@ export function PublicPost({
 			</button>
 
 			<h2 className="mt-10 text-sm font-semibold text-fg">
-				Обсуждение · {list.length}
+				{t('postDetail.discussion', { count: list.length })}
 			</h2>
 
 			{/* Композер */}
@@ -133,7 +138,7 @@ export function PublicPost({
 						ref={composerRef}
 						value={body}
 						onChange={e => setBody(e.target.value)}
-						placeholder="Добавить комментарий…"
+						placeholder={t('comments.addPlaceholder')}
 						rows={3}
 						required
 						className="w-full resize-none rounded-t-2xl bg-transparent px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint"
@@ -143,7 +148,7 @@ export function PublicPost({
 						<button
 							disabled={saving || !body.trim()}
 							className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-fg disabled:opacity-40"
-							title="Отправить"
+							title={t('common.send')}
 						>
 							<Send className="h-4 w-4" />
 						</button>
@@ -155,14 +160,14 @@ export function PublicPost({
 						<input
 							value={name}
 							onChange={e => setName(e.target.value)}
-							placeholder="Имя"
+							placeholder={t('auth.field.name')}
 							className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 						/>
 						<input
 							type="email"
 							value={email}
 							onChange={e => setEmail(e.target.value)}
-							placeholder="Email (обязательно)"
+							placeholder={t('public.emailRequired')}
 							required
 							className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 						/>
@@ -191,9 +196,9 @@ export function PublicPost({
 						<div className="min-w-0 flex-1 pb-6">
 							<p className="text-xs text-fg-muted">
 								<span className="font-medium text-fg-secondary">
-									{c.authorName ?? 'Гость'}
+									{c.authorName ?? t('portal.guest')}
 								</span>{' '}
-								· {timeAgo(c.createdAt)}
+								· {timeAgo(c.createdAt, locale, t)}
 							</p>
 							<p className="mt-1 whitespace-pre-line text-sm text-fg">
 								{c.body}
@@ -203,7 +208,7 @@ export function PublicPost({
 								className="mt-1.5 flex items-center gap-1.5 text-xs text-fg-muted hover:text-fg"
 							>
 								<Reply className="h-3 w-3" />
-								Ответить
+								{t('comments.reply')}
 							</button>
 						</div>
 					</li>

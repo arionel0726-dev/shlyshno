@@ -242,6 +242,23 @@ const ru = {
 	'portal.tab.feedback': 'Отзывы',
 	'portal.tab.roadmap': 'Дорожная карта',
 	'portal.tab.changelog': 'Обновления',
+	'portal.defaultUser': 'Пользователь',
+	'common.send': 'Отправить',
+	'public.emailRequired': 'Email (обязательно)',
+	'comments.reply': 'Ответить',
+
+	// --- Относительное время ---
+	'time.justNow': 'только что',
+	'time.minutesAgo': '{count} мин назад',
+	'time.hoursAgo': '{count} ч назад',
+	'time.daysAgo': '{count} дн назад',
+	'portal.roadmap.subtitle': 'Что уже запланировано и что движется к релизу.',
+	'portal.changelog.subtitle': 'Что нового в {name}.',
+	'portal.changelog.team': 'Команда',
+	'portal.changelog.empty': 'Пока пусто — следите за обновлениями.',
+	'portal.changelog.teamOf': 'Команда {name}',
+	'portal.changelog.upcoming': 'В планах',
+	'portal.changelog.upcomingEmpty': 'План появится вместе с голосами',
 
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',

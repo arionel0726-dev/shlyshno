@@ -2,18 +2,20 @@ import { PortalActions } from '@/components/portal-actions'
 import { PortalHeader } from '@/components/portal-header'
 import { PublicPost } from '@/components/public-post'
 import { boards, comments, posts, projects, votes } from '@/db/schema'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { and, desc, eq, sql } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
-const STATUS_META: Record<string, { label: string; dot: string }> = {
-	pending: { label: 'Ожидает', dot: 'bg-neutral-400' },
-	reviewing: { label: 'На рассмотрении', dot: 'bg-amber-500' },
-	planned: { label: 'Запланировано', dot: 'bg-blue-500' },
-	in_progress: { label: 'В работе', dot: 'bg-violet-500' },
-	completed: { label: 'Готово', dot: 'bg-emerald-500' },
-	closed: { label: 'Закрыто', dot: 'bg-neutral-500' }
+const STATUS_META: Record<string, { labelKey: DictionaryKey; dot: string }> = {
+	pending: { labelKey: 'portalStatus.pending', dot: 'bg-neutral-400' },
+	reviewing: { labelKey: 'portalStatus.reviewing', dot: 'bg-amber-500' },
+	planned: { labelKey: 'portalStatus.planned', dot: 'bg-blue-500' },
+	in_progress: { labelKey: 'portalStatus.in_progress', dot: 'bg-violet-500' },
+	completed: { labelKey: 'portalStatus.completed', dot: 'bg-emerald-500' },
+	closed: { labelKey: 'portalStatus.closed', dot: 'bg-neutral-500' }
 }
 
 export default async function PublicPostPage({
@@ -22,6 +24,7 @@ export default async function PublicPostPage({
 	params: Promise<{ slug: string; id: string }>
 }) {
 	const { slug, id } = await params
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -52,7 +55,8 @@ export default async function PublicPostPage({
 		.orderBy(desc(comments.createdAt))
 
 	const meta = STATUS_META[post.status]
-	const typeLabel = post.type === 'bug' ? 'Bugs' : 'Features'
+	const typeLabel =
+		post.type === 'bug' ? t('portal.category.bugs') : t('portal.category.features')
 
 	return (
 		<div className="min-h-screen">
@@ -63,8 +67,10 @@ export default async function PublicPostPage({
 			<div className="mx-auto flex max-w-6xl gap-10 px-6 py-10">
 				<main className="min-w-0 flex-1 max-w-2xl">
 					<p className="text-xs text-fg-muted">
-						{post.authorEmail?.split('@')[0] ?? 'Пользователь'}{' '}
-						<span className="text-fg-faint">в {typeLabel}</span>
+						{post.authorEmail?.split('@')[0] ?? t('portal.defaultUser')}{' '}
+						<span className="text-fg-faint">
+							{t('portal.postedIn', { category: typeLabel })}
+						</span>
 					</p>
 					<h1 className="mt-1.5 text-2xl font-bold text-fg">{post.title}</h1>
 					{post.body && (
@@ -76,7 +82,7 @@ export default async function PublicPostPage({
 						<div className="mt-4 flex items-center gap-2">
 							<span className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-xs text-fg-secondary">
 								<span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
-								{meta.label}
+								{t(meta.labelKey)}
 							</span>
 						</div>
 					)}
@@ -98,7 +104,9 @@ export default async function PublicPostPage({
 
 				<aside className="hidden w-60 shrink-0 lg:block">
 					<div className="border-t border-border pt-5">
-						<p className="text-xs font-medium text-fg-faint">ДЕЙСТВИЯ</p>
+						<p className="text-xs font-medium text-fg-faint">
+							{t('portal.sidebar.actionsHeading')}
+						</p>
 						<PortalActions />
 					</div>
 				</aside>

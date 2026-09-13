@@ -243,6 +243,23 @@ const en: Dictionary = {
 	'portal.tab.feedback': 'Feedback',
 	'portal.tab.roadmap': 'Roadmap',
 	'portal.tab.changelog': 'Changelog',
+	'portal.defaultUser': 'User',
+	'common.send': 'Send',
+	'public.emailRequired': 'Email (required)',
+	'comments.reply': 'Reply',
+
+	// --- Relative time ---
+	'time.justNow': 'just now',
+	'time.minutesAgo': '{count}m ago',
+	'time.hoursAgo': '{count}h ago',
+	'time.daysAgo': '{count}d ago',
+	'portal.roadmap.subtitle': "What's planned and what's headed for release.",
+	'portal.changelog.subtitle': "What's new in {name}.",
+	'portal.changelog.team': 'Team',
+	'portal.changelog.empty': 'Nothing here yet — stay tuned.',
+	'portal.changelog.teamOf': '{name} team',
+	'portal.changelog.upcoming': 'Coming up',
+	'portal.changelog.upcomingEmpty': 'The plan will show up once votes come in',
 
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',

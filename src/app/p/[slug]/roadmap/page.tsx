@@ -1,15 +1,21 @@
 import { PortalHeader } from '@/components/portal-header'
 import { boards, posts, projects, votes } from '@/db/schema'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { and, eq, inArray, sql } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
-const COLUMNS = [
-	{ status: 'reviewing', label: 'Рассматриваем', dot: 'bg-amber-500' },
-	{ status: 'planned', label: 'В плане', dot: 'bg-blue-500' },
-	{ status: 'in_progress', label: 'В работе', dot: 'bg-violet-500' },
-	{ status: 'completed', label: 'Сделано', dot: 'bg-emerald-500' }
-] as const
+const COLUMNS: { status: string; labelKey: DictionaryKey; dot: string }[] = [
+	{ status: 'reviewing', labelKey: 'postStatus.reviewing', dot: 'bg-amber-500' },
+	{ status: 'planned', labelKey: 'postStatus.planned', dot: 'bg-blue-500' },
+	{
+		status: 'in_progress',
+		labelKey: 'postStatus.in_progress',
+		dot: 'bg-violet-500'
+	},
+	{ status: 'completed', labelKey: 'postStatus.completed', dot: 'bg-emerald-500' }
+]
 
 export default async function Roadmap({
 	params
@@ -17,6 +23,7 @@ export default async function Roadmap({
 	params: Promise<{ slug: string }>
 }) {
 	const { slug } = await params
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -58,9 +65,9 @@ export default async function Roadmap({
 				projectName={project.name}
 			/>
 			<main className="mx-auto max-w-6xl px-6 py-10">
-				<h1 className="text-2xl font-bold text-fg">Дорожная карта</h1>
+				<h1 className="text-2xl font-bold text-fg">{t('portal.tab.roadmap')}</h1>
 				<p className="mt-1 text-sm text-fg-secondary">
-					Что уже запланировано и что движется к релизу.
+					{t('portal.roadmap.subtitle')}
 				</p>
 				<div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 					{COLUMNS.map(col => {
@@ -71,7 +78,9 @@ export default async function Roadmap({
 							<section key={col.status}>
 								<div className="flex items-center gap-2">
 									<span className={`h-2 w-2 rounded-full ${col.dot}`} />
-									<h2 className="text-sm font-semibold text-fg">{col.label}</h2>
+									<h2 className="text-sm font-semibold text-fg">
+										{t(col.labelKey)}
+									</h2>
 									<span className="text-sm text-fg-muted">{items.length}</span>
 								</div>
 								<ul className="mt-3 space-y-2">
@@ -88,7 +97,7 @@ export default async function Roadmap({
 									))}
 									{items.length === 0 && (
 										<li className="rounded-xl border border-dashed border-border p-3 text-sm text-fg-faint">
-											Пусто
+											{t('roadmap.empty')}
 										</li>
 									)}
 								</ul>
