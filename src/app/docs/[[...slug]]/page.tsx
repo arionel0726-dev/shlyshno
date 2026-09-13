@@ -1,4 +1,5 @@
 import { docsSource } from '@/lib/docs-source'
+import { pageMetadata } from '@/lib/seo'
 import { Card, Cards } from 'fumadocs-ui/components/card'
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import {
@@ -87,10 +88,19 @@ export async function generateMetadata({
 	params: Promise<{ slug?: string[] }>
 }): Promise<Metadata> {
 	const { slug } = await params
+	const path = `/docs${slug && slug.length > 0 ? `/${slug.join('/')}` : ''}`
 	const page = docsSource.getPage(slug)
-	if (!page) return { title: 'Документация — Slyshno' }
-	return {
-		title: `${page.data.title} — Документация Slyshno`,
-		description: page.data.description
+	if (!page) {
+		return pageMetadata({
+			title: 'Документация — Slyshno',
+			description:
+				'Гайды и справочник по Slyshno: от первого пространства до виджета на сайте.',
+			path
+		})
 	}
+	return pageMetadata({
+		title: `${page.data.title} — Документация Slyshno`,
+		description: page.data.description ?? '',
+		path
+	})
 }
