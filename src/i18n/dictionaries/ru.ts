@@ -408,6 +408,38 @@ const ru = {
 	'footer.bottomTagline':
 		'Сделано для команд, которым важен прогресс, а не просто сбор заявок.',
 
+	// --- Страница цен ---
+	'pricing.hero.title': 'Простые цены. Два плана.',
+	'pricing.hero.subtitle':
+		'Начните бесплатно. Обновитесь, когда команде нужно больше места для сбора, приоритизации и закрытия цикла.',
+	'pricing.pro.comingSoonTitle': 'Оплата появится с запуском',
+	'pricing.pro.upgradeButton': 'Обновить до Pro',
+	'pricing.plansFooter':
+		'Только два плана. Никаких сложных тарифов. Отмена в любой момент.',
+	'pricing.compare.eyebrow': 'Что внутри',
+	'pricing.compare.title': 'Всё для чистого цикла фидбека.',
+	'pricing.compare.subtitle':
+		'Free закрывает основной сценарий. Pro снимает лимиты и добавляет инструменты, которые нужны растущим командам.',
+	'pricing.compare.tableHeader': 'Сравнение',
+	'pricing.compare.row1.label': 'Доска фидбека',
+	'pricing.compare.row1.free': 'Публичная доска и голосование',
+	'pricing.compare.row1.pro': 'Безлимит + свой домен',
+	'pricing.compare.row2.label': 'Роадмап',
+	'pricing.compare.row2.free': 'Базовый',
+	'pricing.compare.row2.pro': 'Полный цикл статусов',
+	'pricing.compare.row3.label': 'Чейнджлог',
+	'pricing.compare.row3.free': 'Публикация обновлений',
+	'pricing.compare.row3.pro': 'Публикация + письма подписчикам',
+	'pricing.compare.row4.label': 'Интеграции',
+	'pricing.compare.row4.free': '—',
+	'pricing.compare.row4.pro': 'API и интеграции — скоро',
+	'pricing.compare.row5.label': 'Лимит голосов',
+	'pricing.compare.row5.free': 'До 100 в месяц',
+	'pricing.compare.row5.pro': 'Безлимит',
+	'pricing.finalCta.title': 'Начните бесплатно. Обновляйтесь, когда это окупится.',
+	'pricing.finalCta.subtitle': 'Без карты. Ваше пространство стартует на Free.',
+	'pricing.finalCta.faqLink': 'Читать FAQ',
+
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',
 	'postStatus.reviewing': 'Рассматриваем',

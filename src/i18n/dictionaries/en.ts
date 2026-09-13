@@ -409,6 +409,38 @@ const en: Dictionary = {
 	'footer.bottomTagline':
 		'Built for teams that care about progress, not just collecting requests.',
 
+	// --- Pricing page ---
+	'pricing.hero.title': 'Simple pricing. Two plans.',
+	'pricing.hero.subtitle':
+		'Start free. Upgrade when your team needs more room to collect, prioritize, and close the loop.',
+	'pricing.pro.comingSoonTitle': 'Billing goes live at launch',
+	'pricing.pro.upgradeButton': 'Upgrade to Pro',
+	'pricing.plansFooter':
+		'Just two plans. No confusing tiers. Cancel any time.',
+	'pricing.compare.eyebrow': "What's included",
+	'pricing.compare.title': 'Everything for a clean feedback loop.',
+	'pricing.compare.subtitle':
+		'Free covers the core use case. Pro removes the limits and adds the tools growing teams need.',
+	'pricing.compare.tableHeader': 'Comparison',
+	'pricing.compare.row1.label': 'Feedback board',
+	'pricing.compare.row1.free': 'Public board and voting',
+	'pricing.compare.row1.pro': 'Unlimited + your own domain',
+	'pricing.compare.row2.label': 'Roadmap',
+	'pricing.compare.row2.free': 'Basic',
+	'pricing.compare.row2.pro': 'Full status cycle',
+	'pricing.compare.row3.label': 'Changelog',
+	'pricing.compare.row3.free': 'Publish updates',
+	'pricing.compare.row3.pro': 'Publish + email subscribers',
+	'pricing.compare.row4.label': 'Integrations',
+	'pricing.compare.row4.free': '—',
+	'pricing.compare.row4.pro': 'API and integrations — coming soon',
+	'pricing.compare.row5.label': 'Vote limit',
+	'pricing.compare.row5.free': 'Up to 100 / month',
+	'pricing.compare.row5.pro': 'Unlimited',
+	'pricing.finalCta.title': "Start free. Upgrade once it's paying off.",
+	'pricing.finalCta.subtitle': 'No card required. Your workspace starts on Free.',
+	'pricing.finalCta.faqLink': 'Read the FAQ',
+
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',
 	'postStatus.reviewing': 'Reviewing',
