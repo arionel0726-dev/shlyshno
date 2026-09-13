@@ -1,5 +1,7 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import {
 	ArrowLeft,
 	Bug,
@@ -36,10 +38,10 @@ type Entry = {
 
 type View = 'home' | 'feedback' | 'submit' | 'roadmap' | 'changelog'
 
-const STATUS_META: Record<string, { label: string; dot: string }> = {
-	in_progress: { label: 'В работе', dot: 'bg-violet-500' },
-	planned: { label: 'В плане', dot: 'bg-blue-500' },
-	completed: { label: 'Сделано', dot: 'bg-emerald-500' }
+const STATUS_META: Record<string, { labelKey: DictionaryKey; dot: string }> = {
+	in_progress: { labelKey: 'postStatus.in_progress', dot: 'bg-violet-500' },
+	planned: { labelKey: 'postStatus.planned', dot: 'bg-blue-500' },
+	completed: { labelKey: 'postStatus.completed', dot: 'bg-emerald-500' }
 }
 
 const ROADMAP_GROUPS = [
@@ -85,7 +87,10 @@ function Avatar({
 	)
 }
 
+const DATE_LOCALE = { ru: 'ru-RU', en: 'en-US' } as const
+
 function WidgetInner() {
+	const { t, locale } = useI18n()
 	const key = useSearchParams().get('key') ?? ''
 	const [slug, setSlug] = useState(useSearchParams().get('slug') ?? '')
 
@@ -176,7 +181,7 @@ function WidgetInner() {
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		setSent(true)
@@ -208,7 +213,7 @@ function WidgetInner() {
 
 	const powered = (
 		<p className="pb-3 text-center text-xs text-fg-faint">
-			Powered by{' '}
+			{t('widget.poweredBy')}{' '}
 			<a
 				href={process.env.NEXT_PUBLIC_APP_URL}
 				target="_blank"
@@ -225,9 +230,9 @@ function WidgetInner() {
 				<>
 					<div className="flex items-start justify-between border-b border-border p-5">
 						<div>
-							<p className="text-lg font-bold text-fg">Привет! 👋</p>
+							<p className="text-lg font-bold text-fg">{t('widget.greeting')}</p>
 							<p className="text-sm text-fg-secondary">
-								Расскажите, что улучшить.
+								{t('widget.greetingSubtitle')}
 							</p>
 						</div>
 						<button
@@ -241,26 +246,26 @@ function WidgetInner() {
 					<div className="flex-1 space-y-2 overflow-y-auto p-4">
 						<HomeCard
 							icon={<MessageSquare className="h-4 w-4 text-violet-500" />}
-							title="Оставить отзыв"
-							desc="Предложите идею за полминуты"
+							title={t('portal.sidebar.leaveFeedback')}
+							desc={t('widget.home.leaveFeedback.desc')}
 							onClick={() => setView('submit')}
 						/>
 						<HomeCard
 							icon={<Lightbulb className="h-4 w-4 text-amber-500" />}
-							title="Фидбек и голосование"
-							desc={`${posts.length} предложений — голосуйте`}
+							title={t('widget.home.feedback.title')}
+							desc={t('widget.home.feedback.desc', { count: posts.length })}
 							onClick={() => setView('feedback')}
 						/>
 						<HomeCard
 							icon={<MapIcon className="h-4 w-4 text-blue-500" />}
-							title="Роадмап"
-							desc="Что мы делаем дальше"
+							title={t('portal.tab.roadmap')}
+							desc={t('widget.home.roadmap.desc')}
 							onClick={() => setView('roadmap')}
 						/>
 						<HomeCard
 							icon={<Megaphone className="h-4 w-4 text-emerald-500" />}
-							title="Что нового"
-							desc="Последние обновления"
+							title={t('widget.changelog.title')}
+							desc={t('widget.changelog.desc')}
 							onClick={() => setView('changelog')}
 						/>
 					</div>
@@ -270,14 +275,14 @@ function WidgetInner() {
 
 			{view === 'feedback' && (
 				<>
-					{header('Фидбек')}
+					{header(t('widget.feedback.header'))}
 					<div className="flex items-center gap-2 px-4 pt-3">
 						<div className="relative flex-1">
 							<Search className="absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-fg-faint" />
 							<input
 								value={query}
 								onChange={e => setQuery(e.target.value)}
-								placeholder="Поиск по идеям…"
+								placeholder={t('widget.feedback.searchPlaceholder')}
 								className="w-full rounded-full border border-border bg-background py-2 pr-3 pl-8 text-xs text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 							/>
 						</div>
@@ -285,12 +290,12 @@ function WidgetInner() {
 					<div className="flex-1 overflow-y-auto p-3">
 						{!loaded && (
 							<p className="py-8 text-center text-xs text-fg-muted">
-								Загрузка…
+								{t('common.loading')}
 							</p>
 						)}
 						{loaded && filtered.length === 0 && (
 							<p className="py-8 text-center text-xs text-fg-muted">
-								Пока пусто
+								{t('widget.feedback.empty')}
 							</p>
 						)}
 						{filtered.map(p => {
@@ -317,7 +322,7 @@ function WidgetInner() {
 											) : (
 												<Lightbulb className="h-3 w-3 text-emerald-500" />
 											)}
-											{p.authorName ?? 'Гость'}
+											{p.authorName ?? t('portal.guest')}
 										</p>
 									</div>
 									<button
@@ -339,7 +344,7 @@ function WidgetInner() {
 							onClick={() => setView('submit')}
 							className="w-full rounded-xl bg-primary py-2.5 text-sm font-medium text-primary-fg"
 						>
-							Оставить отзыв
+							{t('portal.sidebar.leaveFeedback')}
 						</button>
 					</div>
 					{powered}
@@ -348,7 +353,9 @@ function WidgetInner() {
 
 			{view === 'submit' && (
 				<>
-					{header(sent ? 'Готово' : 'Оставить отзыв')}
+					{header(
+						sent ? t('widget.submit.doneHeader') : t('portal.sidebar.leaveFeedback')
+					)}
 					<div className="flex-1 overflow-y-auto p-4">
 						{sent ? (
 							<div className="flex h-full flex-col items-center justify-center text-center">
@@ -356,10 +363,10 @@ function WidgetInner() {
 									<Check className="h-6 w-6 text-emerald-500" />
 								</span>
 								<p className="mt-3 text-sm font-medium text-fg">
-									Спасибо за отзыв!
+									{t('widget.submit.thanks')}
 								</p>
 								<p className="mt-1 text-xs text-fg-secondary">
-									Следите за статусом в разделе «Фидбек».
+									{t('widget.submit.trackStatus')}
 								</p>
 								<button
 									onClick={() => {
@@ -368,7 +375,7 @@ function WidgetInner() {
 									}}
 									className="mt-4 rounded-full border border-border px-4 py-2 text-xs text-fg-secondary"
 								>
-									К списку идей
+									{t('widget.submit.backToIdeas')}
 								</button>
 							</div>
 						) : (
@@ -376,14 +383,14 @@ function WidgetInner() {
 								<textarea
 									value={title}
 									onChange={e => setTitle(e.target.value)}
-									placeholder="Что предлагаете? Одной фразой…"
+									placeholder={t('widget.submit.titlePlaceholder')}
 									rows={2}
 									className="w-full resize-none bg-transparent text-[15px] font-medium text-fg outline-none placeholder:text-fg-faint"
 								/>
 								<textarea
 									value={body}
 									onChange={e => setBody(e.target.value)}
-									placeholder="Подробности (необязательно)"
+									placeholder={t('portal.composer.bodyPlaceholder')}
 									rows={5}
 									className="mt-2 w-full resize-none bg-transparent text-sm text-fg outline-none placeholder:text-fg-faint"
 								/>
@@ -391,7 +398,7 @@ function WidgetInner() {
 									type="email"
 									value={email}
 									onChange={e => setEmail(e.target.value)}
-									placeholder="Email для уведомления (необязательно)"
+									placeholder={t('widget.submit.emailPlaceholder')}
 									className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 								/>
 								{error && <p className="mt-2 text-xs text-red-600">{error}</p>}
@@ -405,7 +412,7 @@ function WidgetInner() {
 								disabled={saving || title.trim().length < 3}
 								className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-fg disabled:opacity-40"
 							>
-								{saving ? 'Отправляю…' : 'Отправить'}
+								{saving ? t('portal.composer.sending') : t('portal.composer.send')}
 							</button>
 						</div>
 					)}
@@ -414,7 +421,7 @@ function WidgetInner() {
 
 			{view === 'roadmap' && (
 				<>
-					{header('Роадмап')}
+					{header(t('portal.tab.roadmap'))}
 					<div className="flex-1 space-y-6 overflow-y-auto p-4">
 						{ROADMAP_GROUPS.map(g => {
 							const items = posts
@@ -425,7 +432,9 @@ function WidgetInner() {
 								<section key={g.key}>
 									<div className="flex items-center gap-2">
 										<span className={`h-2 w-2 rounded-full ${g.dot}`} />
-										<p className="text-sm font-semibold text-fg">{g.label}</p>
+										<p className="text-sm font-semibold text-fg">
+											{t(g.labelKey)}
+										</p>
 										<span className="text-xs text-fg-muted">
 											{items.length}
 										</span>
@@ -459,7 +468,7 @@ function WidgetInner() {
 														</p>
 													)}
 													<p className="mt-1 text-[11px] text-fg-muted">
-														{p.authorName ?? 'Гость'}
+														{p.authorName ?? t('portal.guest')}
 													</p>
 												</div>
 											</li>
@@ -471,7 +480,7 @@ function WidgetInner() {
 						{posts.filter(p => ROADMAP_GROUPS.some(g => g.key === p.status))
 							.length === 0 && (
 							<p className="py-8 text-center text-xs text-fg-muted">
-								Роадмап появится вместе с голосами
+								{t('widget.roadmap.empty')}
 							</p>
 						)}
 					</div>
@@ -481,11 +490,11 @@ function WidgetInner() {
 
 			{view === 'changelog' && (
 				<>
-					{header('Что нового')}
+					{header(t('widget.changelog.title'))}
 					<div className="flex-1 overflow-y-auto p-4">
 						{entries.length === 0 && (
 							<p className="py-8 text-center text-xs text-fg-muted">
-								Пока пусто
+								{t('widget.feedback.empty')}
 							</p>
 						)}
 						{entries.map(e => (
@@ -495,11 +504,14 @@ function WidgetInner() {
 							>
 								<p className="text-[11px] text-fg-muted">
 									{e.publishAt
-										? new Date(e.publishAt).toLocaleDateString('ru-RU', {
-												day: 'numeric',
-												month: 'long',
-												year: 'numeric'
-											})
+										? new Date(e.publishAt).toLocaleDateString(
+												DATE_LOCALE[locale],
+												{
+													day: 'numeric',
+													month: 'long',
+													year: 'numeric'
+												}
+											)
 										: ''}
 								</p>
 								<p className="mt-1 text-sm font-semibold text-fg">{e.title}</p>
@@ -513,7 +525,7 @@ function WidgetInner() {
 										size={5}
 									/>
 									<span className="text-[11px] text-fg-muted">
-										{e.authorName ?? 'Команда'}
+										{e.authorName ?? t('portal.changelog.team')}
 									</span>
 								</div>
 							</article>

@@ -261,6 +261,27 @@ const en: Dictionary = {
 	'portal.changelog.upcoming': 'Coming up',
 	'portal.changelog.upcomingEmpty': 'The plan will show up once votes come in',
 
+	// --- Widget ---
+	'widget.greeting': 'Hi there! 👋',
+	'widget.greetingSubtitle': 'Tell us what to improve.',
+	'widget.home.leaveFeedback.desc': 'Suggest an idea in 30 seconds',
+	'widget.home.feedback.title': 'Feedback & voting',
+	'widget.home.feedback.desc': '{count} suggestions — go vote',
+	'widget.home.roadmap.desc': "What we're building next",
+	'widget.changelog.title': "What's new",
+	'widget.changelog.desc': 'Latest updates',
+	'widget.poweredBy': 'Powered by',
+	'widget.feedback.header': 'Feedback',
+	'widget.feedback.searchPlaceholder': 'Search ideas…',
+	'widget.feedback.empty': 'Nothing here yet',
+	'widget.submit.doneHeader': 'Done',
+	'widget.submit.thanks': 'Thanks for the feedback!',
+	'widget.submit.trackStatus': 'Follow its status in the Feedback tab.',
+	'widget.submit.backToIdeas': 'Back to ideas',
+	'widget.submit.titlePlaceholder': "What's your idea? One line...",
+	'widget.submit.emailPlaceholder': 'Email for updates (optional)',
+	'widget.roadmap.empty': 'The roadmap will show up once votes come in',
+
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',
 	'postStatus.reviewing': 'Reviewing',

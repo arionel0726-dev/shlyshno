@@ -260,6 +260,27 @@ const ru = {
 	'portal.changelog.upcoming': 'В планах',
 	'portal.changelog.upcomingEmpty': 'План появится вместе с голосами',
 
+	// --- Виджет ---
+	'widget.greeting': 'Привет! 👋',
+	'widget.greetingSubtitle': 'Расскажите, что улучшить.',
+	'widget.home.leaveFeedback.desc': 'Предложите идею за полминуты',
+	'widget.home.feedback.title': 'Фидбек и голосование',
+	'widget.home.feedback.desc': '{count} предложений — голосуйте',
+	'widget.home.roadmap.desc': 'Что мы делаем дальше',
+	'widget.changelog.title': 'Что нового',
+	'widget.changelog.desc': 'Последние обновления',
+	'widget.poweredBy': 'Powered by',
+	'widget.feedback.header': 'Фидбек',
+	'widget.feedback.searchPlaceholder': 'Поиск по идеям…',
+	'widget.feedback.empty': 'Пока пусто',
+	'widget.submit.doneHeader': 'Готово',
+	'widget.submit.thanks': 'Спасибо за отзыв!',
+	'widget.submit.trackStatus': 'Следите за статусом в разделе «Фидбек».',
+	'widget.submit.backToIdeas': 'К списку идей',
+	'widget.submit.titlePlaceholder': 'Что предлагаете? Одной фразой…',
+	'widget.submit.emailPlaceholder': 'Email для уведомления (необязательно)',
+	'widget.roadmap.empty': 'Роадмап появится вместе с голосами',
+
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',
 	'postStatus.reviewing': 'Рассматриваем',
