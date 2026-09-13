@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -9,6 +10,7 @@ export function CancelSubscriptionButton({
 }: {
 	subscriptionId: string
 }) {
+	const { t } = useI18n()
 	const [confirming, setConfirming] = useState(false)
 	const [cancelling, setCancelling] = useState(false)
 	const [error, setError] = useState('')
@@ -26,7 +28,7 @@ export function CancelSubscriptionButton({
 		setCancelling(false)
 		setConfirming(false)
 		if (!r.ok) {
-			setError(data.error ?? 'Ошибка')
+			setError(data.error ?? t('common.error.short'))
 			return
 		}
 		router.refresh()
@@ -41,13 +43,13 @@ export function CancelSubscriptionButton({
 					className="flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500 disabled:opacity-50"
 				>
 					{cancelling && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-					Отменить подписку
+					{t('account.subscription.cancelButton')}
 				</button>
 				<button
 					onClick={() => setConfirming(false)}
 					className="rounded-lg px-3 py-2 text-sm text-fg-secondary hover:bg-surface"
 				>
-					Назад
+					{t('common.back')}
 				</button>
 			</span>
 		)
@@ -59,7 +61,7 @@ export function CancelSubscriptionButton({
 				onClick={() => setConfirming(true)}
 				className="rounded-lg border border-border px-4 py-2 text-sm text-red-600 hover:bg-surface"
 			>
-				Отменить подписку
+				{t('account.subscription.cancelButton')}
 			</button>
 			{error && <span className="text-sm text-red-600">{error}</span>}
 		</span>

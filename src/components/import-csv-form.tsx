@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { Upload } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import Papa from 'papaparse'
@@ -12,6 +13,7 @@ type Row = {
 }
 
 export function ImportCsvForm({ slug }: { slug: string }) {
+	const { t } = useI18n()
 	const [rows, setRows] = useState<Row[]>([])
 	const [error, setError] = useState('')
 	const [importing, setImporting] = useState(false)
@@ -45,9 +47,7 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 					.filter(r => r.title?.trim())
 
 				if (items.length === 0) {
-					setError(
-						'Не нашёл колонку с заголовком (title). Проверь файл экспорта Canny.'
-					)
+					setError(t('import.noTitleColumn'))
 					return
 				}
 				setRows(items.slice(0, 500))
@@ -66,7 +66,7 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 		const data = await r.json().catch(() => ({}))
 		setImporting(false)
 		if (!r.ok) {
-			setError(data.error ?? 'Ошибка импорта')
+			setError(data.error ?? t('import.error.default'))
 			return
 		}
 		setDone(data.imported)
@@ -78,12 +78,8 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 		<div>
 			<label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border p-8 text-center hover:bg-surface">
 				<Upload className="h-5 w-5 text-fg-muted" />
-				<p className="mt-2 text-sm text-fg-secondary">
-					Выберите CSV-файл экспорта из Canny
-				</p>
-				<p className="mt-0.5 text-xs text-fg-faint">
-					До 500 строк · колонки: title, details, status
-				</p>
+				<p className="mt-2 text-sm text-fg-secondary">{t('import.pickFile')}</p>
+				<p className="mt-0.5 text-xs text-fg-faint">{t('import.limitHint')}</p>
 				<input
 					type="file"
 					accept=".csv,text/csv"
@@ -95,9 +91,9 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 			{rows.length > 0 && (
 				<div className="mt-4">
 					<p className="text-sm text-fg-secondary">
-						Найдено записей:{' '}
+						{t('import.foundRecords')}{' '}
 						<span className="font-medium text-fg">{rows.length}</span>
-						{rows.length === 500 && ' (лимит — обрезано)'}
+						{rows.length === 500 && ` ${t('import.truncatedHint')}`}
 					</p>
 					<ul className="mt-3 max-h-48 space-y-1 overflow-y-auto rounded-xl border border-border p-3 text-sm">
 						{rows.slice(0, 10).map((r, i) => (
@@ -109,7 +105,9 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 							</li>
 						))}
 						{rows.length > 10 && (
-							<li className="text-fg-faint">… и ещё {rows.length - 10}</li>
+							<li className="text-fg-faint">
+								{t('import.andMore', { count: rows.length - 10 })}
+							</li>
 						)}
 					</ul>
 					<button
@@ -117,14 +115,16 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 						disabled={importing}
 						className="mt-3 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
 					>
-						{importing ? 'Импортирую…' : `Импортировать ${rows.length}`}
+						{importing
+							? t('import.submit.importing')
+							: t('import.submit.import', { count: rows.length })}
 					</button>
 				</div>
 			)}
 
 			{done !== null && (
 				<p className="mt-4 rounded-xl bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600">
-					Импортировано записей: {done}
+					{t('import.success', { count: done })}
 				</p>
 			)}
 			{error && <p className="mt-4 text-sm text-red-600">{error}</p>}

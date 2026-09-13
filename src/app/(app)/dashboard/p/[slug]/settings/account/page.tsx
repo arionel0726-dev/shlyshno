@@ -2,15 +2,19 @@ import { AccountForm } from '@/components/account-form'
 import { CancelSubscriptionButton } from '@/components/cancel-subscription-button'
 import { account as accountTable, user } from '@/db/auth-schema'
 import { projects, subscriptions } from '@/db/schema'
+import { getT } from '@/i18n/server'
+import type { Locale } from '@/i18n/config'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
 import { CheckCircle2 } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 
-function formatDate(d: Date | null): string | null {
+const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
+
+function formatDate(d: Date | null, locale: Locale): string | null {
 	if (!d) return null
-	return new Date(d).toLocaleDateString('ru-RU', {
+	return new Date(d).toLocaleDateString(DATE_LOCALE[locale], {
 		day: 'numeric',
 		month: 'long',
 		year: 'numeric'
@@ -25,6 +29,7 @@ export default async function AccountSettings({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t, locale } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -52,9 +57,13 @@ export default async function AccountSettings({
 
 	return (
 		<div>
-			<h2 className="text-2xl font-bold text-fg">Аккаунт</h2>
+			<h2 className="text-2xl font-bold text-fg">
+				{t('settings.nav.accountSection')}
+			</h2>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Профиль</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.nav.profile')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				{authUser?.image ? (
 					// eslint-disable-next-line @next/next/no-img-element
@@ -73,27 +82,36 @@ export default async function AccountSettings({
 				</div>
 				<div className="mt-4 flex items-center justify-between border-t border-border pt-4">
 					<div>
-						<p className="text-sm font-medium text-fg">Email</p>
+						<p className="text-sm font-medium text-fg">
+							{t('auth.field.email')}
+						</p>
 						<p className="text-sm text-fg-secondary">{authUser?.email}</p>
 					</div>
 					{authUser?.emailVerified ? (
 						<span className="flex items-center gap-1.5 text-sm text-emerald-600">
 							<CheckCircle2 className="h-4 w-4" />
-							Подтверждён
+							{t('account.emailVerified')}
 						</span>
 					) : (
-						<span className="text-sm text-fg-muted">Не подтверждён</span>
+						<span className="text-sm text-fg-muted">
+							{t('account.emailNotVerified')}
+						</span>
 					)}
 				</div>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Вход</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('account.signIn.title')}
+			</p>
 			<div className="mt-3 flex items-center justify-between rounded-2xl border border-border p-6">
 				<div>
-					<p className="text-sm font-medium text-fg">Способ входа</p>
+					<p className="text-sm font-medium text-fg">
+						{t('account.signIn.method')}
+					</p>
 					<p className="mt-0.5 text-sm text-fg-secondary">
-						Вы вошли через{' '}
-						{authAccount?.providerId === 'google' ? 'Google' : 'email'}.
+						{t('account.signIn.via', {
+							provider: authAccount?.providerId === 'google' ? 'Google' : 'email'
+						})}
 					</p>
 				</div>
 				<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-secondary">
@@ -101,13 +119,17 @@ export default async function AccountSettings({
 				</span>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Подписка</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('account.subscription.title')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				{subs.length === 0 ? (
 					<div>
-						<p className="text-sm font-medium text-fg">Нет активных подписок</p>
+						<p className="text-sm font-medium text-fg">
+							{t('account.subscription.none.title')}
+						</p>
 						<p className="mt-0.5 text-sm text-fg-secondary">
-							Тариф Free — для старта этого достаточно.
+							{t('account.subscription.none.description')}
 						</p>
 					</div>
 				) : (
@@ -121,8 +143,8 @@ export default async function AccountSettings({
 							) ??
 							subs[0]
 
-						const renews = formatDate(display.renewsAt)
-						const ends = formatDate(display.endsAt)
+						const renews = formatDate(display.renewsAt, locale)
+						const ends = formatDate(display.endsAt, locale)
 						const activeCancelled =
 							display.status === 'cancelled' &&
 							display.endsAt &&
@@ -134,16 +156,20 @@ export default async function AccountSettings({
 									<p className="text-sm font-medium text-fg">Pro</p>
 									{display.status === 'active' && renews && (
 										<p className="mt-0.5 text-sm text-fg-secondary">
-											Следующее списание: {renews}
+											{t('account.subscription.nextCharge', { date: renews })}
 										</p>
 									)}
 									{activeCancelled && (
 										<p className="mt-0.5 text-sm text-fg-secondary">
-											Отменена — Pro действует до {ends}
+											{t('account.subscription.cancelledUntil', {
+												date: ends ?? ''
+											})}
 										</p>
 									)}
 									{display.status === 'cancelled' && !activeCancelled && (
-										<p className="mt-0.5 text-sm text-fg-secondary">Отменена</p>
+										<p className="mt-0.5 text-sm text-fg-secondary">
+											{t('account.subscription.cancelled')}
+										</p>
 									)}
 								</div>
 								{display.status === 'active' && display.subscriptionId && (

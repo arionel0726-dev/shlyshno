@@ -1,5 +1,6 @@
 import { CopyButton } from '@/components/copy-button'
 import { projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
@@ -13,6 +14,7 @@ export default async function DomainSettings({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -23,13 +25,14 @@ export default async function DomainSettings({
 
 	return (
 		<div>
-			<h2 className="text-2xl font-bold text-fg">Domain</h2>
+			<h2 className="text-2xl font-bold text-fg">{t('settings.nav.domain')}</h2>
 			<p className="mt-1 text-sm text-fg-secondary">
-				Используйте адрес Slyshno сейчас, подключите свой домен, когда будете
-				готовы.
+				{t('settings.domain.subtitle')}
 			</p>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Public board URL</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.domain.publicBoardUrl')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				<div className="flex items-center justify-between gap-4">
 					<p className="truncate font-mono text-sm text-fg">{boardUrl}</p>
@@ -37,12 +40,14 @@ export default async function DomainSettings({
 				</div>
 				<div className="mt-4 border-t border-border pt-4">
 					<p className="text-sm text-fg-muted">
-						Ваша публичная доска доступна по этому адресу.
+						{t('settings.domain.publicBoardHint')}
 					</p>
 				</div>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Виджет для сайта</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('dashboard.widgetForSite')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				<div className="flex items-start justify-between gap-4">
 					<pre className="min-w-0 flex-1 overflow-x-auto rounded-lg bg-surface p-4 font-mono text-xs text-fg">{`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}</pre>
@@ -51,18 +56,19 @@ export default async function DomainSettings({
 					/>
 				</div>
 				<p className="mt-4 border-t border-border pt-4 text-sm text-fg-muted">
-					Вставьте перед закрывающим тегом body — виджет появится на сайте.
+					{t('settings.domain.widgetHint')}
 				</p>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Custom domain</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.domain.customDomain')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				{project.plan === 'pro' ? (
 					<div>
 						<p className="font-mono text-sm text-fg">feedback.yourdomain.com</p>
 						<p className="mt-1 text-sm text-fg-muted">
-							Подключение доменов появится в ближайшем обновлении — ваш тариф
-							Pro уже активен.
+							{t('settings.domain.pro.description')}
 						</p>
 					</div>
 				) : (
@@ -72,21 +78,21 @@ export default async function DomainSettings({
 								feedback.yourdomain.com
 							</p>
 							<p className="mt-1 text-sm text-fg-muted">
-								Подключите свой домен для полностью фирменного опыта.
+								{t('settings.domain.free.description')}
 							</p>
 						</div>
 						<button
 							disabled
 							className="shrink-0 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-fg opacity-50"
 						>
-							Connect domain
+							{t('settings.domain.connectButton')}
 						</button>
 					</div>
 				)}
 				{project.plan !== 'pro' && (
 					<div className="mt-4 rounded-xl bg-surface px-4 py-3">
 						<p className="text-sm text-fg-secondary">
-							Available on Pro · $10/month
+							{t('settings.domain.availableOnPro')}
 						</p>
 					</div>
 				)}

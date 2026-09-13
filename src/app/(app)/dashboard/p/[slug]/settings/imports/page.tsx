@@ -1,5 +1,6 @@
 import { ImportCsvForm } from '@/components/import-csv-form'
 import { projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
@@ -13,6 +14,7 @@ export default async function ImportSettings({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -21,9 +23,9 @@ export default async function ImportSettings({
 
 	return (
 		<div>
-			<h2 className="text-2xl font-bold text-fg">Импорт</h2>
+			<h2 className="text-2xl font-bold text-fg">{t('settings.nav.imports')}</h2>
 			<p className="mt-1 text-sm text-fg-secondary">
-				Перенесите фидбек из Canny или другого инструмента за пару минут.
+				{t('settings.imports.subtitle')}
 			</p>
 			<div className="mt-8 max-w-xl">
 				<ImportCsvForm slug={slug} />

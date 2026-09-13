@@ -1,5 +1,6 @@
 import { SettingsNav } from '@/components/settings-nav'
 import { projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
@@ -15,6 +16,7 @@ export default async function SettingsLayout({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -24,23 +26,25 @@ export default async function SettingsLayout({
 	const base = `/dashboard/p/${slug}/settings`
 	const sections = [
 		{
-			title: 'Workspace',
+			title: t('settings.nav.workspaceSection'),
 			items: [
-				{ href: `${base}/brand`, label: 'Brand & appearance' },
-				{ href: `${base}/domain`, label: 'Domain' },
-				{ href: `${base}/imports`, label: 'Импорт' }
+				{ href: `${base}/brand`, label: t('settings.nav.brand') },
+				{ href: `${base}/domain`, label: t('settings.nav.domain') },
+				{ href: `${base}/imports`, label: t('settings.nav.imports') }
 			]
 		},
 		{
-			title: 'Аккаунт',
-			items: [{ href: `${base}/account`, label: 'Профиль' }]
+			title: t('settings.nav.accountSection'),
+			items: [{ href: `${base}/account`, label: t('settings.nav.profile') }]
 		}
 	]
 
 	return (
 		<div className="flex gap-10 p-8">
 			<aside className="w-56 shrink-0">
-				<h1 className="px-2 text-lg font-semibold text-fg">Settings</h1>
+				<h1 className="px-2 text-lg font-semibold text-fg">
+					{t('settings.title')}
+				</h1>
 				{sections.map(s => (
 					<div
 						key={s.title}

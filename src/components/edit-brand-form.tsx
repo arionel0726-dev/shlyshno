@@ -1,6 +1,7 @@
 // src/components/edit-brand-form.tsx
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -13,6 +14,7 @@ export function EditBrandForm({
 	initialName: string
 	initialWebsite: string | null
 }) {
+	const { t } = useI18n()
 	const [editing, setEditing] = useState(false)
 	const [name, setName] = useState(initialName)
 	const [website, setWebsite] = useState(initialWebsite ?? '')
@@ -34,7 +36,7 @@ export function EditBrandForm({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		setEditing(false)
@@ -50,14 +52,14 @@ export function EditBrandForm({
 				<div className="min-w-0 flex-1">
 					<p className="font-medium text-fg">{initialName}</p>
 					<p className="text-sm text-fg-muted">
-						Логотип, название и публичная идентичность
+						{t('settings.brand.editForm.description')}
 					</p>
 				</div>
 				<button
 					onClick={() => setEditing(true)}
 					className="rounded-lg border border-border px-4 py-2 text-sm text-fg hover:bg-surface"
 				>
-					Edit brand
+					{t('settings.brand.editForm.editButton')}
 				</button>
 			</div>
 		)
@@ -69,7 +71,9 @@ export function EditBrandForm({
 			className="flex flex-col gap-3"
 		>
 			<div>
-				<label className="text-xs text-fg-faint">Название</label>
+				<label className="text-xs text-fg-faint">
+					{t('settings.brand.editForm.nameLabel')}
+				</label>
 				<input
 					value={name}
 					onChange={e => setName(e.target.value)}
@@ -78,7 +82,9 @@ export function EditBrandForm({
 				/>
 			</div>
 			<div>
-				<label className="text-xs text-fg-faint">Сайт · необязательно</label>
+				<label className="text-xs text-fg-faint">
+					{t('onboarding.field.website')}
+				</label>
 				<input
 					value={website}
 					onChange={e => setWebsite(e.target.value)}
@@ -91,14 +97,14 @@ export function EditBrandForm({
 					disabled={saving}
 					className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
 				>
-					{saving ? 'Сохраняю…' : 'Сохранить'}
+					{saving ? t('common.saving') : t('common.save')}
 				</button>
 				<button
 					type="button"
 					onClick={() => setEditing(false)}
 					className="rounded-full px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
 				>
-					Отмена
+					{t('common.cancel')}
 				</button>
 				{error && <p className="text-sm text-red-600">{error}</p>}
 			</div>

@@ -1,10 +1,12 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export function AccountForm({ initialName }: { initialName: string }) {
+	const { t } = useI18n()
 	const [name, setName] = useState(initialName)
 	const [saving, setSaving] = useState(false)
 	const [saved, setSaved] = useState(false)
@@ -27,7 +29,7 @@ export function AccountForm({ initialName }: { initialName: string }) {
 			className="flex items-end gap-3"
 		>
 			<div className="flex-1">
-				<label className="text-xs text-fg-faint">Имя</label>
+				<label className="text-xs text-fg-faint">{t('auth.field.name')}</label>
 				<input
 					value={name}
 					onChange={e => setName(e.target.value)}
@@ -39,7 +41,11 @@ export function AccountForm({ initialName }: { initialName: string }) {
 				disabled={saving}
 				className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-fg disabled:opacity-50"
 			>
-				{saving ? 'Сохраняю…' : saved ? 'Сохранено ✓' : 'Сохранить'}
+				{saving
+					? t('common.saving')
+					: saved
+						? t('account.form.saved')
+						: t('common.save')}
 			</button>
 		</form>
 	)

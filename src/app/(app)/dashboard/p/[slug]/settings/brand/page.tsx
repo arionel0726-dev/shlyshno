@@ -1,6 +1,7 @@
 import { DeleteProjectButton } from '@/components/delete-project-button'
 import { EditBrandForm } from '@/components/edit-brand-form'
 import { projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { eq } from 'drizzle-orm'
@@ -14,6 +15,7 @@ export default async function BrandSettings({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -22,12 +24,14 @@ export default async function BrandSettings({
 
 	return (
 		<div>
-			<h2 className="text-2xl font-bold text-fg">Brand & appearance</h2>
+			<h2 className="text-2xl font-bold text-fg">{t('settings.nav.brand')}</h2>
 			<p className="mt-1 text-sm text-fg-secondary">
-				Как ваше рабочее пространство выглядит для команды и клиентов.
+				{t('settings.brand.subtitle')}
 			</p>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Brand</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.brand.sectionBrand')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				<EditBrandForm
 					slug={slug}
@@ -36,53 +40,67 @@ export default async function BrandSettings({
 				/>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Appearance</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.brand.sectionAppearance')}
+			</p>
 			<div className="mt-3 divide-y divide-border-soft rounded-2xl border border-border">
 				<div className="flex items-center justify-between p-6">
 					<div>
-						<p className="text-sm font-medium text-fg">Accent color</p>
+						<p className="text-sm font-medium text-fg">
+							{t('settings.brand.accentColor.title')}
+						</p>
 						<p className="mt-0.5 text-sm text-fg-muted">
-							Используется в статусах и публичных поверхностях.
+							{t('settings.brand.accentColor.description')}
 						</p>
 					</div>
 					<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-muted">
-						Скоро
+						{t('common.soon')}
 					</span>
 				</div>
 				<div className="flex items-center justify-between p-6">
 					<div>
-						<p className="text-sm font-medium text-fg">Theme</p>
+						<p className="text-sm font-medium text-fg">
+							{t('settings.brand.theme.title')}
+						</p>
 						<p className="mt-0.5 text-sm text-fg-muted">
-							По умолчанию — системная, посетители могут переключать.
+							{t('settings.brand.theme.description')}
 						</p>
 					</div>
 					<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-muted">
-						System
+						{t('settings.brand.theme.systemBadge')}
 					</span>
 				</div>
 			</div>
 
-			<p className="mt-8 text-sm font-semibold text-fg">Public experience</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('settings.brand.sectionPublicExperience')}
+			</p>
 			<div className="mt-3 divide-y divide-border-soft rounded-2xl border border-border">
 				<div className="flex items-center justify-between p-6">
 					<div>
-						<p className="text-sm font-medium text-fg">Language</p>
+						<p className="text-sm font-medium text-fg">
+							{t('settings.brand.language.title')}
+						</p>
 						<p className="mt-0.5 text-sm text-fg-muted">
-							Определяется из браузера посетителя.
+							{t('settings.brand.language.description')}
 						</p>
 					</div>
 					<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-muted">
-						Auto
+						{t('settings.brand.language.auto')}
 					</span>
 				</div>
 				<div className="flex items-center justify-between p-6">
-					<p className="text-sm font-medium text-fg">Powered by Slyshno</p>
+					<p className="text-sm font-medium text-fg">
+						{t('settings.brand.poweredBy')}
+					</p>
 					<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-muted">
-						Скрыто на Pro
+						{t('settings.brand.poweredBy.hiddenOnPro')}
 					</span>
 				</div>
 			</div>
-			<p className="mt-8 text-sm font-semibold text-fg">Опасная зона</p>
+			<p className="mt-8 text-sm font-semibold text-fg">
+				{t('common.dangerZone')}
+			</p>
 			<div className="mt-3 rounded-2xl border border-red-500/30 p-6">
 				<DeleteProjectButton slug={slug} />
 			</div>
