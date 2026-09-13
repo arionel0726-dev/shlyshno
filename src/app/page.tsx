@@ -3,8 +3,61 @@ import { FaqAccordion } from '@/components/landing/faq-accordion'
 import { SiteFooter } from '@/components/landing/site-footer'
 import { SiteHeader } from '@/components/landing/site-header'
 import { getT } from '@/i18n/server'
+import { jsonLdScript, pageMetadata, SITE_URL } from '@/lib/seo'
 import { getSession } from '@/lib/session'
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+
+const TITLE = 'Slyshno — Feedback boards, roadmap, and changelog'
+const DESCRIPTION =
+	'Collect feedback, prioritize what matters, and close the loop with a public board, an embeddable widget, a roadmap, and an automatic changelog. Free forever, no card required.'
+
+export const metadata: Metadata = pageMetadata({
+	title: TITLE,
+	description: DESCRIPTION,
+	path: '/'
+})
+
+// JSON-LD: не переводим через словарь — это метаданные для краулеров, а не
+// пользовательский текст на странице (бриф допускает EN-only метаданные).
+const JSON_LD = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: 'Slyshno',
+		applicationCategory: 'BusinessApplication',
+		operatingSystem: 'Web',
+		url: SITE_URL,
+		description: DESCRIPTION,
+		offers: [
+			{
+				'@type': 'Offer',
+				name: 'Free',
+				price: '0',
+				priceCurrency: 'USD'
+			},
+			{
+				'@type': 'Offer',
+				name: 'Pro',
+				price: '10',
+				priceCurrency: 'USD',
+				priceSpecification: {
+					'@type': 'UnitPriceSpecification',
+					price: '10',
+					priceCurrency: 'USD',
+					billingDuration: 'P1M'
+				}
+			}
+		]
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: 'Slyshno',
+		url: SITE_URL,
+		logo: `${SITE_URL}/favicon.ico`
+	}
+]
 
 export default async function Home() {
 	const session = await getSession()
@@ -55,6 +108,11 @@ export default async function Home() {
 
 	return (
 		<div className="min-h-screen bg-background">
+			<script
+				type="application/ld+json"
+				// eslint-disable-next-line react/no-danger
+				dangerouslySetInnerHTML={{ __html: jsonLdScript(JSON_LD) }}
+			/>
 			<SiteHeader />
 
 			{/* Hero */}

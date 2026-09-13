@@ -2,8 +2,20 @@ import { LandingAuth } from '@/components/landing-auth'
 import { SiteHeader } from '@/components/landing/site-header'
 import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { getT } from '@/i18n/server'
+import { pageMetadata } from '@/lib/seo'
 import { getSession } from '@/lib/session'
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+const TITLE = 'Pricing — Slyshno'
+const DESCRIPTION =
+	'Simple pricing, two plans. Free forever for your first feedback board, or Pro at $10/month for unlimited votes, a custom domain, and priority support.'
+
+export const metadata: Metadata = pageMetadata({
+	title: TITLE,
+	description: DESCRIPTION,
+	path: '/pricing'
+})
 
 export default async function Pricing() {
 	const session = await getSession()
