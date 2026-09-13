@@ -18,7 +18,7 @@ export function SettingsNav({
 					<Link
 						key={i.href}
 						href={i.href}
-						className={`flex min-h-11 shrink-0 items-center rounded-lg px-3 py-1.5 text-sm lg:min-h-0 ${
+						className={`flex min-h-11 shrink-0 items-center rounded-lg px-3 py-1.5 text-sm lg:block lg:min-h-0 ${
 							active
 								? 'bg-surface font-medium text-fg'
 								: 'text-fg-secondary hover:bg-surface hover:text-fg'

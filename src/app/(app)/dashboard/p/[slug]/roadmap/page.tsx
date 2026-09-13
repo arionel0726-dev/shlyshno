@@ -45,7 +45,7 @@ export default async function OwnerRoadmap({
 
 	return (
 		<div className="min-w-0 p-4 sm:p-8">
-			<div className="flex items-start justify-between gap-4">
+			<div className="flex items-start justify-between gap-4 lg:items-center">
 				<div>
 					<h1 className="text-2xl font-bold text-fg">{t('roadmap.title')}</h1>
 					<p className="mt-1 text-sm text-fg-secondary">

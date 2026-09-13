@@ -64,7 +64,7 @@ export default async function DomainSettings({
 			</p>
 			<div className="mt-3 min-w-0 rounded-2xl border border-border p-4 sm:p-6">
 				<div className="flex min-w-0 flex-col items-start gap-4 sm:flex-row">
-					<div className="w-full min-w-0 overflow-x-auto rounded-lg bg-surface">
+					<div className="w-full min-w-0 overflow-x-auto rounded-lg bg-surface sm:w-auto sm:flex-1">
 						<pre className="min-w-max p-4 font-mono text-[10px] text-fg sm:text-xs">{`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}</pre>
 					</div>
 					<div className="w-full sm:w-auto [&>button]:w-full">
