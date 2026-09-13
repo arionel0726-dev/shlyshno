@@ -3,7 +3,14 @@ import { projects, subscriptions } from '@/db/schema'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { and, desc, eq } from 'drizzle-orm'
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+
+// Кабинет приватный — не индексируем ни одну вложенную страницу
+// (dashboard, dashboard/p/[slug], settings/*).
+export const metadata: Metadata = {
+	robots: { index: false, follow: false }
+}
 
 export default async function AppLayout({
 	children
