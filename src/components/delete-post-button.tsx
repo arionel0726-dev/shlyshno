@@ -23,14 +23,14 @@ export function DeletePostButton({ postId }: { postId: string }) {
 				<button
 					onClick={del}
 					disabled={deleting}
-					className="flex items-center gap-1 text-xs font-medium text-red-600 hover:underline"
+					className="flex min-h-11 items-center gap-1 text-xs font-medium text-red-600 hover:underline lg:min-h-0"
 				>
 					{deleting && <Loader2 className="h-3 w-3 animate-spin" />}
 					{t('common.confirmDelete')}
 				</button>
 				<button
 					onClick={() => setConfirming(false)}
-					className="text-xs text-fg-muted hover:text-fg"
+					className="min-h-11 text-xs text-fg-muted hover:text-fg lg:min-h-0"
 				>
 					{t('common.cancel')}
 				</button>
@@ -42,7 +42,7 @@ export function DeletePostButton({ postId }: { postId: string }) {
 		<button
 			onClick={() => setConfirming(true)}
 			title={t('common.delete')}
-			className="rounded-lg p-1.5 text-fg-faint hover:bg-surface hover:text-red-600"
+			className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-fg-faint hover:bg-surface hover:text-red-600 lg:min-h-0 lg:min-w-0 lg:p-1.5"
 		>
 			<Trash2 className="h-4 w-4" />
 		</button>
