@@ -81,11 +81,11 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
 			<div
 				ref={ref}
-				className="relative w-full max-w-3xl rounded-3xl border border-border bg-background p-8 shadow-xl"
+				className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-border bg-background p-5 shadow-xl sm:p-8"
 			>
 				<button
 					onClick={() => setOpen(false)}
-					className="absolute top-5 right-5 rounded-lg p-1.5 text-fg-muted hover:bg-surface"
+					className="absolute top-3 right-3 flex min-h-11 min-w-11 items-center justify-center rounded-lg text-fg-muted hover:bg-surface sm:top-5 sm:right-5 sm:min-h-0 sm:min-w-0 sm:p-1.5"
 				>
 					<X className="h-4 w-4" />
 				</button>
@@ -97,9 +97,9 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 					{t('upgrade.subtitle')}
 				</p>
 
-				<div className="mt-8 grid gap-4 sm:grid-cols-2">
+				<div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
 					{/* Free */}
-					<div className="rounded-2xl border border-border p-6">
+					<div className="rounded-2xl border border-border p-4 sm:p-6">
 						<div className="flex items-center justify-between">
 							<p className="text-lg font-semibold text-fg">Free</p>
 							{!isPro && (
@@ -140,13 +140,13 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 
 					{/* Pro */}
 					<div className="overflow-hidden rounded-2xl border border-border">
-						<div className="flex items-center justify-between bg-gradient-to-r from-neutral-900 via-indigo-950 to-orange-900 px-6 py-4">
+						<div className="flex items-center justify-between bg-gradient-to-r from-neutral-900 via-indigo-950 to-orange-900 px-4 py-4 sm:px-6">
 							<p className="text-lg font-semibold text-white">Pro</p>
 							<span className="text-xs text-orange-200">
 								{t('upgrade.pro.popular')}
 							</span>
 						</div>
-						<div className="p-6">
+						<div className="p-4 sm:p-6">
 							<p>
 								<span className="text-3xl font-bold text-fg">$10</span>{' '}
 								<span className="text-sm text-fg-muted">
@@ -160,12 +160,12 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 								{PRO_FEATURES.map(f => (
 									<li
 										key={f}
-										className="flex items-center gap-2.5 text-sm text-fg-secondary"
+										className="flex flex-wrap items-center gap-2.5 text-sm text-fg-secondary"
 									>
 										<Check className="h-4 w-4 shrink-0 text-fg" />
 										{t(f)}
 										{PRO_SOON.has(f) && (
-											<span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-fg-muted">
+											<span className="shrink-0 rounded-full bg-surface px-2 py-0.5 text-[10px] text-fg-muted">
 												{t('common.soon')}
 											</span>
 										)}
