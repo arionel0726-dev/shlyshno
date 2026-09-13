@@ -1,24 +1,27 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { Check, X } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
-const FREE_FEATURES = [
-	'Публичная доска фидбека',
-	'Базовый роадмап',
-	'Чейнджлог',
-	'До 100 голосов в месяц'
+const FREE_FEATURES: DictionaryKey[] = [
+	'upgrade.free.feature.board',
+	'upgrade.free.feature.roadmap',
+	'upgrade.free.feature.changelog',
+	'upgrade.free.feature.votes'
 ]
 
-const PRO_FEATURES = [
-	'Безлимитный фидбек',
-	'Доска на вашем домене',
-	'Роадмап + чейнджлог без ограничений',
-	'Интеграции и API — скоро'
+const PRO_FEATURES: DictionaryKey[] = [
+	'upgrade.pro.feature.unlimited',
+	'upgrade.pro.feature.domain',
+	'upgrade.pro.feature.roadmap',
+	'upgrade.pro.feature.integrations'
 ]
 
 export function UpgradeModal({ isPro }: { isPro: boolean }) {
+	const { t } = useI18n()
 	const [open, setOpen] = useState(false)
 	const ref = useRef<HTMLDivElement>(null)
 	const router = useRouter()
@@ -60,7 +63,7 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 		})
 		const data = await r.json().catch(() => ({}))
 		if (!r.ok || !data.url) {
-			alert(data.error ?? 'Не удалось создать оплату')
+			alert(data.error ?? t('upgrade.checkoutError'))
 			return
 		}
 		window.location.href = data.url // редирект на страницу оплаты LS
@@ -80,10 +83,10 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 				</button>
 
 				<h2 className="text-center text-2xl font-bold text-fg">
-					Выберите план
+					{t('upgrade.title')}
 				</h2>
 				<p className="mt-1.5 text-center text-fg-secondary">
-					Начните бесплатно, обновитесь, когда понадобится больше.
+					{t('upgrade.subtitle')}
 				</p>
 
 				<div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -93,16 +96,18 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 							<p className="text-lg font-semibold text-fg">Free</p>
 							{!isPro && (
 								<span className="rounded-full bg-surface px-3 py-1 text-xs text-fg-secondary">
-									Текущий план
+									{t('upgrade.free.currentPlan')}
 								</span>
 							)}
 						</div>
 						<p className="mt-3">
 							<span className="text-3xl font-bold text-fg">$0</span>{' '}
-							<span className="text-sm text-fg-muted">навсегда</span>
+							<span className="text-sm text-fg-muted">
+								{t('upgrade.free.forever')}
+							</span>
 						</p>
 						<p className="mt-2 text-sm text-fg-secondary">
-							Для старта и сбора первого фидбека.
+							{t('upgrade.free.description')}
 						</p>
 						<ul className="mt-5 space-y-2.5 border-t border-border pt-5">
 							{FREE_FEATURES.map(f => (
@@ -111,7 +116,7 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 									className="flex items-center gap-2.5 text-sm text-fg-secondary"
 								>
 									<Check className="h-4 w-4 shrink-0 text-fg" />
-									{f}
+									{t(f)}
 								</li>
 							))}
 						</ul>
@@ -119,7 +124,9 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 							disabled
 							className="mt-6 w-full rounded-xl bg-surface py-2.5 text-sm font-medium text-fg-muted"
 						>
-							{isPro ? 'Free' : 'Ваш текущий план'}
+							{isPro
+								? t('upgrade.free.button.isPro')
+								: t('upgrade.free.button.current')}
 						</button>
 					</div>
 
@@ -127,15 +134,19 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 					<div className="overflow-hidden rounded-2xl border border-border">
 						<div className="flex items-center justify-between bg-gradient-to-r from-neutral-900 via-indigo-950 to-orange-900 px-6 py-4">
 							<p className="text-lg font-semibold text-white">Pro</p>
-							<span className="text-xs text-orange-200">Популярный выбор</span>
+							<span className="text-xs text-orange-200">
+								{t('upgrade.pro.popular')}
+							</span>
 						</div>
 						<div className="p-6">
 							<p>
 								<span className="text-3xl font-bold text-fg">$10</span>{' '}
-								<span className="text-sm text-fg-muted">/ месяц</span>
+								<span className="text-sm text-fg-muted">
+									{t('upgrade.pro.perMonth')}
+								</span>
 							</p>
 							<p className="mt-2 text-sm text-fg-secondary">
-								Всё необходимое для серьёзного цикла фидбека.
+								{t('upgrade.pro.description')}
 							</p>
 							<ul className="mt-5 space-y-2.5 border-t border-border pt-5">
 								{PRO_FEATURES.map(f => (
@@ -144,7 +155,7 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 										className="flex items-center gap-2.5 text-sm text-fg-secondary"
 									>
 										<Check className="h-4 w-4 shrink-0 text-fg" />
-										{f}
+										{t(f)}
 									</li>
 								))}
 							</ul>
@@ -152,14 +163,16 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 								onClick={upgrade}
 								className="mt-6 w-full rounded-xl bg-primary py-2.5 text-sm font-medium text-primary-fg hover:opacity-90"
 							>
-								{isPro ? 'Управление подпиской' : 'Перейти на Pro'}
+								{isPro
+									? t('upgrade.pro.button.manage')
+									: t('upgrade.pro.button.upgrade')}
 							</button>
 						</div>
 					</div>
 				</div>
 
 				<p className="mt-6 border-t border-border pt-5 text-center text-sm text-fg-muted">
-					Всего два плана. Никаких сложных тарифов. Отмена в любой момент.
+					{t('upgrade.footer')}
 				</p>
 			</div>
 		</div>

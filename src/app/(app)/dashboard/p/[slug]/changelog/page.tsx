@@ -1,5 +1,6 @@
 import { ChangelogForm } from '@/components/changelog-form'
 import { changelogPosts, projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { desc, eq } from 'drizzle-orm'
@@ -13,6 +14,7 @@ export default async function OwnerChangelog({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -27,7 +29,9 @@ export default async function OwnerChangelog({
 
 	return (
 		<main className="mx-auto max-w-2xl p-8">
-			<h1 className="text-2xl font-bold text-fg">Changelog</h1>
+			<h1 className="text-2xl font-bold text-fg">
+				{t('appShell.nav.changelog')}
+			</h1>
 			<div className="mt-4">
 				<ChangelogForm slug={slug} />
 			</div>

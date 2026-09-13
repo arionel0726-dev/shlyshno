@@ -9,6 +9,8 @@ import {
 	useSensor,
 	useSensors
 } from '@dnd-kit/core'
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -23,51 +25,57 @@ export type RoadmapPost = {
 	authorImage: string | null
 }
 
-const COLUMNS = [
+const COLUMNS: {
+	key: string
+	labelKey: DictionaryKey
+	hintKey: DictionaryKey
+	dot: string
+}[] = [
 	{
 		key: 'pending',
-		label: 'Новое',
-		hint: 'Только поступило',
+		labelKey: 'postStatus.pending',
+		hintKey: 'roadmap.hint.pending',
 		dot: 'bg-neutral-400'
 	},
 	{
 		key: 'reviewing',
-		label: 'Рассматриваем',
-		hint: 'Изучаем и обсуждаем',
+		labelKey: 'postStatus.reviewing',
+		hintKey: 'roadmap.hint.reviewing',
 		dot: 'bg-amber-500'
 	},
 	{
 		key: 'planned',
-		label: 'В плане',
-		hint: 'Подтверждено, в очереди',
+		labelKey: 'postStatus.planned',
+		hintKey: 'roadmap.hint.planned',
 		dot: 'bg-blue-500'
 	},
 	{
 		key: 'in_progress',
-		label: 'В работе',
-		hint: 'Активно делаем',
+		labelKey: 'postStatus.in_progress',
+		hintKey: 'roadmap.hint.in_progress',
 		dot: 'bg-violet-500'
 	},
 	{
 		key: 'completed',
-		label: 'Сделано',
-		hint: 'Недавно выпущено',
+		labelKey: 'postStatus.completed',
+		hintKey: 'roadmap.hint.completed',
 		dot: 'bg-emerald-500'
 	}
 ] as const
 
-const TYPE_BADGE: Record<string, { label: string; cls: string }> = {
+const TYPE_BADGE: Record<string, { labelKey: DictionaryKey; cls: string }> = {
 	feature: {
-		label: 'FEATURE',
+		labelKey: 'roadmap.badge.feature',
 		cls: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500'
 	},
 	bug: {
-		label: 'BUG',
+		labelKey: 'roadmap.badge.bug',
 		cls: 'border-red-500/30 bg-red-500/10 text-red-400'
 	}
 }
 
 function Card({ post, slug }: { post: RoadmapPost; slug: string }) {
+	const { t } = useI18n()
 	const { attributes, listeners, setNodeRef, transform, isDragging } =
 		useDraggable({ id: post.id })
 	const router = useRouter()
@@ -95,7 +103,7 @@ function Card({ post, slug }: { post: RoadmapPost; slug: string }) {
 				<span
 					className={`rounded border px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${badge.cls}`}
 				>
-					{badge.label}
+					{t(badge.labelKey)}
 				</span>
 				<span className="rounded-full border border-border px-2 py-0.5 text-xs text-fg-secondary">
 					↑ {post.votesCount}
@@ -120,7 +128,7 @@ function Card({ post, slug }: { post: RoadmapPost; slug: string }) {
 					</span>
 				)}
 				<span className="text-xs text-fg-muted">
-					{post.authorName ?? 'Гость'}
+					{post.authorName ?? t('roadmap.guest')}
 				</span>
 			</div>
 		</div>
@@ -170,6 +178,7 @@ export function OwnerRoadmapBoard({
 	slug: string
 	initial: RoadmapPost[]
 }) {
+	const { t } = useI18n()
 	const [posts, setPosts] = useState(initial)
 	const router = useRouter()
 	const sensors = useSensors(
@@ -217,8 +226,8 @@ export function OwnerRoadmapBoard({
 						<Column
 							key={col.key}
 							colKey={col.key}
-							label={col.label}
-							hint={col.hint}
+							label={t(col.labelKey)}
+							hint={t(col.hintKey)}
 							dot={col.dot}
 						>
 							{items.map(p => (
@@ -230,7 +239,7 @@ export function OwnerRoadmapBoard({
 							))}
 							{items.length === 0 && (
 								<div className="rounded-xl border border-dashed border-border p-4 text-sm text-fg-faint">
-									Пусто
+									{t('roadmap.empty')}
 								</div>
 							)}
 						</Column>

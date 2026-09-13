@@ -2,16 +2,21 @@ import { PostComments } from '@/components/post-comments'
 import { PostStatusSelect } from '@/components/post-status-select'
 import { user } from '@/db/auth-schema'
 import { boards, comments, posts, projects, votes } from '@/db/schema'
+import type { Locale } from '@/i18n/config'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { and, desc, eq, sql } from 'drizzle-orm'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
-const TYPE_META: Record<string, { label: string; dot: string }> = {
-	feature: { label: 'Feature', dot: 'bg-blue-500' },
-	bug: { label: 'Bug', dot: 'bg-red-500' }
+const TYPE_META: Record<string, { labelKey: DictionaryKey; dot: string }> = {
+	feature: { labelKey: 'newRequest.type.feature', dot: 'bg-blue-500' },
+	bug: { labelKey: 'newRequest.type.bug', dot: 'bg-red-500' }
 }
+
+const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
 
 export default async function PostDetail({
 	params
@@ -21,6 +26,7 @@ export default async function PostDetail({
 	const { slug, id } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t, locale } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -63,7 +69,7 @@ export default async function PostDetail({
 				href={`/dashboard/p/${slug}`}
 				className="text-sm text-fg-muted hover:text-fg"
 			>
-				← Назад к Feedback
+				{t('postDetail.backToFeedback')}
 			</Link>
 
 			<div className="mt-4 flex gap-10">
@@ -71,7 +77,9 @@ export default async function PostDetail({
 				<main className="min-w-0 flex-1">
 					<div className="flex items-center gap-2">
 						<span className={`h-2 w-2 rounded-full ${type.dot}`} />
-						<span className="text-sm text-fg-secondary">{type.label}</span>
+						<span className="text-sm text-fg-secondary">
+							{t(type.labelKey)}
+						</span>
 					</div>
 					<h1 className="mt-2 text-3xl font-bold text-fg">{post.title}</h1>
 					{post.body && (
@@ -81,7 +89,7 @@ export default async function PostDetail({
 					)}
 
 					<h2 className="mt-10 text-sm font-semibold text-fg">
-						Обсуждение · {commentList.length}
+						{t('postDetail.discussion', { count: commentList.length })}
 					</h2>
 					<div className="mt-4">
 						<PostComments
@@ -94,7 +102,9 @@ export default async function PostDetail({
 				{/* Details panel */}
 				<aside className="w-64 shrink-0">
 					<div className="rounded-2xl border border-border p-5">
-						<p className="text-xs text-fg-faint">Статус</p>
+						<p className="text-xs text-fg-faint">
+							{t('newRequest.statusMenu.label')}
+						</p>
 						<div className="mt-1.5">
 							<PostStatusSelect
 								postId={post.id}
@@ -102,21 +112,23 @@ export default async function PostDetail({
 							/>
 						</div>
 
-						<p className="mt-5 text-xs text-fg-faint">Голоса</p>
+						<p className="mt-5 text-xs text-fg-faint">{t('postDetail.votes')}</p>
 						<p className="mt-1 text-sm font-medium text-fg">
 							▲ {votesAgg?.count ?? 0}
 						</p>
 
-						<p className="mt-5 text-xs text-fg-faint">Создано</p>
+						<p className="mt-5 text-xs text-fg-faint">
+							{t('postDetail.created')}
+						</p>
 						<p className="mt-1 text-sm text-fg">
-							{new Date(post.createdAt).toLocaleDateString('ru-RU')}
+							{new Date(post.createdAt).toLocaleDateString(DATE_LOCALE[locale])}
 						</p>
 
 						<Link
 							href={`/p/${slug}`}
 							className="mt-5 block border-t border-border pt-4 text-sm text-fg-muted underline hover:text-fg"
 						>
-							Открыть публичную доску →
+							{t('postDetail.openPublicBoard')}
 						</Link>
 					</div>
 				</aside>

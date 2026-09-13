@@ -1,6 +1,7 @@
 import { OwnerRoadmapBoard } from '@/components/owner-roadmap-board'
 import { user } from '@/db/auth-schema'
 import { boards, posts, projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { and, eq, sql } from 'drizzle-orm'
@@ -15,6 +16,7 @@ export default async function OwnerRoadmap({
 	const { slug } = await params
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -45,17 +47,16 @@ export default async function OwnerRoadmap({
 		<div className="p-8">
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-2xl font-bold text-fg">Роадмап</h1>
+					<h1 className="text-2xl font-bold text-fg">{t('roadmap.title')}</h1>
 					<p className="mt-1 text-sm text-fg-secondary">
-						Что движется: от новых идей до релизов. Перетаскивайте карточки
-						между колонками.
+						{t('roadmap.subtitle')}
 					</p>
 				</div>
 				<Link
 					href={`/dashboard/p/${slug}`}
 					className="rounded-full border border-border px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
 				>
-					Список →
+					{t('roadmap.listLink')}
 				</Link>
 			</div>
 

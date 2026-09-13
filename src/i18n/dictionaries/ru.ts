@@ -150,6 +150,65 @@ const ru = {
 	'newRequest.status.done': 'Готово',
 	'newRequest.tag.label': 'Тег',
 
+	// --- Roadmap (owner) ---
+	'roadmap.title': 'Роадмап',
+	'roadmap.subtitle':
+		'Что движется: от новых идей до релизов. Перетаскивайте карточки между колонками.',
+	'roadmap.listLink': 'Список →',
+	'roadmap.hint.pending': 'Только поступило',
+	'roadmap.hint.reviewing': 'Изучаем и обсуждаем',
+	'roadmap.hint.planned': 'Подтверждено, в очереди',
+	'roadmap.hint.in_progress': 'Активно делаем',
+	'roadmap.hint.completed': 'Недавно выпущено',
+	'roadmap.empty': 'Пусто',
+	'roadmap.guest': 'Гость',
+	'roadmap.badge.feature': 'ИДЕЯ',
+	'roadmap.badge.bug': 'БАГ',
+
+	// --- Changelog (owner) ---
+	'changelog.form.titlePlaceholder': 'Заголовок релиза, напр. «Версия 1.2»',
+	'changelog.form.bodyPlaceholder': 'Что нового',
+	'changelog.form.publish': 'Опубликовать',
+
+	// --- Post detail (owner) ---
+	'postDetail.backToFeedback': '← Назад к Feedback',
+	'postDetail.discussion': 'Обсуждение · {count}',
+	'postDetail.votes': 'Голоса',
+	'postDetail.created': 'Создано',
+	'postDetail.openPublicBoard': 'Открыть публичную доску →',
+
+	// --- Комментарии ---
+	'comments.addPlaceholder': 'Добавить комментарий...',
+	'comments.submitting': 'Отправляю…',
+	'comments.submit': 'Комментировать',
+	'comments.anonymous': 'Аноним',
+	'comments.empty': 'Пока нет комментариев — будьте первым.',
+
+	// --- Upgrade modal ---
+	'upgrade.checkoutError': 'Не удалось создать оплату',
+	'upgrade.title': 'Выберите план',
+	'upgrade.subtitle': 'Начните бесплатно, обновитесь, когда понадобится больше.',
+	'upgrade.free.currentPlan': 'Текущий план',
+	'upgrade.free.forever': 'навсегда',
+	'upgrade.free.description': 'Для старта и сбора первого фидбека.',
+	'upgrade.free.feature.board': 'Публичная доска фидбека',
+	'upgrade.free.feature.roadmap': 'Базовый роадмап',
+	'upgrade.free.feature.changelog': 'Чейнджлог',
+	'upgrade.free.feature.votes': 'До 100 голосов в месяц',
+	'upgrade.free.button.isPro': 'Free',
+	'upgrade.free.button.current': 'Ваш текущий план',
+	'upgrade.pro.popular': 'Популярный выбор',
+	'upgrade.pro.perMonth': '/ месяц',
+	'upgrade.pro.description': 'Всё необходимое для серьёзного цикла фидбека.',
+	'upgrade.pro.feature.unlimited': 'Безлимитный фидбек',
+	'upgrade.pro.feature.domain': 'Доска на вашем домене',
+	'upgrade.pro.feature.roadmap': 'Роадмап + чейнджлог без ограничений',
+	'upgrade.pro.feature.integrations': 'Интеграции и API — скоро',
+	'upgrade.pro.button.manage': 'Управление подпиской',
+	'upgrade.pro.button.upgrade': 'Перейти на Pro',
+	'upgrade.footer':
+		'Всего два плана. Никаких сложных тарифов. Отмена в любой момент.',
+
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',
 	'postStatus.reviewing': 'Рассматриваем',

@@ -1,6 +1,9 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { useState } from 'react'
+
+const DATE_LOCALE = { ru: 'ru-RU', en: 'en-US' } as const
 
 export type Comment = {
 	id: string
@@ -17,6 +20,7 @@ export function PostComments({
 	postId: string
 	initial: Comment[]
 }) {
+	const { t, locale } = useI18n()
 	const [list, setList] = useState<Comment[]>(initial)
 	const [body, setBody] = useState('')
 	const [error, setError] = useState('')
@@ -33,7 +37,7 @@ export function PostComments({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		const created = await r.json()
@@ -50,7 +54,7 @@ export function PostComments({
 				<textarea
 					value={body}
 					onChange={e => setBody(e.target.value)}
-					placeholder="Добавить комментарий..."
+					placeholder={t('comments.addPlaceholder')}
 					rows={3}
 					required
 					className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
@@ -60,7 +64,7 @@ export function PostComments({
 						disabled={saving}
 						className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
 					>
-						{saving ? 'Отправляю…' : 'Комментировать'}
+						{saving ? t('comments.submitting') : t('comments.submit')}
 					</button>
 					{error && <p className="text-sm text-red-600">{error}</p>}
 				</div>
@@ -74,18 +78,18 @@ export function PostComments({
 					>
 						<div className="flex items-center gap-2 text-xs text-fg-muted">
 							<span className="font-medium text-fg-secondary">
-								{c.authorName ?? c.authorEmail ?? 'Аноним'}
+								{c.authorName ?? c.authorEmail ?? t('comments.anonymous')}
 							</span>
 							<span>·</span>
-							<span>{new Date(c.createdAt).toLocaleDateString('ru-RU')}</span>
+							<span>
+								{new Date(c.createdAt).toLocaleDateString(DATE_LOCALE[locale])}
+							</span>
 						</div>
 						<p className="mt-1.5 text-sm text-fg">{c.body}</p>
 					</li>
 				))}
 				{list.length === 0 && (
-					<p className="text-sm text-fg-muted">
-						Пока нет комментариев — будьте первым.
-					</p>
+					<p className="text-sm text-fg-muted">{t('comments.empty')}</p>
 				)}
 			</ul>
 		</div>

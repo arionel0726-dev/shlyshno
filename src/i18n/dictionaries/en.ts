@@ -151,6 +151,65 @@ const en: Dictionary = {
 	'newRequest.status.done': 'Done',
 	'newRequest.tag.label': 'Tag',
 
+	// --- Roadmap (owner) ---
+	'roadmap.title': 'Roadmap',
+	'roadmap.subtitle':
+		"What's moving: from new ideas to releases. Drag cards between columns.",
+	'roadmap.listLink': 'List →',
+	'roadmap.hint.pending': 'Just came in',
+	'roadmap.hint.reviewing': 'Looking into it',
+	'roadmap.hint.planned': 'Confirmed, in the queue',
+	'roadmap.hint.in_progress': 'Actively being built',
+	'roadmap.hint.completed': 'Recently shipped',
+	'roadmap.empty': 'Empty',
+	'roadmap.guest': 'Guest',
+	'roadmap.badge.feature': 'FEATURE',
+	'roadmap.badge.bug': 'BUG',
+
+	// --- Changelog (owner) ---
+	'changelog.form.titlePlaceholder': 'Release title, e.g. “Version 1.2”',
+	'changelog.form.bodyPlaceholder': "What's new",
+	'changelog.form.publish': 'Publish',
+
+	// --- Post detail (owner) ---
+	'postDetail.backToFeedback': '← Back to Feedback',
+	'postDetail.discussion': 'Discussion · {count}',
+	'postDetail.votes': 'Votes',
+	'postDetail.created': 'Created',
+	'postDetail.openPublicBoard': 'Open public board →',
+
+	// --- Comments ---
+	'comments.addPlaceholder': 'Add a comment...',
+	'comments.submitting': 'Sending…',
+	'comments.submit': 'Comment',
+	'comments.anonymous': 'Anonymous',
+	'comments.empty': 'No comments yet — be the first.',
+
+	// --- Upgrade modal ---
+	'upgrade.checkoutError': 'Couldn’t start checkout',
+	'upgrade.title': 'Choose a plan',
+	'upgrade.subtitle': 'Start free, upgrade whenever you need more.',
+	'upgrade.free.currentPlan': 'Current plan',
+	'upgrade.free.forever': 'forever',
+	'upgrade.free.description': 'For getting started and collecting your first feedback.',
+	'upgrade.free.feature.board': 'Public feedback board',
+	'upgrade.free.feature.roadmap': 'Basic roadmap',
+	'upgrade.free.feature.changelog': 'Changelog',
+	'upgrade.free.feature.votes': 'Up to 100 votes / month',
+	'upgrade.free.button.isPro': 'Free',
+	'upgrade.free.button.current': 'Your current plan',
+	'upgrade.pro.popular': 'Most popular',
+	'upgrade.pro.perMonth': '/ month',
+	'upgrade.pro.description': 'Everything you need for a serious feedback loop.',
+	'upgrade.pro.feature.unlimited': 'Unlimited feedback',
+	'upgrade.pro.feature.domain': 'Board on your own domain',
+	'upgrade.pro.feature.roadmap': 'Unlimited roadmap + changelog',
+	'upgrade.pro.feature.integrations': 'Integrations and API — coming soon',
+	'upgrade.pro.button.manage': 'Manage subscription',
+	'upgrade.pro.button.upgrade': 'Upgrade to Pro',
+	'upgrade.footer':
+		'Just two plans. No confusing tiers. Cancel any time.',
+
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',
 	'postStatus.reviewing': 'Reviewing',
