@@ -3,7 +3,6 @@ import { boards, projects } from '@/db/schema'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import crypto from 'crypto'
-import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 const schema = z.object({
@@ -106,22 +105,4 @@ export async function POST(req: Request) {
 	})
 
 	return NextResponse.json(project)
-}
-export async function DELETE(
-	_req: Request,
-	{ params }: { params: Promise<{ slug: string }> }
-) {
-	const { slug } = await params
-	const session = await getSession()
-	if (!session)
-		return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
-
-	const project = await db.query.projects.findFirst({
-		where: eq(projects.slug, slug)
-	})
-	if (!project || project.ownerId !== session.user.id)
-		return NextResponse.json({ error: 'Только владелец' }, { status: 403 })
-
-	await db.delete(projects).where(eq(projects.id, project.id))
-	return NextResponse.json({ ok: true })
 }

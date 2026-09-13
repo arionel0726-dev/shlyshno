@@ -45,3 +45,22 @@ export async function PATCH(
 
 	return NextResponse.json(updated)
 }
+
+export async function DELETE(
+	_req: Request,
+	{ params }: { params: Promise<{ slug: string }> }
+) {
+	const { slug } = await params
+	const session = await getSession()
+	if (!session)
+		return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
+
+	const project = await db.query.projects.findFirst({
+		where: eq(projects.slug, slug)
+	})
+	if (!project || project.ownerId !== session.user.id)
+		return NextResponse.json({ error: 'Только владелец' }, { status: 403 })
+
+	await db.delete(projects).where(eq(projects.id, project.id))
+	return NextResponse.json({ ok: true })
+}

@@ -6,7 +6,7 @@ export function LandingAuth({
 	mode,
 	label
 }: {
-	mode: 'header' | 'hero' | 'pricing'
+	mode: 'header' | 'hero' | 'pricing' | 'cta'
 	label?: string
 }) {
 	const base =

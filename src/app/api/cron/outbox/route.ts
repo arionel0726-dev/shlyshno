@@ -38,7 +38,7 @@ export async function GET(req: Request) {
 		} catch {
 			await db
 				.update(outbox)
-				.set({ attempts: item.attempts + 1 })
+				.set({ attempts: (item.attempts ?? 0) + 1 })
 				.where(eq(outbox.id, item.id))
 		}
 	}

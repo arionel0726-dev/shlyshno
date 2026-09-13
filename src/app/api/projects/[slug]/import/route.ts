@@ -1,12 +1,14 @@
-import { boards, posts, projects } from '@/db/schema'
+import { boards, postStatusEnum, posts, projects } from '@/db/schema'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { and, eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
+type PostStatus = (typeof postStatusEnum.enumValues)[number]
+
 // Маппинг статусов Canny → наши
-const STATUS_MAP: Record<string, string> = {
+const STATUS_MAP: Record<string, PostStatus> = {
 	open: 'pending',
 	under_review: 'reviewing',
 	reviewing: 'reviewing',

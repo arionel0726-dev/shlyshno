@@ -30,8 +30,9 @@ export async function POST(req: Request) {
 	const customData: Record<string, unknown> | undefined =
 		meta.custom_data ?? meta.custom
 
-	const projectId = customData?.project_id as string | undefined
-	if (!projectId) return NextResponse.json({ ok: true })
+	const projectIdRaw = customData?.project_id as string | undefined
+	if (!projectIdRaw) return NextResponse.json({ ok: true })
+	const projectId: string = projectIdRaw
 
 	const sub = payload.data
 	const attrs: Record<string, any> = sub?.attributes ?? {}
