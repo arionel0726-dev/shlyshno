@@ -101,13 +101,16 @@ export default async function Roadmap({
 				<p className="mt-1 text-sm text-fg-secondary">
 					{t('portal.roadmap.subtitle')}
 				</p>
-				<div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
 					{COLUMNS.map(col => {
 						const items = list
 							.filter(p => p.status === col.status)
 							.sort((a, b) => b.votesCount - a.votesCount)
 						return (
-							<section key={col.status}>
+							<section
+								className="min-w-[min(82vw,280px)] snap-start sm:min-w-0"
+								key={col.status}
+							>
 								<div className="flex items-center gap-2">
 									<span className={`h-2 w-2 rounded-full ${col.dot}`} />
 									<h2 className="text-sm font-semibold text-fg">

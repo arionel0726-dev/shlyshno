@@ -146,13 +146,13 @@ export function BoardView({
 			/>
 
 			{/* Фильтры-табы статусов */}
-			<div className="border-b border-border">
-				<div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-6 py-3 text-sm">
+			<div className="overflow-hidden border-b border-border">
+				<div className="mx-auto flex max-w-6xl min-w-max items-center gap-x-5 overflow-x-auto px-6 py-3 text-sm">
 					{STATUSES.map(s => (
 						<button
 							key={s.key}
 							onClick={() => setStatus(s.key)}
-							className={`flex items-center gap-1.5 ${
+							className={`flex min-h-11 items-center gap-1.5 lg:min-h-0 ${
 								status === s.key
 									? 'font-medium text-fg'
 									: 'text-fg-secondary hover:text-fg'
@@ -176,7 +176,7 @@ export function BoardView({
 			</div>
 
 			{/* Контент + сайдбар */}
-			<div className="mx-auto flex max-w-6xl gap-10 px-6 py-8">
+			<div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-8 lg:flex-row">
 				<main className="min-w-0 flex-1">
 					{filtered.length === 0 && (
 						<p className="py-12 text-center text-sm text-fg-muted">
@@ -189,6 +189,18 @@ export function BoardView({
 						return (
 							<div
 								key={p.id}
+								onClick={event => {
+									if ((event.target as HTMLElement).closest('button')) return
+									router.push(`/p/${slug}/post/${p.id}`)
+								}}
+								onKeyDown={event => {
+									if (event.key === 'Enter' || event.key === ' ') {
+										event.preventDefault()
+										router.push(`/p/${slug}/post/${p.id}`)
+									}
+								}}
+								role="link"
+								tabIndex={0}
 								className="flex gap-4 border-b border-border-soft py-5"
 							>
 								{p.authorImage ? (
@@ -243,7 +255,7 @@ export function BoardView({
 								</div>
 								<button
 									onClick={() => vote(p.id)}
-									className={`flex h-fit shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
+									className={`flex min-h-11 min-w-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition-colors lg:min-h-0 lg:min-w-0 ${
 										voted
 											? 'border-primary bg-primary text-primary-fg'
 											: 'border-border text-fg-secondary hover:bg-surface'
@@ -257,7 +269,7 @@ export function BoardView({
 				</main>
 
 				{/* Сайдбар */}
-				<aside className="hidden w-60 shrink-0 lg:block">
+				<aside className="w-full shrink-0 lg:w-60">
 					<button
 						onClick={() => setComposerOpen(true)}
 						className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 py-2.5 text-sm font-medium text-white hover:bg-violet-500"

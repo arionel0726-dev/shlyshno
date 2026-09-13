@@ -26,7 +26,7 @@ export function PortalActions() {
 		<div className="flex flex-col gap-0.5 text-sm">
 			<button
 				onClick={copy}
-				className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface"
+				className="flex min-h-11 items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface lg:min-h-0"
 			>
 				{copied ? (
 					<Check className="h-4 w-4 text-emerald-500" />
@@ -37,7 +37,7 @@ export function PortalActions() {
 			</button>
 			<button
 				onClick={share}
-				className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface"
+				className="flex min-h-11 items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface lg:min-h-0"
 			>
 				<Share2 className="h-4 w-4" />
 				{t('portal.sidebar.share')}
