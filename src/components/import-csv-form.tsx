@@ -76,7 +76,7 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 
 	return (
 		<div>
-			<label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border p-8 text-center hover:bg-surface">
+			<label className="flex min-h-11 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border p-4 text-center hover:bg-surface sm:p-8">
 				<Upload className="h-5 w-5 text-fg-muted" />
 				<p className="mt-2 text-sm text-fg-secondary">{t('import.pickFile')}</p>
 				<p className="mt-0.5 text-xs text-fg-faint">{t('import.limitHint')}</p>
@@ -113,7 +113,7 @@ export function ImportCsvForm({ slug }: { slug: string }) {
 					<button
 						onClick={importRows}
 						disabled={importing}
-						className="mt-3 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
+						className="mt-3 min-h-11 w-full rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50 sm:w-auto lg:min-h-0"
 					>
 						{importing
 							? t('import.submit.importing')

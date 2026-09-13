@@ -64,7 +64,7 @@ export default async function AccountSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('settings.nav.profile')}
 			</p>
-			<div className="mt-3 rounded-2xl border border-border p-6">
+			<div className="mt-3 rounded-2xl border border-border p-4 sm:p-6">
 				{authUser?.image ? (
 					// eslint-disable-next-line @next/next/no-img-element
 					<img
@@ -80,7 +80,7 @@ export default async function AccountSettings({
 				<div className="mt-4">
 					<AccountForm initialName={authUser?.name ?? ''} />
 				</div>
-				<div className="mt-4 flex items-center justify-between border-t border-border pt-4">
+				<div className="mt-4 flex flex-col items-start gap-2 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
 					<div>
 						<p className="text-sm font-medium text-fg">
 							{t('auth.field.email')}
@@ -103,7 +103,7 @@ export default async function AccountSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('account.signIn.title')}
 			</p>
-			<div className="mt-3 flex items-center justify-between rounded-2xl border border-border p-6">
+			<div className="mt-3 flex flex-col items-start gap-2 rounded-2xl border border-border p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
 				<div>
 					<p className="text-sm font-medium text-fg">
 						{t('account.signIn.method')}
@@ -114,7 +114,7 @@ export default async function AccountSettings({
 						})}
 					</p>
 				</div>
-				<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-secondary">
+				<span className="w-full rounded-lg border border-border px-3 py-1.5 text-center text-sm text-fg-secondary sm:w-auto">
 					{authAccount?.providerId === 'google' ? 'Google' : 'Email'}
 				</span>
 			</div>
@@ -122,7 +122,7 @@ export default async function AccountSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('account.subscription.title')}
 			</p>
-			<div className="mt-3 rounded-2xl border border-border p-6">
+			<div className="mt-3 rounded-2xl border border-border p-4 sm:p-6">
 				{subs.length === 0 ? (
 					<div>
 						<p className="text-sm font-medium text-fg">
@@ -151,7 +151,7 @@ export default async function AccountSettings({
 							display.endsAt > now
 
 						return (
-							<div className="flex items-center justify-between gap-4">
+							<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 								<div>
 									<p className="text-sm font-medium text-fg">Pro</p>
 									{display.status === 'active' && renews && (

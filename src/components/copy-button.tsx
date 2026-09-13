@@ -18,7 +18,7 @@ export function CopyButton({ text }: { text: string }) {
 	return (
 		<button
 			onClick={copy}
-			className="flex shrink-0 items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-fg hover:bg-surface"
+			className="flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-fg hover:bg-surface lg:min-h-0"
 		>
 			{copied ? (
 				<Check className="h-4 w-4 text-emerald-500" />
