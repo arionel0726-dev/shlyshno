@@ -1,5 +1,6 @@
 import { CopyButton } from '@/components/copy-button'
 import { projects } from '@/db/schema'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
 import { desc, eq } from 'drizzle-orm'
@@ -9,6 +10,7 @@ import { redirect } from 'next/navigation'
 export default async function Dashboard() {
 	const session = await getSession()
 	if (!session) redirect('/')
+	const { t } = await getT()
 
 	const myProjects = await db.query.projects.findMany({
 		where: eq(projects.ownerId, session.user.id),
@@ -18,19 +20,17 @@ export default async function Dashboard() {
 	return (
 		<main className="mx-auto max-w-3xl p-8">
 			<div className="flex items-center justify-between gap-4">
-				<h1 className="text-2xl font-bold text-fg">Мои проекты</h1>
+				<h1 className="text-2xl font-bold text-fg">{t('dashboard.title')}</h1>
 				<Link
 					href="/new"
 					className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90"
 				>
-					+ Новое пространство
+					{t('dashboard.newWorkspace')}
 				</Link>
 			</div>
 
 			{myProjects.length === 0 ? (
-				<p className="mt-8 text-sm text-fg-muted">
-					Пока пусто. Создайте первое пространство — это займёт минуту.
-				</p>
+				<p className="mt-8 text-sm text-fg-muted">{t('dashboard.empty')}</p>
 			) : (
 				<ul className="mt-6 space-y-3">
 					{myProjects.map(p => {
@@ -60,19 +60,19 @@ export default async function Dashboard() {
 											href={`/p/${p.slug}`}
 											className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-secondary hover:bg-surface"
 										>
-											Открыть
+											{t('dashboard.open')}
 										</Link>
 										<Link
 											href={`/dashboard/p/${p.slug}`}
 											className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-fg hover:opacity-90"
 										>
-											Управление
+											{t('dashboard.manage')}
 										</Link>
 									</div>
 								</div>
 								<details className="mt-4 border-t border-border pt-3">
 									<summary className="cursor-pointer text-sm text-fg-muted hover:text-fg">
-										Виджет для сайта
+										{t('dashboard.widgetForSite')}
 									</summary>
 									<div className="mt-3 flex items-start justify-between gap-3">
 										<pre className="min-w-0 flex-1 overflow-x-auto rounded-lg bg-surface p-3 font-mono text-xs text-fg">

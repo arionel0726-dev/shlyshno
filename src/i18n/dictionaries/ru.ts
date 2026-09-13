@@ -12,6 +12,33 @@ const ru = {
 	'common.copied': 'Скопировано',
 	'common.back': 'Назад',
 	'common.error.generic': 'Что-то пошло не так',
+	'common.error.short': 'Ошибка',
+	'common.optional': 'необязательно',
+
+	// --- Онбординг (Create workspace) ---
+	'onboarding.title': 'Создайте рабочее пространство',
+	'onboarding.subtitle': 'Дом для фидбека, роадмапа и релизных обновлений.',
+	'onboarding.editLater': 'Эти данные можно изменить позже в настройках.',
+	'onboarding.field.website': 'Сайт · необязательно',
+	'onboarding.field.name': 'Название пространства',
+	'onboarding.field.namePlaceholder': 'Мой продукт',
+	'onboarding.field.slug': 'Адрес публичной доски',
+	'onboarding.submit.creating': 'Создаю…',
+	'onboarding.submit.create': 'Создать пространство',
+
+	// --- Dashboard (список проектов) ---
+	'dashboard.title': 'Мои проекты',
+	'dashboard.newWorkspace': '+ Новое пространство',
+	'dashboard.empty': 'Пока пусто. Создайте первое пространство — это займёт минуту.',
+	'dashboard.open': 'Открыть',
+	'dashboard.manage': 'Управление',
+	'dashboard.widgetForSite': 'Виджет для сайта',
+
+	// --- Settings: danger zone ---
+	'settings.deleteProject.title': 'Удалить проект',
+	'settings.deleteProject.description':
+		'Вся доска, карточки и чейнджлог будут удалены безвозвратно.',
+	'settings.deleteProject.confirm': 'Точно удалить',
 
 	// --- App shell (сайдбар) ---
 	'appShell.newRequest': 'Новый реквест',
@@ -56,7 +83,9 @@ const ru = {
 	'auth.submit.signup': 'Создать аккаунт',
 	'auth.submit.signin': 'Войти',
 	'auth.footer.haveAccount': 'Уже есть аккаунт?',
-	'auth.footer.noAccount': 'Нет аккаунта?'
+	'auth.footer.noAccount': 'Нет аккаунта?',
+	'auth.footer.legal':
+		'Продолжая, вы принимаете Условия использования и Политику конфиденциальности.'
 } as const
 
 export type DictionaryKey = keyof typeof ru

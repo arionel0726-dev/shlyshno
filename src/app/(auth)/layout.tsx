@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { getT } from '@/i18n/server'
 
-export default function AuthLayout({
+export default async function AuthLayout({
 	children
 }: {
 	children: React.ReactNode
 }) {
+	const { t } = await getT()
 	return (
 		<div className="relative flex min-h-screen flex-col">
 			<header className="p-6">
@@ -19,8 +21,7 @@ export default function AuthLayout({
 				{children}
 			</main>
 			<footer className="p-6 text-center text-xs text-fg-muted">
-				Продолжая, вы принимаете Условия использования и Политику
-				конфиденциальности.
+				{t('auth.footer.legal')}
 			</footer>
 		</div>
 	)

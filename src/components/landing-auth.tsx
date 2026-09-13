@@ -1,6 +1,7 @@
 // src/components/landing-auth.tsx
 'use client'
 import { signIn } from '@/lib/auth-client'
+import { useI18n } from '@/i18n/context'
 
 export function LandingAuth({
 	mode,
@@ -9,6 +10,7 @@ export function LandingAuth({
 	mode: 'header' | 'hero' | 'pricing' | 'cta'
 	label?: string
 }) {
+	const { t } = useI18n()
 	const base =
 		mode === 'hero'
 			? 'landing-auth landing-auth-hero'
@@ -23,7 +25,7 @@ export function LandingAuth({
 			}
 			className={base}
 		>
-			{label ?? 'Войти'}
+			{label ?? t('auth.submit.signin')}
 		</button>
 	)
 }

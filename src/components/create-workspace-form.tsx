@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -52,6 +53,7 @@ function slugify(name: string) {
 }
 
 export function CreateWorkspaceForm() {
+	const { t } = useI18n()
 	const [website, setWebsite] = useState('')
 	const [name, setName] = useState('')
 	const [slug, setSlug] = useState('')
@@ -81,7 +83,7 @@ export function CreateWorkspaceForm() {
 		const data = await r.json().catch(() => ({}))
 		setLoading(false)
 		if (!r.ok) {
-			setError(data.error ?? 'Ошибка')
+			setError(data.error ?? t('common.error.short'))
 			return
 		}
 		router.push(`/dashboard/p/${data.slug}`)
@@ -98,7 +100,7 @@ export function CreateWorkspaceForm() {
 		>
 			<div>
 				<label className="text-sm font-medium text-fg">
-					Сайт · необязательно
+					{t('onboarding.field.website')}
 				</label>
 				<input
 					value={website}
@@ -110,12 +112,12 @@ export function CreateWorkspaceForm() {
 
 			<div>
 				<label className="text-sm font-medium text-fg">
-					Название пространства
+					{t('onboarding.field.name')}
 				</label>
 				<input
 					value={name}
 					onChange={e => onNameChange(e.target.value)}
-					placeholder="Мой продукт"
+					placeholder={t('onboarding.field.namePlaceholder')}
 					required
 					className={`mt-1.5 ${inputCls}`}
 				/>
@@ -123,7 +125,7 @@ export function CreateWorkspaceForm() {
 
 			<div>
 				<label className="text-sm font-medium text-fg">
-					Адрес публичной доски
+					{t('onboarding.field.slug')}
 				</label>
 				<div className="relative mt-1.5">
 					<input
@@ -147,7 +149,7 @@ export function CreateWorkspaceForm() {
 				disabled={loading}
 				className="mt-1 h-12 rounded-xl bg-primary text-[15px] font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
 			>
-				{loading ? 'Создаю…' : 'Создать пространство'}
+				{loading ? t('onboarding.submit.creating') : t('onboarding.submit.create')}
 			</button>
 
 			{error && <p className="text-sm text-red-600">{error}</p>}

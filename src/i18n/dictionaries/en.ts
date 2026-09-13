@@ -13,6 +13,33 @@ const en: Dictionary = {
 	'common.copied': 'Copied',
 	'common.back': 'Back',
 	'common.error.generic': 'Something went wrong',
+	'common.error.short': 'Error',
+	'common.optional': 'optional',
+
+	// --- Onboarding (Create workspace) ---
+	'onboarding.title': 'Create your workspace',
+	'onboarding.subtitle': 'A home for feedback, roadmap, and release updates.',
+	'onboarding.editLater': 'You can change this later in settings.',
+	'onboarding.field.website': 'Website · optional',
+	'onboarding.field.name': 'Workspace name',
+	'onboarding.field.namePlaceholder': 'My product',
+	'onboarding.field.slug': 'Public board address',
+	'onboarding.submit.creating': 'Creating…',
+	'onboarding.submit.create': 'Create workspace',
+
+	// --- Dashboard (project list) ---
+	'dashboard.title': 'My projects',
+	'dashboard.newWorkspace': '+ New workspace',
+	'dashboard.empty': 'Nothing here yet. Create your first workspace — it takes a minute.',
+	'dashboard.open': 'Open',
+	'dashboard.manage': 'Manage',
+	'dashboard.widgetForSite': 'Widget for your site',
+
+	// --- Settings: danger zone ---
+	'settings.deleteProject.title': 'Delete project',
+	'settings.deleteProject.description':
+		'The board, all cards, and the changelog will be permanently deleted.',
+	'settings.deleteProject.confirm': 'Yes, delete',
 
 	// --- App shell (sidebar) ---
 	'appShell.newRequest': 'New request',
@@ -57,7 +84,9 @@ const en: Dictionary = {
 	'auth.submit.signup': 'Create account',
 	'auth.submit.signin': 'Sign in',
 	'auth.footer.haveAccount': 'Already have an account?',
-	'auth.footer.noAccount': 'Don’t have an account?'
+	'auth.footer.noAccount': 'Don’t have an account?',
+	'auth.footer.legal':
+		'By continuing, you agree to the Terms of Service and Privacy Policy.'
 }
 
 export default en
