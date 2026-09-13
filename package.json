@@ -9,15 +9,32 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@lemonsqueezy/lemonsqueezy.js": "^4.0.0",
+    "better-auth": "^1.7.4",
+    "drizzle-orm": "^0.45.2",
+    "fumadocs-core": "14",
+    "fumadocs-mdx": "11",
+    "fumadocs-ui": "14",
+    "geist": "^1.7.2",
+    "lucide-react": "^1.45.0",
+    "motion": "^13.2.0",
     "next": "16.3.4",
+    "papaparse": "^5.7.0",
+    "postgres": "^3.4.9",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "resend": "^6.27.0",
+    "zod": "^4.6.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",

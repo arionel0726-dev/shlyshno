@@ -1,0 +1,96 @@
+import { PortalHeader } from '@/components/portal-header'
+import { user } from '@/db/auth-schema'
+import { changelogPosts, projects } from '@/db/schema'
+import { db } from '@/lib/db'
+import { desc, eq } from 'drizzle-orm'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+export default async function Changelog({
+	params
+}: {
+	params: Promise<{ slug: string }>
+}) {
+	const { slug } = await params
+
+	const project = await db.query.projects.findFirst({
+		where: eq(projects.slug, slug)
+	})
+	if (!project) notFound()
+
+	const list = await db
+		.select({
+			id: changelogPosts.id,
+			title: changelogPosts.title,
+			body: changelogPosts.body,
+			publishAt: changelogPosts.publishAt,
+			authorName: user.name,
+			authorImage: user.image
+		})
+		.from(changelogPosts)
+		.leftJoin(projects, eq(changelogPosts.projectId, projects.id))
+		.leftJoin(user, eq(projects.ownerId, user.id))
+		.where(eq(changelogPosts.projectId, project.id))
+		.orderBy(desc(changelogPosts.publishAt))
+
+	return (
+		<div className="min-h-screen">
+			<PortalHeader
+				slug={slug}
+				projectName={project.name}
+			/>
+			<main className="mx-auto max-w-3xl px-6 py-10">
+				<h1 className="text-2xl font-bold text-fg">Обновления</h1>
+				<p className="mt-1 text-sm text-fg-secondary">
+					Что нового в {project.name}.
+				</p>
+
+				<div className="mt-10">
+					{list.map(e => (
+						<Link
+							key={e.id}
+							href={`/p/${slug}/changelog/${e.id}`}
+							className="group block border-l-2 border-border pl-6 pb-10"
+						>
+							<p className="text-xs text-fg-muted">
+								{e.publishAt
+									? new Date(e.publishAt).toLocaleDateString('ru-RU', {
+											day: 'numeric',
+											month: 'long',
+											year: 'numeric'
+										})
+									: ''}
+							</p>
+							<p className="mt-1.5 text-lg font-semibold text-fg group-hover:underline">
+								{e.title}
+							</p>
+							<p className="mt-1.5 line-clamp-2 text-sm text-fg-secondary">
+								{e.body}
+							</p>
+							<div className="mt-3 flex items-center gap-2 text-xs text-fg-muted">
+								{e.authorImage ? (
+									// eslint-disable-next-line @next/next/no-img-element
+									<img
+										src={e.authorImage}
+										alt=""
+										className="h-5 w-5 rounded-full"
+									/>
+								) : (
+									<span className="flex h-5 w-5 items-center justify-center rounded-full bg-surface text-[10px] font-medium text-fg">
+										{e.authorName?.[0]?.toUpperCase() ?? '?'}
+									</span>
+								)}
+								{e.authorName ?? 'Команда'}
+							</div>
+						</Link>
+					))}
+					{list.length === 0 && (
+						<p className="py-12 text-center text-sm text-fg-muted">
+							Пока пусто — следите за обновлениями.
+						</p>
+					)}
+				</div>
+			</main>
+		</div>
+	)
+}
