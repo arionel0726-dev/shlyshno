@@ -10,6 +10,7 @@ import {
 	LayoutDashboard,
 	LifeBuoy,
 	Map,
+	Menu,
 	MessageSquare,
 	PanelsTopLeft,
 	Settings,
@@ -35,6 +36,7 @@ export function AppShell({
 	const router = useRouter()
 	const { t, locale, setLocale } = useI18n()
 	const [collapsed, setCollapsed] = useState(false)
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 	const [menuOpen, setMenuOpen] = useState(false)
 	const menuRef = useRef<HTMLDivElement>(null)
 	const pathname = usePathname()
@@ -87,6 +89,7 @@ export function AppShell({
 
 	useEffect(() => {
 		setMenuOpen(false)
+		setMobileMenuOpen(false)
 	}, [pathname])
 
 	useEffect(() => {
@@ -113,10 +116,26 @@ export function AppShell({
 	}
 
 	return (
-		<div className="flex h-screen gap-4 bg-background p-4">
+		<div className="relative flex h-screen gap-4 overflow-x-hidden bg-background p-4">
+			<button
+				type="button"
+				onClick={() => setMobileMenuOpen(true)}
+				className="fixed top-7 left-7 z-30 flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-border bg-background text-fg lg:hidden"
+			>
+				<Menu className="h-5 w-5" />
+			</button>
+			{mobileMenuOpen && (
+				<button
+					type="button"
+					onClick={() => setMobileMenuOpen(false)}
+					className="fixed inset-0 z-30 bg-black/20 lg:hidden"
+				/>
+			)}
 			{/* Сайдбар */}
 			<aside
-				className={`flex flex-col rounded-2xl border border-border bg-background p-3 transition-all ${
+				className={`fixed inset-y-4 left-4 z-40 flex flex-col rounded-2xl border border-border bg-background p-3 transition-all lg:static lg:inset-auto lg:z-auto lg:translate-x-0 ${
+					mobileMenuOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
+				} ${
 					collapsed ? 'w-[72px] items-center' : 'w-64'
 				}`}
 			>
@@ -132,7 +151,7 @@ export function AppShell({
 
 				{/* New request */}
 				<button
-					className={`mt-2 flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-medium text-fg hover:bg-surface-hover ${
+					className={`mt-2 flex min-h-11 items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-medium text-fg hover:bg-surface-hover lg:min-h-0 ${
 						collapsed ? 'justify-center' : ''
 					}`}
 					title={t('appShell.newRequest')}
@@ -195,7 +214,7 @@ export function AppShell({
 						onClick={() =>
 							window.dispatchEvent(new CustomEvent('slyshno:upgrade'))
 						}
-						className={`mb-2 flex w-full items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-medium text-fg hover:bg-surface ${
+						className={`mb-2 flex min-h-11 w-full items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-medium text-fg hover:bg-surface lg:min-h-0 ${
 							collapsed ? 'justify-center' : ''
 						}`}
 						title={t('appShell.upgradeToPro')}
@@ -208,14 +227,14 @@ export function AppShell({
 					onClick={() =>
 						window.dispatchEvent(new CustomEvent('slyshno:support'))
 					}
-					className="flex w-full items-center gap-3 px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
+					className="flex min-h-11 w-full items-center gap-3 px-4 py-2 text-sm text-fg-secondary hover:bg-surface lg:min-h-0"
 				>
 					<LifeBuoy className="h-4 w-4" /> Поддержка
 				</button>
 				{/* Collapse */}
 				<button
 					onClick={() => setCollapsed(!collapsed)}
-					className={`mt-2 flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-fg-secondary hover:bg-surface ${
+					className={`mt-2 flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-sm text-fg-secondary hover:bg-surface lg:min-h-0 ${
 						collapsed ? 'justify-center' : ''
 					}`}
 				>
@@ -258,7 +277,7 @@ export function AppShell({
 									<Link
 										key={i.label}
 										href={i.href}
-										className="flex items-center gap-3 px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
+										className="flex min-h-11 items-center gap-3 px-4 py-2 text-sm text-fg-secondary hover:bg-surface lg:min-h-0"
 									>
 										<i.icon className="h-4 w-4" /> {i.label}
 									</Link>
@@ -290,7 +309,7 @@ export function AppShell({
 
 					<button
 						onClick={() => setMenuOpen(!menuOpen)}
-						className={`flex w-full items-center gap-3 rounded-xl p-2 hover:bg-surface ${
+						className={`flex min-h-11 w-full items-center gap-3 rounded-xl p-2 hover:bg-surface lg:min-h-0 ${
 							collapsed ? 'justify-center' : ''
 						}`}
 					>
@@ -328,7 +347,7 @@ export function AppShell({
 			</aside>
 
 			{/* Контент */}
-			<main className="flex-1 overflow-y-auto">{children}</main>
+			<main className="flex-1 overflow-y-auto pt-16 lg:pt-0">{children}</main>
 			<UpgradeModal isPro={isPro} />
 			<SupportModal />
 			{showProToast && (
@@ -353,7 +372,7 @@ function NavItem({
 		<Link
 			href={item.href}
 			title={item.label}
-			className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm ${
+			className={`flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-sm lg:min-h-0 ${
 				collapsed ? 'justify-center' : ''
 			} ${
 				active

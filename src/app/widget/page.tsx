@@ -196,7 +196,7 @@ function WidgetInner() {
 			{showBack ? (
 				<button
 					onClick={() => setView('home')}
-					className="rounded-lg p-1.5 text-fg-secondary hover:bg-surface"
+					className="flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1.5 text-fg-secondary hover:bg-surface sm:min-h-0 sm:min-w-0"
 				>
 					<ArrowLeft className="h-4 w-4" />
 				</button>
@@ -204,7 +204,7 @@ function WidgetInner() {
 			<p className="text-sm font-semibold text-fg">{title}</p>
 			<button
 				onClick={close}
-				className="ml-auto rounded-lg p-1.5 text-fg-muted hover:bg-surface"
+				className="ml-auto flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1.5 text-fg-muted hover:bg-surface sm:min-h-0 sm:min-w-0"
 			>
 				<X className="h-4 w-4" />
 			</button>
@@ -225,7 +225,7 @@ function WidgetInner() {
 	)
 
 	return (
-		<div className="flex h-screen flex-col bg-background">
+		<div className="flex h-screen min-w-0 flex-col overflow-x-hidden bg-background">
 			{view === 'home' && (
 				<>
 					<div className="flex items-start justify-between border-b border-border p-5">
@@ -237,7 +237,7 @@ function WidgetInner() {
 						</div>
 						<button
 							onClick={close}
-							className="rounded-lg p-1.5 text-fg-muted hover:bg-surface"
+							className="flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1.5 text-fg-muted hover:bg-surface sm:min-h-0 sm:min-w-0"
 						>
 							<X className="h-4 w-4" />
 						</button>
@@ -283,7 +283,7 @@ function WidgetInner() {
 								value={query}
 								onChange={e => setQuery(e.target.value)}
 								placeholder={t('widget.feedback.searchPlaceholder')}
-								className="w-full rounded-full border border-border bg-background py-2 pr-3 pl-8 text-xs text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="w-full rounded-full border border-border bg-background py-2 pr-3 pl-8 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-xs"
 							/>
 						</div>
 					</div>
@@ -327,7 +327,7 @@ function WidgetInner() {
 									</div>
 									<button
 										onClick={() => vote(p.id)}
-										className={`flex h-fit shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-xs ${
+									className={`flex min-h-11 min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border px-2.5 py-1 text-xs sm:min-h-0 sm:min-w-0 ${
 											voted
 												? 'border-primary bg-primary text-primary-fg'
 												: 'border-border text-fg-secondary'
@@ -373,7 +373,7 @@ function WidgetInner() {
 										setSent(false)
 										setView('feedback')
 									}}
-									className="mt-4 rounded-full border border-border px-4 py-2 text-xs text-fg-secondary"
+									className="mt-4 min-h-11 rounded-full border border-border px-4 py-2 text-xs text-fg-secondary sm:min-h-0"
 								>
 									{t('widget.submit.backToIdeas')}
 								</button>
@@ -385,21 +385,21 @@ function WidgetInner() {
 									onChange={e => setTitle(e.target.value)}
 									placeholder={t('widget.submit.titlePlaceholder')}
 									rows={2}
-									className="w-full resize-none bg-transparent text-[15px] font-medium text-fg outline-none placeholder:text-fg-faint"
+									className="w-full resize-none bg-transparent text-base font-medium text-fg outline-none placeholder:text-fg-faint sm:text-[15px]"
 								/>
 								<textarea
 									value={body}
 									onChange={e => setBody(e.target.value)}
 									placeholder={t('portal.composer.bodyPlaceholder')}
 									rows={5}
-									className="mt-2 w-full resize-none bg-transparent text-sm text-fg outline-none placeholder:text-fg-faint"
+									className="mt-2 w-full resize-none bg-transparent text-base text-fg outline-none placeholder:text-fg-faint sm:text-sm"
 								/>
 								<input
 									type="email"
 									value={email}
 									onChange={e => setEmail(e.target.value)}
 									placeholder={t('widget.submit.emailPlaceholder')}
-									className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+									className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-xs"
 								/>
 								{error && <p className="mt-2 text-xs text-red-600">{error}</p>}
 							</>

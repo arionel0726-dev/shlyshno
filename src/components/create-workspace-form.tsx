@@ -91,7 +91,7 @@ export function CreateWorkspaceForm() {
 	}
 
 	const inputCls =
-		'w-full rounded-xl border border-border bg-background px-4 py-3 text-[15px] text-fg outline-none placeholder:text-fg-faint focus:border-border-strong'
+		'w-full rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-[15px]'
 
 	return (
 		<form

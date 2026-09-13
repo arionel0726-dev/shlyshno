@@ -229,7 +229,7 @@ export default async function Pricing() {
 				<p className="mt-3 text-fg-secondary">
 					{t('pricing.finalCta.subtitle')}
 				</p>
-				<div className="mt-8 flex items-center justify-center gap-3">
+				<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
 					<LandingAuth
 						mode="cta"
 						label={t('landing.cta.startFree')}
