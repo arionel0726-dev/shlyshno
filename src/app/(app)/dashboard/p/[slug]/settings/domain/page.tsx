@@ -1,5 +1,5 @@
 import { CopyButton } from '@/components/copy-button'
-import { projects } from '@/db/schema'
+import { projects, subscriptions } from '@/db/schema'
 import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
@@ -15,6 +15,18 @@ export default async function DomainSettings({
 	const session = await getSession()
 	if (!session) redirect('/')
 	const { t } = await getT()
+
+	const now = new Date()
+	const subs = await db
+		.select({ status: subscriptions.status, endsAt: subscriptions.endsAt })
+		.from(subscriptions)
+		.leftJoin(projects, eq(subscriptions.projectId, projects.id))
+		.where(eq(projects.ownerId, session.user.id))
+	const isPro = subs.some(
+		s =>
+			['active', 'past_due', 'on_trial'].includes(s.status) ||
+			(s.status === 'cancelled' && s.endsAt && s.endsAt > now)
+	)
 
 	const project = await db.query.projects.findFirst({
 		where: eq(projects.slug, slug)
@@ -64,7 +76,7 @@ export default async function DomainSettings({
 				{t('settings.domain.customDomain')}
 			</p>
 			<div className="mt-3 rounded-2xl border border-border p-6">
-				{project.plan === 'pro' ? (
+				{isPro ? (
 					<div>
 						<p className="font-mono text-sm text-fg">feedback.yourdomain.com</p>
 						<p className="mt-1 text-sm text-fg-muted">
@@ -89,7 +101,7 @@ export default async function DomainSettings({
 						</button>
 					</div>
 				)}
-				{project.plan !== 'pro' && (
+				{!isPro && (
 					<div className="mt-4 rounded-xl bg-surface px-4 py-3">
 						<p className="text-sm text-fg-secondary">
 							{t('settings.domain.availableOnPro')}

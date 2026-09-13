@@ -118,11 +118,13 @@ Orbit Design Template v2 (у пользователя, бренд Orbit = пле
 16. Виджет в Firefox может блокироваться ETP/блокировщиками — тестировать в
     Chrome
 17. i18n: cookie 'slyshno-locale' → Accept-Language → ru; словари
-    src/i18n/dictionaries/{ru,en}.ts (typed keys); серверные компоненты —
-    const { t } = await getT() из src/i18n/server; клиентские — useI18n() из
+    src/i18n/dictionaries/{ru,en}.ts (typed keys); серверные компоненты — const
+    { t } = await getT() из src/i18n/server; клиентские — useI18n() из
     src/i18n/context (Provider в корневом layout). Переключатель — в
-    профиль-меню сайдбара. Контент из БД (посты, чейнджлог) и /docs не
-    переводим
+    профиль-меню сайдбара. Контент из БД (посты, чейнджлог) и /docs не переводим
+18. Порядок приёма работы агента: СНАЧАЛА git log в его ворктри + push его
+    ветки, ПОТОМ merge. Никаких reset --hard до тех пор, пока ветка агента не
+    запушена и не проверена (git log / git diff --stat).
 
 ## Команды
 
@@ -139,12 +141,12 @@ Orbit Design Template v2 (у пользователя, бренд Orbit = пле
   '@/app/api/.../route'), getSession мокается (`vi.mock('@/lib/session', ...)`)
   — иначе better-auth дёргает next/headers вне request-контекста и падает
 - БД: отдельная база slyshno_test на том же dev-постгресе (порт 5435, тот же
-  контейнер) — создать один раз: `docker exec slyshno-db-1 createdb -U
-  slyshno slyshno_test`, затем `DATABASE_URL=postgres://slyshno:slyshno_dev@localhost:5435/slyshno_test
-  bunx drizzle-kit push`. Не пересекается с dev-данными, можно гонять
-  параллельно с bun dev
-- tests/db.ts — resetDb() (TRUNCATE ... CASCADE перед каждым тестом) и
-  фабрики (createProject/createBoard/createPost/createSubscription)
+  контейнер) — создать один раз:
+  `docker exec slyshno-db-1 createdb -U slyshno slyshno_test`, затем
+  `DATABASE_URL=postgres://slyshno:slyshno_dev@localhost:5435/slyshno_test bunx drizzle-kit push`.
+  Не пересекается с dev-данными, можно гонять параллельно с bun dev
+- tests/db.ts — resetDb() (TRUNCATE ... CASCADE перед каждым тестом) и фабрики
+  (createProject/createBoard/createPost/createSubscription)
 
 ## Прогресс
 
