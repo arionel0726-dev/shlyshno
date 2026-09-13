@@ -5,12 +5,29 @@
 	var origin = new URL(script.src).origin
 
 	var btn = document.createElement('button')
-	btn.textContent = '💬'
 	btn.setAttribute('aria-label', 'Обратная связь')
 	btn.style.cssText =
 		'position:fixed;bottom:20px;right:20px;z-index:2147483647;width:52px;height:52px;' +
-		'border-radius:50%;border:none;background:#000;color:#fff;font-size:22px;cursor:pointer;' +
-		'box-shadow:0 4px 12px rgba(0,0,0,.25)'
+		'border-radius:50%;border:1px solid rgba(0,0,0,.08);cursor:pointer;' +
+		'box-shadow:0 4px 12px rgba(0,0,0,.25);display:flex;align-items:center;' +
+		'justify-content:center;padding:0;transition:background .2s,border-color .2s'
+
+	var img = document.createElement('img')
+	img.alt = ''
+	img.style.cssText = 'width:56px;height:56px;pointer-events:none'
+	btn.appendChild(img)
+
+	var mq = window.matchMedia('(prefers-color-scheme: dark)')
+	function applyBtnTheme() {
+		var dark = mq.matches
+		btn.style.background = dark ? '#fff' : '#111'
+		btn.style.borderColor = dark ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,.08)'
+		img.src =
+			origin +
+			(dark ? '/images/widget-icon-light.png' : '/images/widget-icon-dark.png')
+	}
+	applyBtnTheme()
+	if (mq.addEventListener) mq.addEventListener('change', applyBtnTheme)
 
 	var iframe = document.createElement('iframe')
 	iframe.src = origin + '/widget?key=' + encodeURIComponent(key)

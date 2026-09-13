@@ -18,12 +18,25 @@ export default async function Pricing() {
 
 	const PRO_FEATURES: DictionaryKey[] = [
 		'upgrade.pro.feature.unlimited',
+		'upgrade.pro.feature.projects',
+		'upgrade.pro.feature.branding',
 		'upgrade.pro.feature.domain',
-		'upgrade.pro.feature.roadmap',
+		'upgrade.pro.feature.sso',
 		'upgrade.pro.feature.integrations'
 	]
 
-	const COMPARE: { labelKey: DictionaryKey; freeKey: DictionaryKey; proKey: DictionaryKey }[] = [
+	const PRO_SOON = new Set<DictionaryKey>([
+		'upgrade.pro.feature.branding',
+		'upgrade.pro.feature.domain',
+		'upgrade.pro.feature.sso',
+		'upgrade.pro.feature.integrations'
+	])
+
+	const COMPARE: {
+		labelKey: DictionaryKey
+		freeKey: DictionaryKey
+		proKey: DictionaryKey
+	}[] = [
 		{
 			labelKey: 'pricing.compare.row1.label',
 			freeKey: 'pricing.compare.row1.free',
@@ -130,9 +143,14 @@ export default async function Pricing() {
 								{PRO_FEATURES.map(f => (
 									<li
 										key={f}
-										className="flex items-center gap-3 text-sm text-fg-secondary"
+										className="flex flex-wrap items-center gap-3 text-sm text-fg-secondary"
 									>
 										<span className="text-fg">✓</span> {t(f)}
+										{PRO_SOON.has(f) && (
+											<span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-fg-muted">
+												{t('common.soon')}
+											</span>
+										)}
 									</li>
 								))}
 							</ul>
@@ -156,7 +174,7 @@ export default async function Pricing() {
 			</section>
 
 			{/* Сравнение */}
-			<section className="mx-auto max-w-6xl px-6 py-24">
+			{/* <section className="mx-auto max-w-6xl px-6 py-24">
 				<div className="grid gap-12 md:grid-cols-[1fr_1.5fr]">
 					<div>
 						<p className="text-xs font-medium tracking-widest text-blue-500 uppercase">
@@ -189,7 +207,7 @@ export default async function Pricing() {
 						))}
 					</div>
 				</div>
-			</section>
+			</section> */}
 
 			{/* Финальный CTA */}
 			<section className="mx-auto max-w-6xl px-6 pb-24 text-center">

@@ -78,7 +78,14 @@ export default async function DomainSettings({
 			<div className="mt-3 rounded-2xl border border-border p-6">
 				{isPro ? (
 					<div>
-						<p className="font-mono text-sm text-fg">feedback.yourdomain.com</p>
+						<div className="flex items-center gap-2">
+							<p className="font-mono text-sm text-fg">
+								feedback.yourdomain.com
+							</p>
+							<span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-fg-muted">
+								{t('common.soon')}
+							</span>
+						</div>
 						<p className="mt-1 text-sm text-fg-muted">
 							{t('settings.domain.pro.description')}
 						</p>

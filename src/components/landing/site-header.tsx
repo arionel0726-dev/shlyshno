@@ -49,7 +49,7 @@ export async function SiteHeader() {
 						<>
 							<Link
 								href="/login"
-								className="rounded-lg px-4 py-2 text-sm text-fg-secondary hover:text-fg"
+								className="rounded-full border border-border px-6 py-2 text-sm font-medium text-fg hover:bg-surface hover:text-fg"
 							>
 								{t('auth.submit.signin')}
 							</Link>

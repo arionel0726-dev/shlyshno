@@ -32,7 +32,8 @@ const en: Dictionary = {
 	// --- Dashboard (project list) ---
 	'dashboard.title': 'My projects',
 	'dashboard.newWorkspace': '+ New workspace',
-	'dashboard.empty': 'Nothing here yet. Create your first workspace — it takes a minute.',
+	'dashboard.empty':
+		'Nothing here yet. Create your first workspace — it takes a minute.',
 	'dashboard.open': 'Open',
 	'dashboard.manage': 'Manage',
 	'dashboard.widgetForSite': 'Widget for your site',
@@ -80,7 +81,8 @@ const en: Dictionary = {
 	'settings.domain.subtitle':
 		'Use the Slyshno address for now, connect your own domain whenever you’re ready.',
 	'settings.domain.publicBoardUrl': 'Public board URL',
-	'settings.domain.publicBoardHint': 'Your public board is available at this address.',
+	'settings.domain.publicBoardHint':
+		'Your public board is available at this address.',
 	'settings.domain.widgetHint':
 		'Paste this before the closing body tag — the widget will show up on your site.',
 	'settings.domain.customDomain': 'Custom domain',
@@ -114,10 +116,10 @@ const en: Dictionary = {
 	'account.signIn.via': 'You signed in with {provider}.',
 	'account.subscription.title': 'Subscription',
 	'account.subscription.none.title': 'No active subscriptions',
-	'account.subscription.none.description':
-		'Free plan — plenty to get started.',
+	'account.subscription.none.description': 'Free plan — plenty to get started.',
 	'account.subscription.nextCharge': 'Next charge: {date}',
-	'account.subscription.cancelledUntil': 'Cancelled — Pro is active until {date}',
+	'account.subscription.cancelledUntil':
+		'Cancelled — Pro is active until {date}',
 	'account.subscription.cancelled': 'Cancelled',
 	'account.form.saved': 'Saved ✓',
 	'account.subscription.cancelButton': 'Cancel subscription',
@@ -191,11 +193,15 @@ const en: Dictionary = {
 	'upgrade.subtitle': 'Start free, upgrade whenever you need more.',
 	'upgrade.free.currentPlan': 'Current plan',
 	'upgrade.free.forever': 'forever',
-	'upgrade.free.description': 'For getting started and collecting your first feedback.',
+	'upgrade.free.description':
+		'For getting started and collecting your first feedback.',
 	'upgrade.free.feature.board': 'Public feedback board',
 	'upgrade.free.feature.roadmap': 'Basic roadmap',
 	'upgrade.free.feature.changelog': 'Changelog',
 	'upgrade.free.feature.votes': 'Up to 100 votes / month',
+	'upgrade.pro.feature.projects': '3 projects',
+	'upgrade.pro.feature.branding': 'Remove Slyshno branding',
+	'upgrade.pro.feature.sso': 'SSO (SAML / OIDC)',
 	'upgrade.free.button.isPro': 'Free',
 	'upgrade.free.button.current': 'Your current plan',
 	'upgrade.pro.popular': 'Most popular',
@@ -204,11 +210,11 @@ const en: Dictionary = {
 	'upgrade.pro.feature.unlimited': 'Unlimited feedback',
 	'upgrade.pro.feature.domain': 'Board on your own domain',
 	'upgrade.pro.feature.roadmap': 'Unlimited roadmap + changelog',
-	'upgrade.pro.feature.integrations': 'Integrations and API — coming soon',
+	'upgrade.pro.feature.integrations': 'Integrations and API',
 	'upgrade.pro.button.manage': 'Manage subscription',
 	'upgrade.pro.button.upgrade': 'Upgrade to Pro',
-	'upgrade.footer':
-		'Just two plans. No confusing tiers. Cancel any time.',
+
+	'upgrade.footer': 'Just two plans. No confusing tiers. Cancel any time.',
 
 	// --- Public portal: board ---
 	'portalStatus.all': 'All',
@@ -310,7 +316,8 @@ const en: Dictionary = {
 		'Visible progress brings users back with votes and comments.',
 
 	'landing.engagement.eyebrow': 'Engagement',
-	'landing.engagement.title': "Feedback shouldn't disappear after it's submitted.",
+	'landing.engagement.title':
+		"Feedback shouldn't disappear after it's submitted.",
 	'landing.engagement.subtitle':
 		'Most tools stop at collection. Slyshno keeps the conversation alive from the first request to the release — users always know what changed and what’s coming next.',
 	'landing.engagement.stat1': 'steps, one loop',
@@ -318,7 +325,7 @@ const en: Dictionary = {
 	'landing.engagement.stat3': 'emails sent by hand',
 	'landing.engagement.step1.title': 'Acknowledge the request',
 	'landing.engagement.step1.text':
-		"The user sees their idea was accepted, and where to follow it from here.",
+		'The user sees their idea was accepted, and where to follow it from here.',
 	'landing.engagement.step2.title': 'Show the progress',
 	'landing.engagement.step2.text':
 		'A status change tells a story: from review to in progress.',
@@ -332,11 +339,12 @@ const en: Dictionary = {
 	'landing.gettingStarted.eyebrow': 'Getting started',
 	'landing.gettingStarted.title': 'Start small. Useful right away.',
 	'landing.gettingStarted.subtitle':
-		"No need to configure anything for weeks. Create a workspace, show one board to your users — and the first requests will set their own priorities.",
+		'No need to configure anything for weeks. Create a workspace, show one board to your users — and the first requests will set their own priorities.',
 	'landing.gettingStarted.freeTariff': 'Free plan · no card required',
 	'landing.gettingStarted.panelEyebrow': 'Your first loop',
 	'landing.gettingStarted.step1.title': 'Create a workspace',
-	'landing.gettingStarted.step1.desc': "A name, a board address — and you're set.",
+	'landing.gettingStarted.step1.desc':
+		"A name, a board address — and you're set.",
 	'landing.gettingStarted.step2.title': 'Open a feedback channel',
 	'landing.gettingStarted.step2.desc':
 		'Share a link or embed the widget on your site.',
@@ -346,7 +354,7 @@ const en: Dictionary = {
 	'landing.gettingStarted.footer':
 		'First request → first decision → first update',
 
-	'landing.cta.eyebrow': "Ready whenever you are",
+	'landing.cta.eyebrow': 'Ready whenever you are',
 	'landing.cta.title': 'Turn feedback into something with visible momentum.',
 	'landing.cta.subtitle':
 		'Start on the free plan. Pro is $10 — whenever your feedback loop needs more.',
@@ -415,8 +423,7 @@ const en: Dictionary = {
 		'Start free. Upgrade when your team needs more room to collect, prioritize, and close the loop.',
 	'pricing.pro.comingSoonTitle': 'Billing goes live at launch',
 	'pricing.pro.upgradeButton': 'Upgrade to Pro',
-	'pricing.plansFooter':
-		'Just two plans. No confusing tiers. Cancel any time.',
+	'pricing.plansFooter': 'Just two plans. No confusing tiers. Cancel any time.',
 	'pricing.compare.eyebrow': "What's included",
 	'pricing.compare.title': 'Everything for a clean feedback loop.',
 	'pricing.compare.subtitle':
@@ -438,7 +445,8 @@ const en: Dictionary = {
 	'pricing.compare.row5.free': 'Up to 100 / month',
 	'pricing.compare.row5.pro': 'Unlimited',
 	'pricing.finalCta.title': "Start free. Upgrade once it's paying off.",
-	'pricing.finalCta.subtitle': 'No card required. Your workspace starts on Free.',
+	'pricing.finalCta.subtitle':
+		'No card required. Your workspace starts on Free.',
 	'pricing.finalCta.faqLink': 'Read the FAQ',
 
 	// --- Post status dropdown (owner) ---
@@ -466,7 +474,8 @@ const en: Dictionary = {
 	'appShell.plan.pro': '✦ Pro',
 	'appShell.plan.free': 'Free',
 	'appShell.language': 'Language',
-	'appShell.proToast': '🎉 Pro subscription is active — thanks for the support!',
+	'appShell.proToast':
+		'🎉 Pro subscription is active — thanks for the support!',
 
 	// --- Auth ---
 	'auth.divider.or': 'or',
@@ -486,7 +495,8 @@ const en: Dictionary = {
 	'auth.check.hasSpecial': 'At least one special character',
 	'auth.error.weakPassword': 'Password doesn’t meet the requirements',
 	'auth.error.generic': 'Something went wrong',
-	'auth.error.alreadyRegistered': 'That email is already registered — sign in instead',
+	'auth.error.alreadyRegistered':
+		'That email is already registered — sign in instead',
 	'auth.error.invalidCredentials': 'Invalid email or password',
 	'auth.submit.wait': 'Please wait…',
 	'auth.submit.signup': 'Create account',

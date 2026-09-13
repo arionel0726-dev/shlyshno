@@ -4,172 +4,143 @@
 
 SaaS для сбора фидбека: публичная доска + виджет-embed + роадмап + чейнджлог с
 авторассылкой. Позиционирование: «Canny, но дешевле, на русском». Рынки: RU и
-global. Прайсинг: Free (1 проект, 100 голосов/мес) + Pro $10/мес (на аккаунт,
-все проекты юзера). Оплата: Lemon Squeezy (Молдова, live-режим после деплоя).
-Домен: slyshno.app (Contabo VPS 12GB, Docker + Caddy).
+global. Прайсинг: Free (1 проект, 100 голосов/мес) + Pro $10/мес (на аккаунт).
+Pro-фичи «скоро» (бейдж Coming soon): снятие брендинга, кастомный домен, SSO,
+интеграции. Оплата: Lemon Squeezy (Молдова). Домен: slyshno.app.
+
+## Деплой (АКТУАЛЬНО)
+
+- Прод: **Vercel (Hobby) + Neon Postgres** (Frankfurt, pooled connection string)
+- Локально: Docker Postgres (порт 5435, dev), Neon — ТОЛЬКО в Vercel env vars
+- Plan B (когда Vercel подорожает / нужен MCP-сервер / кастомные домена
+  клиентов): Contabo VPS + Caddy — файлы готовы: Dockerfile (standalone),
+  docker-compose.prod.yml, Caddyfile
+- Схема на прод: drizzle-kit push через DATABASE_URL от Neon (одноразово)
+- Outbox-cron на проде: cron-job.org → GET /api/cron/outbox раз в минуту с
+  заголовком x-cron-secret
 
 ## Стек (зафиксирован)
 
 - Next.js 16 (App Router, Turbopack dev) + TypeScript, `output: 'standalone'`
 - Better Auth (Google OAuth + email/password; requireEmailVerification: false)
-- Drizzle ORM + PostgreSQL 16 (Docker, dev-порт 5435)
-- Tailwind v4 + семантические токены (globals.css) + Geist + lucide-react
-  - motion.dev + @dnd-kit/core + papaparse
+- Drizzle ORM + PostgreSQL (dev: Docker 5435; prod: Neon pooled)
+- Tailwind v4 + семантические токены + Geist + lucide-react + motion.dev +
+  @dnd-kit/core + papaparse
 - Fumadocs: fumadocs-core@14 / fumadocs-ui@14 / fumadocs-mdx@11 (v15+ НЕ
-  обновлять — ломается API)
-- Письма: Resend (from onboarding@resend.dev, для прода верифицировать домен),
-  очередь = таблица outbox + cron-роут /api/cron/outbox
-- Платежи: @lemonsqueezy/lemonsqueezy.js (checkout + cancel + webhook)
+  обновлять)
+- Письма: Resend (from onboarding@resend.dev), очередь = outbox + cron-роут
+- Платежи: @lemonsqueezy/lemonsqueezy.js
 
 ## Структура
 
-- src/db/schema.ts — projects(+website,+plan), boards, posts(+type:
-  feature|bug), votes(userId|guestKey), comments(+authorName),
-  post_subscriptions, outbox, changelog_posts, subscriptions(+renewsAt,+endsAt)
-- src/db/auth-schema.ts — Better Auth таблицы (генерируется CLI)
+- src/db/schema.ts — projects(+website,+plan), boards, posts(+type), votes,
+  comments(+authorName), post_subscriptions, outbox, changelog_posts,
+  subscriptions(+renewsAt,+endsAt)
 - src/lib/ — auth, auth-client, db, session, docs-source, email
 - src/app/(app)/ — приложение с сайдбаром (layout проверяет сессию): dashboard,
-  dashboard/p/[slug] (Feedback-воркспейс, roadmap с dnd, post/[id], changelog,
+  dashboard/p/[slug] (Feedback, roadmap dnd, post/[id], changelog,
   settings/{brand,domain,imports,account})
-- src/app/(auth)/ — login, register (вне (app)!)
-- src/app/new — онбординг Create workspace (вне (app), полноэкранный)
-- src/app/p/[slug] — публичный портал: доска (BoardView v2), roadmap, changelog,
-  changelog/[id] («В планах»), post/[id] (чат, гостевые комменты)
-- src/app/widget — виджет-панель (5 экранов:
-  home/feedback/submit/roadmap/changelog)
-- src/app/docs — Fumadocs (контент: content/docs/\*.mdx в КОРНЕ)
-- src/app/page.tsx — лендинг; src/app/pricing — цены
-- public/widget.js — виджет-лоадер (vanilla JS + iframe + postMessage close)
-- src/components/ — app-shell (секции навигации, isPro, UpgradeModal через
-  событие 'slyshno:upgrade'), feedback-workspace, owner-roadmap-board (dnd),
-  board-view (портал v2), portal-header, portal-actions, public-post (чат),
-  upgrade-modal, new-request-modal (+ событие 'slyshno:new-request'),
-  post-comments, auth-form, account-form, sign-out-button, copy-button,
-  settings-nav, import-csv-form, cancel-subscription-button,
-  delete-post/project-button, landing/\*
+- src/app/(auth)/ — login, register (ВНЕ (app)!)
+- src/app/new — онбординг (ВНЕ (app), полноэкранный)
+- src/app/p/[slug] — публичный портал: доска, roadmap, changelog, changelog/[id]
+  («В планах»), post/[id] (чат, гостевые комменты)
+- src/app/widget — виджет-панель (5 экранов)
+- src/app/docs — Fumadocs (контент: content/docs/\*.mdx в КОРНЕ проекта)
+- src/app/page.tsx — лендинг (hero с мокапом hero-bg.webp, CTA с cta-bg.webp);
+  src/app/pricing — цены
+- src/i18n/ — context.tsx, server.ts, config.ts, dictionaries/{ru,en}.ts
+- public/widget.js — лоадер: кнопка с лого (theme-aware: widget-icon-light.png
+  для тёмной темы / widget-icon-dark.png для светлой), iframe, postMessage
+  'slyshno:close'
+- src/components/ — app-shell (секции навигации, isPro, UpgradeModal, lang
+  switcher, SupportModal), feedback-workspace, owner-roadmap-board (dnd),
+  board-view, portal-header, portal-actions, public-post, upgrade-modal,
+  new-request-modal, post-comments, auth-form, account-form, sign-out-button,
+  copy-button, settings-nav, import-csv-form, cancel-subscription-button,
+  delete-post/project-button, support-modal, landing/\*
 
 ## Дизайн-система v2
 
-Семантические токены: bg-background/surface/surface-hover,
-border(-soft/-strong), text-fg/fg-secondary/fg-muted/fg-faint,
-bg-primary/text-primary-fg. Статусные цвета (amber/blue/violet/emerald) — ТОЛЬКО
-для статусов. Rows &gt; cards, лейблы над инпутами, 44–52px контролы. Темы
-light/dark/system: `.dark` на &lt;html&gt;, localStorage 'slyshno-theme',
-theme-script через next/script beforeInteractive в корневом layout. Полный гайд:
-Orbit Design Template v2 (у пользователя, бренд Orbit = плейсхолдер).
+Семантические токены: bg-background/surface(-hover), border(-soft/-strong),
+text-fg/fg-secondary/fg-muted/fg-faint, bg-primary/text-primary-fg. Статусные
+цвета — ТОЛЬКО для статусов. Rows &gt; cards. Темы light/dark/system: `.dark` на
+&lt;html&gt;, localStorage 'slyshno-theme', next/script beforeInteractive. Гайд:
+Orbit Design Template v2 (у пользователя).
 
 ## Биллинг (Lemon Squeezy)
 
-- Store 473373, Variant 2120452 («Pro $10/month», MDL ~180; setup fee ВЫКЛ)
-- POST /api/billing/checkout — createCheckout(STORE, VARIANT как Number!, ...
-  checkoutData: { email, custom: { project_id } } ← ОБЪЕКТ, не массив!)
-  productOptions.redirectUrl — ОБЯЗАТЕЛЬНО https
-- POST /api/billing/cancel — cancelSubscription(Number(id)); локально статус
-  cancelled + endsAt; Pro держится до endsAt (мягкая отмена)
-- POST /api/webhooks/lemonsqueezy — верификация X-Signature (HMAC-SHA256,
-  timingSafeEqual); payload.meta.custom_data.project_id (ОБЪЕКТ!); события:
-  subscription_created/updated/payment_success/cancelled/expired,
-  order_refunded; PRO_STATUSES = active/past_due/on_trial; isProNow =
-  PRO_STATUSES && (!endsAt || endsAt &gt; now); cancelled + будущий endsAt = Pro
-  работает до конца периода
-- Подписка = на аккаунт (isPro считается по всем проектам юзера, включая
-  отменённые с будущим endsAt); в аккаунте показываем ОДНУ (active →
-  cancelled+future endsAt → last)
-- Тестовая карта 4242 4242 4242 4242; LS не даёт купить тот же вариант дважды
-  одному email; test mode вкл/выкл в Settings → Store
-- Env: LEMONSQUEEZY_API_KEY, STORE_ID, VARIANT_ID, WEBHOOK_SECRET (≤40 симв.)
-- Webhook в LS: https://slyshno.app/api/webhooks/lemonsqueezy (прод; ngrok —
-  только для локальной разработки, URL меняется на free-плане)
+- Store 473373, Variant 2120452 («Pro $10/month»)
+- POST /api/billing/checkout — createCheckout(Number(STORE), Number(VARIANT),
+  checkoutData: { email, custom: { project_id } } ← ОБЪЕКТ; redirectUrl ТОЛЬКО
+  https)
+- POST /api/billing/cancel — мягкая отмена (Pro до endsAt)
+- POST /api/webhooks/lemonsqueezy — X-Signature HMAC-SHA256 timingSafeEqual;
+  meta.custom_data.project_id; isProNow = active/past_due/on_trial && (!endsAt
+  || endsAt &gt; now)
+- Подписка на аккаунт; тестовая карта 4242 4242 4242 4242; test mode в LS
+  Settings → Store
 
 ## Грабли (не наступать!)
 
 1. drizzle.config.ts: в начале
    `import { config } from "dotenv"; config({ path: ".env.local" })`
-2. В db.ts/auth.ts импорты schema — ОТНОСИТЕЛЬНЫЕ ("../db/schema"), не "@/…"
-   (jiti)
-3. drizzleAdapter: обязательно `{ provider: "pg", schema: authSchema }`; в
-   drizzle() мержить обе схемы
-4. Postgres dev-порт 5435 (5432 занят); после перезагрузки: docker compose up -d
+2. В db.ts/auth.ts импорты schema — ОТНОСИТЕЛЬНЫЕ ("../db/schema")
+3. drizzleAdapter: `{ provider: "pg", schema: authSchema }`; в drizzle() мержить
+   обе схемы
+4. Postgres dev-порт 5435; после перезагрузки машины: docker compose up -d
 5. После правки .env.local — полный рестарт bun dev
-6. useRouter только из next/navigation; инлайн-скрипты только через next/script
-   beforeInteractive; onClick только в клиентских компонентах
-7. API-роуты с [slug] — точно по пути (проверка: find src/app/api -name
-   route.ts); Next на 404 отдаёт HTML → клиент ловит .json().catch(() =&gt;
-   ({})) и ВСЕГДА проверяет r.ok
-8. Публичные страницы НЕ в api/ (конфликт page/route на одном пути)
-9. Страницы без сайдбара — ВНЕ (app) (онбординг, auth); layout (app) редиректит
-   неавторизованных
-10. Вне проекта (нет slug) — только рабочие пункты навигации; Feedback ведёт на
-    ленту последнего проекта (fallbackSlug из layout; при 1 проекте /dashboard
-    редиректит сразу в него)
-11. Composer открывается через CustomEvent('slyshno:new-request');
-    Upgrade-модалка — 'slyshno:upgrade'; виджет закрывается postMessage
-    'slyshno:close'
-12. Logout — только SignOutButton: try/finally + router.push('/') + refresh()
-13. Fumadocs: данные из сгенерированного .source (import { docs } from
-    '../../.source'), НЕ из source.config.ts; layout fumadocs-ui/layouts/docs,
-    слоты из layouts/docs/page; RootProvider theme={{ themeScript: false }}
-    (свой theme-script уже в корневом layout)
-14. dnd-kit: activationConstraint { distance: 6 } + select-none на карточках,
-    draggable={false} на img, suppressHydrationWarning (aria-describedby
-    DndDescribedBy-N расходится SSR/клиент)
-15. LS SDK: custom = объект (не массив name/value); meta.custom_data (не
-    meta.custom); ID через Number(); redirectUrl только https
-16. Виджет в Firefox может блокироваться ETP/блокировщиками — тестировать в
-    Chrome
-17. i18n: cookie 'slyshno-locale' → Accept-Language → ru; словари
-    src/i18n/dictionaries/{ru,en}.ts (typed keys); серверные компоненты — const
-    { t } = await getT() из src/i18n/server; клиентские — useI18n() из
-    src/i18n/context (Provider в корневом layout). Переключатель — в
-    профиль-меню сайдбара. Контент из БД (посты, чейнджлог) и /docs не переводим
-18. Порядок приёма работы агента: СНАЧАЛА git log в его ворктри + push его
-    ветки, ПОТОМ merge. Никаких reset --hard до тех пор, пока ветка агента не
-    запушена и не проверена (git log / git diff --stat).
+6. useRouter только из next/navigation; инлайн-скрипты только через next/script;
+   onClick только в клиентских компонентах
+7. ВСЕ r.json() — с .catch(() =&gt; ({})) и проверкой r.ok (Next отдаёт HTML на
+   ошибках → SyntaxError)
+8. API-роуты с [slug] — точно по пути; публичные страницы НЕ в api/
+9. Страницы без сайдбара — ВНЕ (app); вне проекта — только рабочие пункты
+   навигации
+10. События: 'slyshno:new-request', 'slyshno:upgrade', 'slyshno:support',
+    postMessage 'slyshno:close' (виджет)
+11. Logout — SignOutButton: try/finally + push('/') + refresh()
+12. Fumadocs: данные из .source (import { docs } from '../../.source');
+    RootProvider theme={{ themeScript: false }}
+13. dnd-kit: distance 6 + select-none + draggable={false} на img +
+    suppressHydrationWarning
+14. LS SDK: custom = объект; meta.custom_data; Number() для ID; https redirect
+15. i18n: сервер — const { t } = await getT(); клиент — useI18n(); тип
+    DictionaryKey из ru.ts — забыл ключ в словаре = ошибка типа при build
+16. АГЕНТАМ: .env.local НЕ ТРОГАТЬ (не создавать/не менять); dev-сервер только
+    на порту 3100+, порт 3000 — пользователя; работать в своём ворктри и своей
+    ветке
+17. NEXT_PUBLIC_APP_URL / BETTER_AUTH_URL: localhost в dev, https://slyshno.app
+    в проде; ngrok-URL — временный, вернуть localhost после тестов оплаты
+18. Порядок приёма работы агента: СНАЧАЛА git log в его ворктри + push ветки,
+    ПОТОМ merge. Никаких reset --hard до проверки его ветки
 
 ## Команды
 
-- bun dev / bun run build
-- bun run test (Vitest, отдельная test-база slyshno_test — см. ниже)
+- bun dev / bun run build / bun run test (Vitest, база slyshno_test)
 - bunx drizzle-kit push
-- bunx @better-auth/cli generate --output ./src/db/auth-schema.ts
 - docker compose up -d (dev Postgres)
 - curl -H "x-cron-secret: $CRON_SECRET" localhost:3000/api/cron/outbox
 
-## Тесты (Vitest)
-
-- tests/ — вызывают обработчики API-роутов напрямую (import { POST } from
-  '@/app/api/.../route'), getSession мокается (`vi.mock('@/lib/session', ...)`)
-  — иначе better-auth дёргает next/headers вне request-контекста и падает
-- БД: отдельная база slyshno_test на том же dev-постгресе (порт 5435, тот же
-  контейнер) — создать один раз:
-  `docker exec slyshno-db-1 createdb -U slyshno slyshno_test`, затем
-  `DATABASE_URL=postgres://slyshno:slyshno_dev@localhost:5435/slyshno_test bunx drizzle-kit push`.
-  Не пересекается с dev-данными, можно гонять параллельно с bun dev
-- tests/db.ts — resetDb() (TRUNCATE ... CASCADE перед каждым тестом) и фабрики
-  (createProject/createBoard/createPost/createSubscription)
-
 ## Прогресс
 
-- [x] Всё приложение: Feedback, композер, карточка, чейнджлог, роадмап (dnd),
-      Settings (brand/domain/imports/account), онбординг, auth-страницы
-- [x] Публичный портал v2: BoardView, PortalHeader, чат с гостевыми
-      комментариями, чейнджлог v2, виджет v2 (5 экранов)
-- [x] Лендинг + прайсинг + доки (Fumadocs, хаб + 4 страницы)
-- [x] Биллинг Lemon Squeezy: checkout, webhook, cancel (мягкая), upgrade-modal
-- [x] Импорт CSV (Canny), удаление карточек/проектов
-- [x] Деплой-файлы: Dockerfile (standalone), docker-compose.prod.yml, Caddyfile
-- [ ] ДЕПЛОЙ: DNS A slyshno.app → Contabo, env.production, compose up, drizzle
-      push, webhook URL на прод, LS test mode OFF
-- [x] i18n RU+EN (кабинет, auth, публичный портал, виджет, лендинг, /pricing)
-- [x] Тесты базовые (webhook, голосование, права, импорт CSV — 18 тестов)
-- [ ] v1.1: кастомный домен (Caddy on-demand TLS), search, MCP + mobile SDK,
-      Apple/Google Pay проверка в live, цена MDL→180
+- [x] Всё приложение, публичный портал v2, виджет v2, лендинг, прайсинг, доки
+- [x] Биллинг LS (checkout/webhook/мягкая отмена), Upgrade-модалка
+- [x] Импорт CSV, удаления, поддержка (support-modal → outbox → email)
+- [x] i18n RU+EN, тесты (18), брендированная кнопка виджета, фоны лендинга, Pro
+      «coming soon» бейджи
+- [ ] ДЕПЛОЙ (Vercel): env vars, домен slyshno.app, Google redirect URI, webhook
+      LS на прод, cron-job.org, test mode OFF
+- [ ] Mobile adaptation — Codex (ветка feat/mobile, в работе)
+- [ ] SEO — Claude (следующая задача, ветка feat/seo)
+- [ ] v1.1: кастомный домен (Contabo+Caddy триггер миграции), вложения,
+      Linear/Slack, bulk actions, шаблоны писем, видео-гайды, auto-detect языка
+      портала, accent color, docs-хаб, search, MCP + mobile SDK, Apple/Google
+      Pay в live, MDL→180
 
 ## Маркетинг-запуск
 
-Product Hunt + build in public (Twitter) + Хабр/vc.ru + RU Telegram → личный
-аутрич 60 инди-продуктов (бесплатный Pro за фидбек) → SEO-страницы
-/alternatives/\*. Платной рекламы нет до доказанной конверсии.
+Product Hunt + build in public + Хабр/vc.ru + RU Telegram → аутрич 60
+инди-продуктов (бесплатный Pro за фидбек) → SEO /alternatives/\*. Платной
+рекламы нет до доказанной конверсии.
 
-Обновлять каждые 2–3 чата. Блок nextjs-agent-rules не трогать (пересоздаёт next
-dev).
+Обновлять каждые 2–3 чата. Блок nextjs-agent-rules не трогать.

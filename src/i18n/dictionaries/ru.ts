@@ -31,7 +31,8 @@ const ru = {
 	// --- Dashboard (список проектов) ---
 	'dashboard.title': 'Мои проекты',
 	'dashboard.newWorkspace': '+ Новое пространство',
-	'dashboard.empty': 'Пока пусто. Создайте первое пространство — это займёт минуту.',
+	'dashboard.empty':
+		'Пока пусто. Создайте первое пространство — это займёт минуту.',
 	'dashboard.open': 'Открыть',
 	'dashboard.manage': 'Управление',
 	'dashboard.widgetForSite': 'Виджет для сайта',
@@ -71,7 +72,8 @@ const ru = {
 	'settings.brand.language.auto': 'Авто',
 	'settings.brand.poweredBy': 'Работает на Slyshno',
 	'settings.brand.poweredBy.hiddenOnPro': 'Скрыто на Pro',
-	'settings.brand.editForm.description': 'Логотип, название и публичная идентичность',
+	'settings.brand.editForm.description':
+		'Логотип, название и публичная идентичность',
 	'settings.brand.editForm.editButton': 'Изменить бренд',
 	'settings.brand.editForm.nameLabel': 'Название',
 
@@ -79,7 +81,8 @@ const ru = {
 	'settings.domain.subtitle':
 		'Используйте адрес Slyshno сейчас, подключите свой домен, когда будете готовы.',
 	'settings.domain.publicBoardUrl': 'Публичный адрес доски',
-	'settings.domain.publicBoardHint': 'Ваша публичная доска доступна по этому адресу.',
+	'settings.domain.publicBoardHint':
+		'Ваша публичная доска доступна по этому адресу.',
 	'settings.domain.widgetHint':
 		'Вставьте перед закрывающим тегом body — виджет появится на сайте.',
 	'settings.domain.customDomain': 'Свой домен',
@@ -187,7 +190,8 @@ const ru = {
 	// --- Upgrade modal ---
 	'upgrade.checkoutError': 'Не удалось создать оплату',
 	'upgrade.title': 'Выберите план',
-	'upgrade.subtitle': 'Начните бесплатно, обновитесь, когда понадобится больше.',
+	'upgrade.subtitle':
+		'Начните бесплатно, обновитесь, когда понадобится больше.',
 	'upgrade.free.currentPlan': 'Текущий план',
 	'upgrade.free.forever': 'навсегда',
 	'upgrade.free.description': 'Для старта и сбора первого фидбека.',
@@ -195,6 +199,9 @@ const ru = {
 	'upgrade.free.feature.roadmap': 'Базовый роадмап',
 	'upgrade.free.feature.changelog': 'Чейнджлог',
 	'upgrade.free.feature.votes': 'До 100 голосов в месяц',
+	'upgrade.pro.feature.projects': '3 проекта',
+	'upgrade.pro.feature.branding': 'Снятие брендинга Slyshno',
+	'upgrade.pro.feature.sso': 'SSO (SAML / OIDC)',
 	'upgrade.free.button.isPro': 'Free',
 	'upgrade.free.button.current': 'Ваш текущий план',
 	'upgrade.pro.popular': 'Популярный выбор',
@@ -203,7 +210,7 @@ const ru = {
 	'upgrade.pro.feature.unlimited': 'Безлимитный фидбек',
 	'upgrade.pro.feature.domain': 'Доска на вашем домене',
 	'upgrade.pro.feature.roadmap': 'Роадмап + чейнджлог без ограничений',
-	'upgrade.pro.feature.integrations': 'Интеграции и API — скоро',
+	'upgrade.pro.feature.integrations': 'Интеграции и API',
 	'upgrade.pro.button.manage': 'Управление подпиской',
 	'upgrade.pro.button.upgrade': 'Перейти на Pro',
 	'upgrade.footer':
@@ -436,7 +443,8 @@ const ru = {
 	'pricing.compare.row5.label': 'Лимит голосов',
 	'pricing.compare.row5.free': 'До 100 в месяц',
 	'pricing.compare.row5.pro': 'Безлимит',
-	'pricing.finalCta.title': 'Начните бесплатно. Обновляйтесь, когда это окупится.',
+	'pricing.finalCta.title':
+		'Начните бесплатно. Обновляйтесь, когда это окупится.',
 	'pricing.finalCta.subtitle': 'Без карты. Ваше пространство стартует на Free.',
 	'pricing.finalCta.faqLink': 'Читать FAQ',
 

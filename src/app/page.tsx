@@ -1,6 +1,5 @@
 import { LandingAuth } from '@/components/landing-auth'
 import { FaqAccordion } from '@/components/landing/faq-accordion'
-import { AppMock } from '@/components/landing/product-mock'
 import { SiteFooter } from '@/components/landing/site-footer'
 import { SiteHeader } from '@/components/landing/site-header'
 import { getT } from '@/i18n/server'
@@ -59,17 +58,17 @@ export default async function Home() {
 			<SiteHeader />
 
 			{/* Hero */}
-			<section className="mx-auto max-w-6xl px-6 pt-20 pb-16 text-center">
+			<section className="relative mx-auto max-w-6xl scroll-mt-24 overflow-hidden px-6 pt-20 pb-16 text-center">
 				<p className="text-xs font-medium tracking-widest text-fg-muted uppercase">
 					{t('landing.hero.eyebrow')}
 				</p>
-				<h1 className="mx-auto mt-4 max-w-3xl text-5xl font-bold tracking-tight text-fg sm:text-6xl">
+				<h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-fg sm:text-5xl lg:text-6xl">
 					{t('landing.hero.title')}
 				</h1>
-				<p className="mx-auto mt-5 max-w-xl text-lg text-fg-secondary">
+				<p className="mx-auto mt-5 max-w-xl text-base text-fg-secondary sm:text-lg">
 					{t('landing.hero.subtitle')}
 				</p>
-				<div className="mt-8 flex items-center justify-center gap-3">
+				<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
 					<LandingAuth
 						mode="cta"
 						label={t('landing.cta.startFree')}
@@ -83,8 +82,28 @@ export default async function Home() {
 				</div>
 				<p className="mt-3 text-xs text-fg-muted">{t('landing.freeForever')}</p>
 
-				<div className="mx-auto mt-14 max-w-4xl">
-					<AppMock />
+				{/* Продуктовый мокап (как у Linear) */}
+				<div className="relative mx-auto mt-14 max-w-4xl">
+					{/* мягкое свечение за карточкой */}
+					<div className="pointer-events-none absolute -inset-x-10 -top-10 h-48 bg-gradient-to-r from-blue-600/20 via-violet-500/20 to-blue-600/20 blur-3xl" />
+
+					<div className="relative overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
+						{/* шапка браузера */}
+						<div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
+							<span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+							<span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+							<span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+							<span className="mx-auto rounded-md bg-surface px-3 py-0.5 font-mono text-xs text-fg-muted">
+								app.slyshno.com
+							</span>
+						</div>
+						{/* твой скриншот */}
+						<img
+							src="/images/hero-bg.webp"
+							alt="Slyshno — доска фидбека"
+							className="w-full"
+						/>
+					</div>
 				</div>
 			</section>
 
@@ -135,9 +154,21 @@ export default async function Home() {
 						</p>
 						<div className="mt-10 flex gap-12">
 							{[
-								{ n: '4', label: t('landing.engagement.stat1'), cls: 'text-blue-500' },
-								{ n: '1', label: t('landing.engagement.stat2'), cls: 'text-emerald-500' },
-								{ n: '0', label: t('landing.engagement.stat3'), cls: 'text-violet-500' }
+								{
+									n: '4',
+									label: t('landing.engagement.stat1'),
+									cls: 'text-blue-500'
+								},
+								{
+									n: '1',
+									label: t('landing.engagement.stat2'),
+									cls: 'text-emerald-500'
+								},
+								{
+									n: '0',
+									label: t('landing.engagement.stat3'),
+									cls: 'text-violet-500'
+								}
 							].map(s => (
 								<div key={s.label}>
 									<p className={`text-4xl font-bold ${s.cls}`}>{s.n}</p>
@@ -231,30 +262,40 @@ export default async function Home() {
 			</section>
 
 			{/* CTA */}
-			<section className="mx-auto max-w-6xl px-6 py-20">
-				<div className="rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-800 to-blue-900 px-8 py-20 text-center">
-					<p className="text-xs font-medium tracking-widest text-blue-200 uppercase">
-						{t('landing.cta.eyebrow')}
-					</p>
-					<h2 className="mx-auto mt-4 max-w-2xl text-4xl font-bold text-white">
-						{t('landing.cta.title')}
-					</h2>
-					<p className="mx-auto mt-4 max-w-md text-blue-100">
-						{t('landing.cta.subtitle')}
-					</p>
-					<div className="mt-8 flex items-center justify-center gap-3">
-						<LandingAuth
-							mode="cta"
-							label={t('landing.cta.startFree')}
-						/>
-						<a
-							href="/pricing"
-							className="rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10"
-						>
-							{t('landing.cta.pricingLink')}
-						</a>
+			<section className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20">
+				<div className="relative overflow-hidden rounded-3xl bg-blue-950">
+					<img
+						src="/images/cta-bg.webp"
+						alt=""
+						className="absolute inset-0 h-full w-full object-cover"
+					/>
+					<div className="absolute inset-0 bg-blue-950/60" />
+					<div className="relative px-6 py-16 text-center sm:px-8 sm:py-20">
+						<p className="text-xs font-medium tracking-widest text-blue-200 uppercase">
+							{t('landing.cta.eyebrow')}
+						</p>
+						<h2 className="mx-auto mt-4 max-w-2xl text-3xl font-bold text-white sm:text-4xl">
+							{t('landing.cta.title')}
+						</h2>
+						<p className="mx-auto mt-4 max-w-md text-blue-100">
+							{t('landing.cta.subtitle')}
+						</p>
+						<div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+							<LandingAuth
+								mode="cta"
+								label={t('landing.cta.startFree')}
+							/>
+							<a
+								href="/pricing"
+								className="rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10"
+							>
+								{t('landing.cta.pricingLink')}
+							</a>
+						</div>
+						<p className="mt-3 text-xs text-blue-200">
+							{t('landing.freeForever')}
+						</p>
 					</div>
-					<p className="mt-3 text-xs text-blue-200">{t('landing.freeForever')}</p>
 				</div>
 			</section>
 

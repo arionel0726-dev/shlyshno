@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import {
 	BookOpen,
 	ChevronsLeft,
@@ -7,6 +8,7 @@ import {
 	Clock,
 	Globe,
 	LayoutDashboard,
+	LifeBuoy,
 	Map,
 	MessageSquare,
 	PanelsTopLeft,
@@ -16,8 +18,8 @@ import {
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { useI18n } from '@/i18n/context'
 import { SignOutButton } from './sign-out-button'
+import { SupportModal } from './support-modal'
 import { UpgradeModal } from './upgrade-modal'
 export function AppShell({
 	user,
@@ -202,7 +204,14 @@ export function AppShell({
 						{!collapsed && t('appShell.upgradeToPro')}
 					</button>
 				)}
-
+				<button
+					onClick={() =>
+						window.dispatchEvent(new CustomEvent('slyshno:support'))
+					}
+					className="flex w-full items-center gap-3 px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
+				>
+					<LifeBuoy className="h-4 w-4" /> Поддержка
+				</button>
 				{/* Collapse */}
 				<button
 					onClick={() => setCollapsed(!collapsed)}
@@ -321,6 +330,7 @@ export function AppShell({
 			{/* Контент */}
 			<main className="flex-1 overflow-y-auto">{children}</main>
 			<UpgradeModal isPro={isPro} />
+			<SupportModal />
 			{showProToast && (
 				<div className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-emerald-500/40 bg-background px-5 py-2.5 text-sm text-fg shadow-lg">
 					{t('appShell.proToast')}

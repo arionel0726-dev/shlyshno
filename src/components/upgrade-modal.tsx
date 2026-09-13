@@ -12,13 +12,21 @@ const FREE_FEATURES: DictionaryKey[] = [
 	'upgrade.free.feature.changelog',
 	'upgrade.free.feature.votes'
 ]
-
 const PRO_FEATURES: DictionaryKey[] = [
 	'upgrade.pro.feature.unlimited',
+	'upgrade.pro.feature.projects',
+	'upgrade.pro.feature.branding',
 	'upgrade.pro.feature.domain',
-	'upgrade.pro.feature.roadmap',
+	'upgrade.pro.feature.sso',
 	'upgrade.pro.feature.integrations'
 ]
+
+const PRO_SOON = new Set<DictionaryKey>([
+	'upgrade.pro.feature.branding',
+	'upgrade.pro.feature.domain',
+	'upgrade.pro.feature.sso',
+	'upgrade.pro.feature.integrations'
+])
 
 export function UpgradeModal({ isPro }: { isPro: boolean }) {
 	const { t } = useI18n()
@@ -156,6 +164,11 @@ export function UpgradeModal({ isPro }: { isPro: boolean }) {
 									>
 										<Check className="h-4 w-4 shrink-0 text-fg" />
 										{t(f)}
+										{PRO_SOON.has(f) && (
+											<span className="rounded-full bg-surface px-2 py-0.5 text-[10px] text-fg-muted">
+												{t('common.soon')}
+											</span>
+										)}
 									</li>
 								))}
 							</ul>
