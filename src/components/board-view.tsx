@@ -1,5 +1,7 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
+import type { DictionaryKey } from '@/i18n/dictionaries/ru'
 import { Check, Flag, Link2, MessageSquare, Share2, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -19,23 +21,35 @@ export type PostRow = {
 	authorImage: string | null
 }
 
-const STATUSES = [
-	{ key: 'all', label: 'Все' },
-	{ key: 'pending', label: 'Ожидает', dot: 'bg-neutral-400' },
-	{ key: 'reviewing', label: 'На рассмотрении', dot: 'bg-amber-500' },
-	{ key: 'planned', label: 'Запланировано', dot: 'bg-blue-500' },
-	{ key: 'in_progress', label: 'В работе', dot: 'bg-violet-500' },
-	{ key: 'completed', label: 'Готово', dot: 'bg-emerald-500' },
-	{ key: 'closed', label: 'Закрыто', dot: 'bg-neutral-500' }
+const STATUSES: { key: string; labelKey: DictionaryKey; dot?: string }[] = [
+	{ key: 'all', labelKey: 'portalStatus.all' },
+	{ key: 'pending', labelKey: 'portalStatus.pending', dot: 'bg-neutral-400' },
+	{
+		key: 'reviewing',
+		labelKey: 'portalStatus.reviewing',
+		dot: 'bg-amber-500'
+	},
+	{ key: 'planned', labelKey: 'portalStatus.planned', dot: 'bg-blue-500' },
+	{
+		key: 'in_progress',
+		labelKey: 'portalStatus.in_progress',
+		dot: 'bg-violet-500'
+	},
+	{
+		key: 'completed',
+		labelKey: 'portalStatus.completed',
+		dot: 'bg-emerald-500'
+	},
+	{ key: 'closed', labelKey: 'portalStatus.closed', dot: 'bg-neutral-500' }
 ]
 
-const STATUS_META: Record<string, { label: string; dot: string }> = {
-	pending: { label: 'Ожидает', dot: 'bg-neutral-400' },
-	reviewing: { label: 'На рассмотрении', dot: 'bg-amber-500' },
-	planned: { label: 'Запланировано', dot: 'bg-blue-500' },
-	in_progress: { label: 'В работе', dot: 'bg-violet-500' },
-	completed: { label: 'Готово', dot: 'bg-emerald-500' },
-	closed: { label: 'Закрыто', dot: 'bg-neutral-500' }
+const STATUS_META: Record<string, { labelKey: DictionaryKey; dot: string }> = {
+	pending: { labelKey: 'portalStatus.pending', dot: 'bg-neutral-400' },
+	reviewing: { labelKey: 'portalStatus.reviewing', dot: 'bg-amber-500' },
+	planned: { labelKey: 'portalStatus.planned', dot: 'bg-blue-500' },
+	in_progress: { labelKey: 'portalStatus.in_progress', dot: 'bg-violet-500' },
+	completed: { labelKey: 'portalStatus.completed', dot: 'bg-emerald-500' },
+	closed: { labelKey: 'portalStatus.closed', dot: 'bg-neutral-500' }
 }
 
 function getGuestKey(): string {
@@ -56,6 +70,7 @@ export function BoardView({
 	projectName: string
 	posts: PostRow[]
 }) {
+	const { t } = useI18n()
 	const [posts, setPosts] = useState(initial)
 	const [myVotes, setMyVotes] = useState<Set<string>>(new Set())
 	const [status, setStatus] = useState('all')
@@ -143,10 +158,8 @@ export function BoardView({
 									: 'text-fg-secondary hover:text-fg'
 							}`}
 						>
-							{'dot' in s && (
-								<span className={`h-2 w-2 rounded-full ${s.dot}`} />
-							)}
-							{s.label}
+							{s.dot && <span className={`h-2 w-2 rounded-full ${s.dot}`} />}
+							{t(s.labelKey)}
 						</button>
 					))}
 					<span className="h-4 w-px bg-border" />
@@ -157,7 +170,7 @@ export function BoardView({
 						}`}
 					>
 						<Flag className="h-3.5 w-3.5" />
-						Популярные
+						{t('portal.popular')}
 					</button>
 				</div>
 			</div>
@@ -167,7 +180,7 @@ export function BoardView({
 				<main className="min-w-0 flex-1">
 					{filtered.length === 0 && (
 						<p className="py-12 text-center text-sm text-fg-muted">
-							Ничего не найдено
+							{t('portal.empty')}
 						</p>
 					)}
 					{filtered.map(p => {
@@ -192,9 +205,14 @@ export function BoardView({
 								)}
 								<div className="min-w-0 flex-1">
 									<p className="text-xs text-fg-muted">
-										{p.authorName ?? 'Гость'}{' '}
+										{p.authorName ?? t('portal.guest')}{' '}
 										<span className="text-fg-faint">
-											в {p.type === 'bug' ? 'Bugs' : 'Features'}
+											{t('portal.postedIn', {
+												category:
+													p.type === 'bug'
+														? t('portal.category.bugs')
+														: t('portal.category.features')
+											})}
 										</span>
 									</p>
 									<Link
@@ -214,7 +232,7 @@ export function BoardView({
 												<span
 													className={`h-1.5 w-1.5 rounded-full ${meta.dot}`}
 												/>
-												{meta.label}
+												{t(meta.labelKey)}
 											</span>
 										)}
 										<span className="inline-flex items-center gap-1 text-fg-muted">
@@ -245,30 +263,32 @@ export function BoardView({
 						className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 py-2.5 text-sm font-medium text-white hover:bg-violet-500"
 					>
 						<MessageSquare className="h-4 w-4" />
-						Оставить отзыв
+						{t('portal.sidebar.leaveFeedback')}
 					</button>
 
-					<p className="mt-6 text-xs font-medium text-fg-faint">ДОСКИ</p>
+					<p className="mt-6 text-xs font-medium text-fg-faint">
+						{t('portal.sidebar.boardsHeading')}
+					</p>
 					<nav className="mt-2 flex flex-col gap-0.5 text-sm">
 						<SideFilter
 							active={typeFilter === 'all'}
 							onClick={() => setTypeFilter('all')}
 							icon={<span className="h-2 w-2 rounded-full bg-neutral-400" />}
-							label="Все отзывы"
+							label={t('portal.sidebar.allFeedback')}
 							count={posts.length}
 						/>
 						<SideFilter
 							active={typeFilter === 'feature'}
 							onClick={() => setTypeFilter('feature')}
 							icon={<span className="h-2 w-2 rounded-full bg-emerald-500" />}
-							label="Features"
+							label={t('portal.category.features')}
 							count={countByType('feature')}
 						/>
 						<SideFilter
 							active={typeFilter === 'bug'}
 							onClick={() => setTypeFilter('bug')}
 							icon={<span className="h-2 w-2 rounded-full bg-red-500" />}
-							label="Bugs"
+							label={t('portal.category.bugs')}
 							count={countByType('bug')}
 						/>
 					</nav>
@@ -282,7 +302,7 @@ export function BoardView({
 				href="/"
 				className="fixed bottom-6 left-1/2 -translate-x-1/2 rounded-full border border-border bg-background px-4 py-2 text-sm text-fg-secondary shadow-lg hover:text-fg"
 			>
-				💬 Создайте свою доску
+				{t('portal.poweredByCta')}
 			</Link>
 
 			{composerOpen && (
@@ -329,6 +349,7 @@ function SideFilter({
 }
 
 function SidebarActions() {
+	const { t } = useI18n()
 	const [copied, setCopied] = useState(false)
 
 	async function copy() {
@@ -347,7 +368,9 @@ function SidebarActions() {
 
 	return (
 		<>
-			<p className="mt-6 text-xs font-medium text-fg-faint">ДЕЙСТВИЯ</p>
+			<p className="mt-6 text-xs font-medium text-fg-faint">
+				{t('portal.sidebar.actionsHeading')}
+			</p>
 			<div className="mt-2 flex flex-col gap-0.5 text-sm">
 				<button
 					onClick={copy}
@@ -358,14 +381,14 @@ function SidebarActions() {
 					) : (
 						<Link2 className="h-4 w-4" />
 					)}
-					{copied ? 'Скопировано' : 'Копировать ссылку'}
+					{copied ? t('common.copied') : t('portal.sidebar.copyLink')}
 				</button>
 				<button
 					onClick={share}
 					className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface"
 				>
 					<Share2 className="h-4 w-4" />
-					Поделиться
+					{t('portal.sidebar.share')}
 				</button>
 			</div>
 		</>
@@ -381,6 +404,7 @@ function Composer({
 	onClose: () => void
 	onCreated: () => void
 }) {
+	const { t } = useI18n()
 	const [title, setTitle] = useState('')
 	const [body, setBody] = useState('')
 	const [email, setEmail] = useState('')
@@ -417,7 +441,7 @@ function Composer({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? 'Ошибка')
+			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
 			return
 		}
 		setSent(true)
@@ -432,15 +456,19 @@ function Composer({
 			>
 				{sent ? (
 					<div className="py-8 text-center">
-						<p className="text-lg font-semibold text-fg">Спасибо!</p>
+						<p className="text-lg font-semibold text-fg">
+							{t('portal.composer.thanksTitle')}
+						</p>
 						<p className="mt-1 text-sm text-fg-secondary">
-							Отзыв отправлен — следите за статусом на доске.
+							{t('portal.composer.thanksBody')}
 						</p>
 					</div>
 				) : (
 					<>
 						<div className="flex items-center justify-between">
-							<h2 className="text-lg font-semibold text-fg">Оставить отзыв</h2>
+							<h2 className="text-lg font-semibold text-fg">
+								{t('portal.sidebar.leaveFeedback')}
+							</h2>
 							<button
 								onClick={onClose}
 								className="rounded-lg p-1.5 text-fg-muted hover:bg-surface"
@@ -455,7 +483,7 @@ function Composer({
 							<input
 								value={title}
 								onChange={e => setTitle(e.target.value)}
-								placeholder="Коротко: что предлагаешь?"
+								placeholder={t('portal.composer.titlePlaceholder')}
 								required
 								minLength={3}
 								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
@@ -463,7 +491,7 @@ function Composer({
 							<textarea
 								value={body}
 								onChange={e => setBody(e.target.value)}
-								placeholder="Подробности (необязательно)"
+								placeholder={t('portal.composer.bodyPlaceholder')}
 								rows={4}
 								className="resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 							/>
@@ -471,7 +499,7 @@ function Composer({
 								type="email"
 								value={email}
 								onChange={e => setEmail(e.target.value)}
-								placeholder="Email — чтобы узнать, когда сделаем (необязательно)"
+								placeholder={t('portal.composer.emailPlaceholder')}
 								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
 							/>
 							{error && <p className="text-sm text-red-600">{error}</p>}
@@ -479,7 +507,7 @@ function Composer({
 								disabled={saving}
 								className="mt-1 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
 							>
-								{saving ? 'Отправляю…' : 'Отправить'}
+								{saving ? t('portal.composer.sending') : t('portal.composer.send')}
 							</button>
 						</form>
 					</>

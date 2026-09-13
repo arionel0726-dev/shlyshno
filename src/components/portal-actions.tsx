@@ -1,9 +1,11 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import { Check, Link2, Share2 } from 'lucide-react'
 import { useState } from 'react'
 
 export function PortalActions() {
+	const { t } = useI18n()
 	const [copied, setCopied] = useState(false)
 
 	async function copy() {
@@ -31,14 +33,14 @@ export function PortalActions() {
 				) : (
 					<Link2 className="h-4 w-4" />
 				)}
-				{copied ? 'Скопировано' : 'Копировать ссылку'}
+				{copied ? t('common.copied') : t('portal.sidebar.copyLink')}
 			</button>
 			<button
 				onClick={share}
 				className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-fg-secondary hover:bg-surface"
 			>
 				<Share2 className="h-4 w-4" />
-				Поделиться
+				{t('portal.sidebar.share')}
 			</button>
 		</div>
 	)

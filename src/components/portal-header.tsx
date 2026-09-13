@@ -1,5 +1,6 @@
 'use client'
 
+import { useI18n } from '@/i18n/context'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,12 +15,13 @@ export function PortalHeader({
 	search?: string
 	onSearch?: (value: string) => void
 }) {
+	const { t } = useI18n()
 	const pathname = usePathname()
 
 	const tabs = [
-		{ href: `/p/${slug}`, label: 'Отзывы' },
-		{ href: `/p/${slug}/roadmap`, label: 'Дорожная карта' },
-		{ href: `/p/${slug}/changelog`, label: 'Обновления' }
+		{ href: `/p/${slug}`, label: t('portal.tab.feedback') },
+		{ href: `/p/${slug}/roadmap`, label: t('portal.tab.roadmap') },
+		{ href: `/p/${slug}/changelog`, label: t('portal.tab.changelog') }
 	]
 
 	return (
@@ -32,19 +34,19 @@ export function PortalHeader({
 					<span className="font-semibold text-fg">{projectName}</span>
 				</div>
 				<nav className="ml-4 flex items-center gap-5 text-sm">
-					{tabs.map(t => {
-						const active = pathname === t.href
+					{tabs.map(tab => {
+						const active = pathname === tab.href
 						return (
 							<Link
-								key={t.href}
-								href={t.href}
+								key={tab.href}
+								href={tab.href}
 								className={`pb-1 ${
 									active
 										? 'border-b-2 border-fg font-medium text-fg'
 										: 'text-fg-secondary hover:text-fg'
 								}`}
 							>
-								{t.label}
+								{tab.label}
 							</Link>
 						)
 					})}

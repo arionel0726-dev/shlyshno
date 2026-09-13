@@ -209,6 +209,40 @@ const ru = {
 	'upgrade.footer':
 		'Всего два плана. Никаких сложных тарифов. Отмена в любой момент.',
 
+	// --- Публичный портал: доска ---
+	'portalStatus.all': 'Все',
+	'portalStatus.pending': 'Ожидает',
+	'portalStatus.reviewing': 'На рассмотрении',
+	'portalStatus.planned': 'Запланировано',
+	'portalStatus.in_progress': 'В работе',
+	'portalStatus.completed': 'Готово',
+	'portalStatus.closed': 'Закрыто',
+	'portal.popular': 'Популярные',
+	'portal.empty': 'Ничего не найдено',
+	'portal.guest': 'Гость',
+	'portal.postedIn': 'в {category}',
+	'portal.category.features': 'Фичи',
+	'portal.category.bugs': 'Баги',
+	'portal.sidebar.leaveFeedback': 'Оставить отзыв',
+	'portal.sidebar.boardsHeading': 'ДОСКИ',
+	'portal.sidebar.allFeedback': 'Все отзывы',
+	'portal.sidebar.actionsHeading': 'ДЕЙСТВИЯ',
+	'portal.sidebar.copyLink': 'Копировать ссылку',
+	'portal.sidebar.share': 'Поделиться',
+	'portal.poweredByCta': '💬 Создайте свою доску',
+	'portal.composer.thanksTitle': 'Спасибо!',
+	'portal.composer.thanksBody':
+		'Отзыв отправлен — следите за статусом на доске.',
+	'portal.composer.titlePlaceholder': 'Коротко: что предлагаешь?',
+	'portal.composer.bodyPlaceholder': 'Подробности (необязательно)',
+	'portal.composer.emailPlaceholder':
+		'Email — чтобы узнать, когда сделаем (необязательно)',
+	'portal.composer.sending': 'Отправляю…',
+	'portal.composer.send': 'Отправить',
+	'portal.tab.feedback': 'Отзывы',
+	'portal.tab.roadmap': 'Дорожная карта',
+	'portal.tab.changelog': 'Обновления',
+
 	// --- Выпадающий список статуса карточки (owner) ---
 	'postStatus.pending': 'Новое',
 	'postStatus.reviewing': 'Рассматриваем',

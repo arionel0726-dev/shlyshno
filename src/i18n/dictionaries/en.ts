@@ -210,6 +210,40 @@ const en: Dictionary = {
 	'upgrade.footer':
 		'Just two plans. No confusing tiers. Cancel any time.',
 
+	// --- Public portal: board ---
+	'portalStatus.all': 'All',
+	'portalStatus.pending': 'Pending',
+	'portalStatus.reviewing': 'Under review',
+	'portalStatus.planned': 'Planned',
+	'portalStatus.in_progress': 'In progress',
+	'portalStatus.completed': 'Done',
+	'portalStatus.closed': 'Closed',
+	'portal.popular': 'Popular',
+	'portal.empty': 'Nothing found',
+	'portal.guest': 'Guest',
+	'portal.postedIn': 'in {category}',
+	'portal.category.features': 'Features',
+	'portal.category.bugs': 'Bugs',
+	'portal.sidebar.leaveFeedback': 'Leave feedback',
+	'portal.sidebar.boardsHeading': 'BOARDS',
+	'portal.sidebar.allFeedback': 'All feedback',
+	'portal.sidebar.actionsHeading': 'ACTIONS',
+	'portal.sidebar.copyLink': 'Copy link',
+	'portal.sidebar.share': 'Share',
+	'portal.poweredByCta': '💬 Create your own board',
+	'portal.composer.thanksTitle': 'Thanks!',
+	'portal.composer.thanksBody':
+		'Your feedback was submitted — follow its status on the board.',
+	'portal.composer.titlePlaceholder': "What's your idea, in short?",
+	'portal.composer.bodyPlaceholder': 'Details (optional)',
+	'portal.composer.emailPlaceholder':
+		"Email — to find out when it's done (optional)",
+	'portal.composer.sending': 'Sending…',
+	'portal.composer.send': 'Send',
+	'portal.tab.feedback': 'Feedback',
+	'portal.tab.roadmap': 'Roadmap',
+	'portal.tab.changelog': 'Changelog',
+
 	// --- Post status dropdown (owner) ---
 	'postStatus.pending': 'New',
 	'postStatus.reviewing': 'Reviewing',
