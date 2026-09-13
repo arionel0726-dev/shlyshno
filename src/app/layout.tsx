@@ -1,6 +1,8 @@
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import Script from 'next/script'
+import { I18nProvider } from '@/i18n/context'
+import { getDictionary } from '@/i18n/server'
 import './globals.css'
 
 const themeScript = `
@@ -14,14 +16,16 @@ const themeScript = `
 })();
 `
 
-export default function RootLayout({
+export default async function RootLayout({
 	children
 }: {
 	children: React.ReactNode
 }) {
+	const { locale, dict } = await getDictionary()
+
 	return (
 		<html
-			lang="ru"
+			lang={locale}
 			className={`${GeistSans.variable} ${GeistMono.variable}`}
 			suppressHydrationWarning
 		>
@@ -31,7 +35,12 @@ export default function RootLayout({
 					strategy="beforeInteractive"
 					dangerouslySetInnerHTML={{ __html: themeScript }}
 				/>
-				{children}
+				<I18nProvider
+					locale={locale}
+					dict={dict}
+				>
+					{children}
+				</I18nProvider>
 			</body>
 		</html>
 	)

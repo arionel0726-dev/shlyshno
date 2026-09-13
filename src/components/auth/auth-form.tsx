@@ -1,6 +1,8 @@
 'use client'
 
 import { authClient } from '@/lib/auth-client'
+import { useI18n } from '@/i18n/context'
+import type { TranslateFn } from '@/i18n/translate'
 import { Check, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -35,17 +37,18 @@ function GoogleIcon() {
 	)
 }
 
-function Divider() {
+function Divider({ t }: { t: TranslateFn }) {
 	return (
 		<div className="my-6 flex items-center gap-4">
 			<span className="h-px flex-1 bg-border" />
-			<span className="text-sm text-fg-muted">или</span>
+			<span className="text-sm text-fg-muted">{t('auth.divider.or')}</span>
 			<span className="h-px flex-1 bg-border" />
 		</div>
 	)
 }
 
 export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
+	const { t } = useI18n()
 	const isSignup = mode === 'signup'
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
@@ -56,17 +59,17 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 	const router = useRouter()
 
 	const checks = [
-		{ label: 'Минимум 8 символов', ok: password.length >= 8 },
-		{ label: 'Хотя бы одна цифра', ok: /\d/.test(password) },
-		{ label: 'Хотя бы один спецсимвол', ok: /[^A-Za-z0-9]/.test(password) }
+		{ label: t('auth.check.minLength'), ok: password.length >= 8 },
+		{ label: t('auth.check.hasDigit'), ok: /\d/.test(password) },
+		{ label: t('auth.check.hasSpecial'), ok: /[^A-Za-z0-9]/.test(password) }
 	]
 
 	function mapError(message?: string) {
-		if (!message) return 'Что-то пошло не так'
+		if (!message) return t('auth.error.generic')
 		if (message.toLowerCase().includes('already'))
-			return 'Такой email уже зарегистрирован — войдите'
+			return t('auth.error.alreadyRegistered')
 		if (message.toLowerCase().includes('invalid'))
-			return 'Неверный email или пароль'
+			return t('auth.error.invalidCredentials')
 		return message
 	}
 
@@ -84,7 +87,7 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 		e.preventDefault()
 		setError('')
 		if (isSignup && !checks.every(c => c.ok)) {
-			setError('Пароль не соответствует требованиям')
+			setError(t('auth.error.weakPassword'))
 			return
 		}
 		setLoading(true)
@@ -112,12 +115,10 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 	return (
 		<div className="w-full max-w-[420px]">
 			<h1 className="text-center text-3xl font-bold tracking-tight text-fg">
-				{isSignup ? 'Создайте аккаунт' : 'С возвращением'}
+				{isSignup ? t('auth.signup.title') : t('auth.signin.title')}
 			</h1>
 			<p className="mt-2 text-center text-fg-secondary">
-				{isSignup
-					? 'Начните собирать фидбек за пару минут.'
-					: 'Войдите в своё рабочее пространство.'}
+				{isSignup ? t('auth.signup.subtitle') : t('auth.signin.subtitle')}
 			</p>
 
 			<button
@@ -126,10 +127,10 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 				className="mt-8 flex h-[52px] w-full items-center justify-center gap-3 rounded-[10px] border border-border text-[15px] font-medium text-fg hover:bg-surface disabled:opacity-50"
 			>
 				<GoogleIcon />
-				Продолжить с Google
+				{t('auth.continueWithGoogle')}
 			</button>
 
-			<Divider />
+			<Divider t={t} />
 
 			<form
 				onSubmit={submit}
@@ -138,12 +139,12 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 				{isSignup && (
 					<div>
 						<label className="mb-1.5 block text-sm font-medium text-fg">
-							Имя
+							{t('auth.field.name')}
 						</label>
 						<input
 							value={name}
 							onChange={e => setName(e.target.value)}
-							placeholder="Как к вам обращаться"
+							placeholder={t('auth.field.namePlaceholder')}
 							required
 							className={inputCls}
 						/>
@@ -151,7 +152,7 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 				)}
 				<div>
 					<label className="mb-1.5 block text-sm font-medium text-fg">
-						Email
+						{t('auth.field.email')}
 					</label>
 					<input
 						type="email"
@@ -164,13 +165,15 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 				</div>
 				<div>
 					<div className="mb-1.5 flex items-center justify-between">
-						<label className="text-sm font-medium text-fg">Пароль</label>
+						<label className="text-sm font-medium text-fg">
+							{t('auth.field.password')}
+						</label>
 						{!isSignup && (
 							<span
-								title="Скоро"
+								title={t('auth.forgotPasswordSoon')}
 								className="cursor-default text-sm text-fg-muted underline"
 							>
-								Забыли пароль?
+								{t('auth.forgotPassword')}
 							</span>
 						)}
 					</div>
@@ -217,19 +220,23 @@ export function AuthForm({ mode }: { mode: 'signin' | 'signup' }) {
 					disabled={loading}
 					className="mt-2 h-[52px] rounded-[10px] bg-primary text-[15px] font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
 				>
-					{loading ? 'Подождите…' : isSignup ? 'Создать аккаунт' : 'Войти'}
+					{loading
+						? t('auth.submit.wait')
+						: isSignup
+							? t('auth.submit.signup')
+							: t('auth.submit.signin')}
 				</button>
 
 				{error && <p className="text-center text-sm text-red-600">{error}</p>}
 			</form>
 
 			<p className="mt-6 text-center text-sm text-fg-secondary">
-				{isSignup ? 'Уже есть аккаунт?' : 'Нет аккаунта?'}{' '}
+				{isSignup ? t('auth.footer.haveAccount') : t('auth.footer.noAccount')}{' '}
 				<Link
 					href={isSignup ? '/login' : '/register'}
 					className="font-medium text-fg underline"
 				>
-					{isSignup ? 'Войти' : 'Создать аккаунт'}
+					{isSignup ? t('auth.submit.signin') : t('auth.submit.signup')}
 				</Link>
 			</p>
 		</div>

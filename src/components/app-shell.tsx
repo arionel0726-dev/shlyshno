@@ -16,6 +16,7 @@ import {
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useI18n } from '@/i18n/context'
 import { SignOutButton } from './sign-out-button'
 import { UpgradeModal } from './upgrade-modal'
 export function AppShell({
@@ -30,6 +31,7 @@ export function AppShell({
 	children: React.ReactNode
 }) {
 	const router = useRouter()
+	const { t, locale, setLocale } = useI18n()
 	const [collapsed, setCollapsed] = useState(false)
 	const [menuOpen, setMenuOpen] = useState(false)
 	const menuRef = useRef<HTMLDivElement>(null)
@@ -44,19 +46,19 @@ export function AppShell({
 		{
 			href: slug ? `/dashboard/p/${slug}` : '/new',
 			icon: MessageSquare,
-			label: 'Feedback'
+			label: t('appShell.nav.feedback')
 		},
 		...(m?.[1]
 			? [
 					{
 						href: `/dashboard/p/${slug}/roadmap`,
 						icon: Map,
-						label: 'Roadmap'
+						label: t('appShell.nav.roadmap')
 					},
 					{
 						href: `/dashboard/p/${slug}/changelog`,
 						icon: Clock,
-						label: 'Changelog'
+						label: t('appShell.nav.changelog')
 					}
 				]
 			: [])
@@ -67,17 +69,19 @@ export function AppShell({
 				{
 					href: `/p/${slug}`,
 					icon: Globe,
-					label: 'Public portal'
+					label: t('appShell.nav.publicPortal')
 				},
 				{
 					href: `/dashboard/p/${slug}/settings`,
 					icon: Settings,
-					label: 'Settings'
+					label: t('appShell.nav.settings')
 				}
 			]
 		: []
 
-	const RESOURCES_NAV = [{ href: '/docs', icon: BookOpen, label: 'Docs' }]
+	const RESOURCES_NAV = [
+		{ href: '/docs', icon: BookOpen, label: t('appShell.nav.docs') }
+	]
 
 	useEffect(() => {
 		setMenuOpen(false)
@@ -129,11 +133,11 @@ export function AppShell({
 					className={`mt-2 flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm font-medium text-fg hover:bg-surface-hover ${
 						collapsed ? 'justify-center' : ''
 					}`}
-					title="New request"
+					title={t('appShell.newRequest')}
 					onClick={onNewRequest}
 				>
 					<Sparkles className="h-4 w-4" />
-					{!collapsed && 'New request'}
+					{!collapsed && t('appShell.newRequest')}
 				</button>
 
 				{/* Навигация */}
@@ -152,7 +156,9 @@ export function AppShell({
 					{WORKSPACE_NAV.length > 0 && (
 						<div className="flex flex-col gap-0.5">
 							{!collapsed && (
-								<p className="px-2 pb-1 text-xs text-fg-faint">Workspace</p>
+								<p className="px-2 pb-1 text-xs text-fg-faint">
+									{t('appShell.nav.workspaceSection')}
+								</p>
 							)}
 							{WORKSPACE_NAV.map(item => (
 								<NavItem
@@ -167,7 +173,9 @@ export function AppShell({
 
 					<div className="flex flex-col gap-0.5">
 						{!collapsed && (
-							<p className="px-2 pb-1 text-xs text-fg-faint">Ресурсы</p>
+							<p className="px-2 pb-1 text-xs text-fg-faint">
+								{t('appShell.nav.docsSection')}
+							</p>
 						)}
 						{RESOURCES_NAV.map(item => (
 							<NavItem
@@ -188,10 +196,10 @@ export function AppShell({
 						className={`mb-2 flex w-full items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-medium text-fg hover:bg-surface ${
 							collapsed ? 'justify-center' : ''
 						}`}
-						title="Upgrade to Pro"
+						title={t('appShell.upgradeToPro')}
 					>
 						<Sparkles className="h-4 w-4 shrink-0 text-violet-500" />
-						{!collapsed && 'Upgrade to Pro'}
+						{!collapsed && t('appShell.upgradeToPro')}
 					</button>
 				)}
 
@@ -207,7 +215,7 @@ export function AppShell({
 					) : (
 						<ChevronsLeft className="h-4 w-4" />
 					)}
-					{!collapsed && 'Collapse'}
+					{!collapsed && t('appShell.collapse')}
 				</button>
 
 				{/* Юзер */}
@@ -226,14 +234,14 @@ export function AppShell({
 									{
 										href: '/dashboard',
 										icon: LayoutDashboard,
-										label: 'Dashboard'
+										label: t('appShell.menu.dashboard')
 									},
 									...(slug
 										? [
 												{
 													href: `/dashboard/p/${slug}/settings/account`,
 													icon: Settings,
-													label: 'My settings'
+													label: t('appShell.menu.mySettings')
 												}
 											]
 										: [])
@@ -246,6 +254,26 @@ export function AppShell({
 										<i.icon className="h-4 w-4" /> {i.label}
 									</Link>
 								))}
+							</div>
+							<div className="flex items-center justify-between border-t border-border px-4 py-2.5">
+								<span className="flex items-center gap-2 text-sm text-fg-secondary">
+									<Globe className="h-4 w-4" /> {t('appShell.language')}
+								</span>
+								<div className="flex overflow-hidden rounded-lg border border-border text-xs font-medium">
+									{(['ru', 'en'] as const).map(l => (
+										<button
+											key={l}
+											onClick={() => setLocale(l)}
+											className={`px-2.5 py-1 ${
+												locale === l
+													? 'bg-surface-active text-fg'
+													: 'text-fg-muted hover:bg-surface'
+											}`}
+										>
+											{l.toUpperCase()}
+										</button>
+									))}
+								</div>
 							</div>
 							<SignOutButton />
 						</div>
@@ -280,7 +308,7 @@ export function AppShell({
 											isPro ? 'font-medium text-violet-500' : 'text-fg-faint'
 										}`}
 									>
-										{isPro ? '✦ Pro' : 'Free'}
+										{isPro ? t('appShell.plan.pro') : t('appShell.plan.free')}
 									</span>
 								</span>
 								<PanelsTopLeft className="h-4 w-4 text-fg-faint" />
@@ -295,7 +323,7 @@ export function AppShell({
 			<UpgradeModal isPro={isPro} />
 			{showProToast && (
 				<div className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-emerald-500/40 bg-background px-5 py-2.5 text-sm text-fg shadow-lg">
-					🎉 Подписка Pro активна — спасибо за поддержку!
+					{t('appShell.proToast')}
 				</div>
 			)}
 		</div>
