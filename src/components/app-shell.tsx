@@ -19,6 +19,7 @@ import {
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { NewRequestModal } from './new-request-modal'
 import { SignOutButton } from './sign-out-button'
 import { SupportModal } from './support-modal'
 import { UpgradeModal } from './upgrade-modal'
@@ -135,9 +136,7 @@ export function AppShell({
 			<aside
 				className={`fixed inset-y-4 left-4 z-40 flex flex-col rounded-2xl border border-border bg-background p-3 transition-all lg:static lg:inset-auto lg:z-auto lg:translate-x-0 ${
 					mobileMenuOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1rem)]'
-				} ${
-					collapsed ? 'w-[72px] items-center' : 'w-64'
-				}`}
+				} ${collapsed ? 'w-[72px] items-center' : 'w-64'}`}
 			>
 				{/* Лого */}
 				<div
@@ -351,6 +350,7 @@ export function AppShell({
 				{children}
 			</main>
 			<UpgradeModal isPro={isPro} />
+			{slug && <NewRequestModal slug={slug} />}
 			<SupportModal />
 			{showProToast && (
 				<div className="fixed top-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-emerald-500/40 bg-background px-5 py-2.5 text-sm text-fg shadow-lg">

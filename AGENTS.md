@@ -130,12 +130,12 @@ Orbit Design Template v2 (у пользователя).
       «coming soon» бейджи
 - [ ] ДЕПЛОЙ (Vercel): env vars, домен slyshno.app, Google redirect URI, webhook
       LS на прод, cron-job.org, test mode OFF
-- [ ] Mobile adaptation — Codex (ветка feat/mobile, в работе)
+- [x] Mobile adaptation — Codex (ветка feat/mobile, в работе)
 - [ ] SEO — Claude (следующая задача, ветка feat/seo)
 - [ ] v1.1: кастомный домен (Contabo+Caddy триггер миграции), вложения,
       Linear/Slack, bulk actions, шаблоны писем, видео-гайды, auto-detect языка
       портала, accent color, docs-хаб, search, MCP + mobile SDK, Apple/Google
-      Pay в live, MDL→180
+      Pay в live, MDL→180, blogs
 
 ## Маркетинг-запуск
 
