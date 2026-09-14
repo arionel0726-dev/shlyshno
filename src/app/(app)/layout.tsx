@@ -2,6 +2,7 @@ import { AppShell } from '@/components/app-shell'
 import { projects, subscriptions } from '@/db/schema'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
+import { isOwnerPro } from '@/lib/usage'
 import { and, desc, eq } from 'drizzle-orm'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
@@ -18,6 +19,7 @@ export default async function AppLayout({
 	children: React.ReactNode
 }) {
 	const session = await getSession()
+
 	if (!session) redirect('/')
 
 	const lastProject = await db.query.projects.findFirst({
@@ -42,11 +44,7 @@ export default async function AppLayout({
 		.leftJoin(projects, eq(subscriptions.projectId, projects.id))
 		.where(eq(projects.ownerId, session.user.id))
 
-	const isPro = userSubs.some(
-		s =>
-			['active', 'past_due', 'on_trial'].includes(s.status) ||
-			(s.status === 'cancelled' && s.endsAt && s.endsAt > now)
-	)
+	const isPro = await isOwnerPro(session.user.id)
 
 	return (
 		<AppShell

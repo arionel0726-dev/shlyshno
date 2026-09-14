@@ -501,7 +501,13 @@ const ru = {
 	'auth.footer.haveAccount': 'Уже есть аккаунт?',
 	'auth.footer.noAccount': 'Нет аккаунта?',
 	'auth.footer.legal':
-		'Продолжая, вы принимаете Условия использования и Политику конфиденциальности.'
+		'Продолжая, вы принимаете Условия использования и Политику конфиденциальности.',
+	'usage.title': 'Использование тарифа',
+	'usage.votes': 'Голоса в этом месяце',
+	'usage.unlimited': 'Безлимитно',
+	'usage.resets': 'Сброс',
+	'usage.limitNotice':
+		'Лимет Free-тарифа исчерпан (100 голосов/мес). Апгрейд до Pro снимает ограничение.'
 } as const
 
 export type DictionaryKey = keyof typeof ru

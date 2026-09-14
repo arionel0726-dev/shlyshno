@@ -504,7 +504,13 @@ const en: Dictionary = {
 	'auth.footer.haveAccount': 'Already have an account?',
 	'auth.footer.noAccount': 'Don’t have an account?',
 	'auth.footer.legal':
-		'By continuing, you agree to the Terms of Service and Privacy Policy.'
+		'By continuing, you agree to the Terms of Service and Privacy Policy.',
+	'usage.title': 'Plan usage',
+	'usage.votes': 'Votes this month',
+	'usage.unlimited': 'Unlimited',
+	'usage.resets': 'Resets',
+	'usage.limitNotice':
+		'Free plan limit reached (100 votes/mo). Upgrading to Pro removes the limit.'
 }
 
 export default en

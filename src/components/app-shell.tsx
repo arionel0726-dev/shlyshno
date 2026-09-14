@@ -104,6 +104,12 @@ export function AppShell({
 			return () => clearTimeout(t)
 		}
 	}, [searchParams])
+
+	useEffect(() => {
+		const h = () => window.dispatchEvent(new Event('slyshno:upgrade'))
+		window.addEventListener('slyshno:vote-limit', h)
+		return () => window.removeEventListener('slyshno:vote-limit', h)
+	}, [])
 	function onNewRequest() {
 		if (slug) {
 			window.dispatchEvent(new CustomEvent('slyshno:new-request'))

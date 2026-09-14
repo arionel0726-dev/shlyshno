@@ -2,14 +2,14 @@ import { AccountForm } from '@/components/account-form'
 import { CancelSubscriptionButton } from '@/components/cancel-subscription-button'
 import { account as accountTable, user } from '@/db/auth-schema'
 import { projects, subscriptions } from '@/db/schema'
-import { getT } from '@/i18n/server'
 import type { Locale } from '@/i18n/config'
+import { getT } from '@/i18n/server'
 import { db } from '@/lib/db'
 import { getSession } from '@/lib/session'
+import { getUsage, nextResetDate } from '@/lib/usage'
 import { eq } from 'drizzle-orm'
 import { CheckCircle2 } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
-
 const DATE_LOCALE: Record<Locale, string> = { ru: 'ru-RU', en: 'en-US' }
 
 function formatDate(d: Date | null, locale: Locale): string | null {
@@ -54,7 +54,8 @@ export default async function AccountSettings({
 		.from(subscriptions)
 		.leftJoin(projects, eq(subscriptions.projectId, projects.id))
 		.where(eq(projects.ownerId, session.user.id))
-
+	const usage = await getUsage(project.id)
+	const resetLabel = formatDate(nextResetDate(), locale)
 	return (
 		<div>
 			<h2 className="text-2xl font-bold text-fg">
@@ -110,7 +111,8 @@ export default async function AccountSettings({
 					</p>
 					<p className="mt-0.5 text-sm text-fg-secondary">
 						{t('account.signIn.via', {
-							provider: authAccount?.providerId === 'google' ? 'Google' : 'email'
+							provider:
+								authAccount?.providerId === 'google' ? 'Google' : 'email'
 						})}
 					</p>
 				</div>
@@ -180,6 +182,22 @@ export default async function AccountSettings({
 							</div>
 						)
 					})()
+				)}
+			</div>
+			<p className="mt-8 text-sm font-semibold text-fg">{t('usage.title')}</p>
+			<div className="mt-3 flex items-center justify-between rounded-2xl border border-border p-6">
+				<div>
+					<p className="text-sm font-medium text-fg">{t('usage.votes')}</p>
+					<p className="mt-0.5 text-sm text-fg-secondary">
+						{usage.pro
+							? t('usage.unlimited')
+							: `${usage.used} / ${usage.limit}`}
+					</p>
+				</div>
+				{!usage.pro && (
+					<span className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-secondary">
+						{t('usage.resets')} {resetLabel}
+					</span>
 				)}
 			</div>
 		</div>

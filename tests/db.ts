@@ -1,94 +1,109 @@
-import crypto from 'crypto'
-import { boards, posts, projects, subscriptions } from '@/db/schema'
-import { db } from '@/lib/db'
-import { sql } from 'drizzle-orm'
+import { POST } from '@/app/api/posts/vote/route'
+import { usageCounters, votes } from '@/db/schema'
+import { getSession } from '@/lib/session'
+import { currentPeriod, FREE_VOTES_LIMIT } from '@/lib/usage'
+import { eq } from 'drizzle-orm'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import {
+	createBoard,
+	createPost,
+	createProject,
+	createSubscription,
+	db,
+	resetDb
+} from '../db'
 
-export { db }
+vi.mock('@/lib/session', () => ({ getSession: vi.fn() }))
 
-// Общая test-база (slyshno_test) — чистим все таблицы перед каждым тестом,
-// чтобы тесты не зависели от порядка выполнения и не мешали друг другу.
-export async function resetDb() {
-	await db.execute(sql`
-		TRUNCATE TABLE
-			votes, comments, post_subscriptions, outbox, changelog_posts,
-			subscriptions, posts, boards, projects,
-			session, account, verification, "user"
-		RESTART IDENTITY CASCADE
-	`)
+function voteRequest(body: unknown) {
+	return new Request('http://localhost:3000/api/posts/vote', {
+		method: 'POST',
+		headers: { 'content-type': 'application/json' },
+		body: JSON.stringify(body)
+	})
 }
 
-export async function closeTestDb() {
-	await db.$client.end({ timeout: 1 })
+async function setup() {
+	const project = await createProject()
+	const board = await createBoard(project.id)
+	const post = await createPost(board.id)
+	return { project, board, post }
 }
 
-export async function createProject(
-	overrides: Partial<typeof projects.$inferInsert> = {}
-) {
-	const [project] = await db
-		.insert(projects)
-		.values({
-			name: overrides.name ?? 'Test Project',
-			slug: overrides.slug ?? `test-project-${crypto.randomUUID().slice(0, 8)}`,
-			ownerId: overrides.ownerId ?? 'owner-1',
-			publicKey: overrides.publicKey ?? crypto.randomBytes(16).toString('hex'),
-			plan: overrides.plan ?? 'free',
-			website: overrides.website
+async function seedCounter(projectId: string, votesCount: number) {
+	await db.insert(usageCounters).values({
+		projectId,
+		period: currentPeriod(),
+		votesCount
+	})
+}
+
+async function counterValue(projectId: string) {
+	const [row] = await db
+		.select({ votesCount: usageCounters.votesCount })
+		.from(usageCounters)
+		.where(eq(usageCounters.projectId, projectId))
+	return row?.votesCount ?? 0
+}
+
+beforeEach(async () => {
+	await resetDb()
+	vi.mocked(getSession).mockResolvedValue(null)
+})
+
+describe('POST /api/posts/vote — usage limits', () => {
+	it('increments the counter on vote and decrements on un-vote', async () => {
+		const { project, post } = await setup()
+		const guestKey = 'guest-limit-00000001'
+
+		const first = await POST(voteRequest({ postId: post.id, guestKey }))
+		expect(first.status).toBe(200)
+		expect(await counterValue(project.id)).toBe(1)
+
+		const second = await POST(voteRequest({ postId: post.id, guestKey }))
+		expect(second.status).toBe(200)
+		expect(await counterValue(project.id)).toBe(0)
+	})
+
+	it('rejects votes above the Free limit with error "limit"', async () => {
+		const { project, post } = await setup()
+		await seedCounter(project.id, FREE_VOTES_LIMIT)
+
+		const res = await POST(
+			voteRequest({ postId: post.id, guestKey: 'guest-limit-00000002' })
+		)
+		expect(res.status).toBe(403)
+		expect(await res.json()).toEqual({ error: 'limit' })
+
+		const rows = await db.query.votes.findMany({
+			where: eq(votes.postId, post.id)
 		})
-		.returning()
-	return project
-}
+		expect(rows).toHaveLength(0)
+	})
 
-export async function createBoard(
-	projectId: string,
-	overrides: Partial<typeof boards.$inferInsert> = {}
-) {
-	const [board] = await db
-		.insert(boards)
-		.values({
-			projectId,
-			name: overrides.name ?? 'Ideas',
-			slug: overrides.slug ?? 'ideas',
-			isDefault: overrides.isDefault ?? true
-		})
-		.returning()
-	return board
-}
+	it('pro accounts are not limited', async () => {
+		const { project, post } = await setup()
+		await createSubscription(project.id, { status: 'active' })
+		await seedCounter(project.id, FREE_VOTES_LIMIT)
 
-export async function createPost(
-	boardId: string,
-	overrides: Partial<typeof posts.$inferInsert> = {}
-) {
-	const [post] = await db
-		.insert(posts)
-		.values({
-			boardId,
-			title: overrides.title ?? 'Test post',
-			body: overrides.body,
-			status: overrides.status ?? 'pending',
-			type: overrides.type ?? 'feature',
-			authorId: overrides.authorId,
-			authorEmail: overrides.authorEmail
-		})
-		.returning()
-	return post
-}
+		const res = await POST(
+			voteRequest({ postId: post.id, guestKey: 'guest-limit-00000003' })
+		)
+		expect(res.status).toBe(200)
+		expect(await res.json()).toEqual({ voted: true })
+	})
 
-export async function createSubscription(
-	projectId: string,
-	overrides: Partial<typeof subscriptions.$inferInsert> = {}
-) {
-	const [sub] = await db
-		.insert(subscriptions)
-		.values({
-			projectId,
-			provider: overrides.provider ?? 'lemonsqueezy',
-			customerId: overrides.customerId ?? 'cust_1',
-			subscriptionId: overrides.subscriptionId ?? `sub_${crypto.randomUUID()}`,
-			plan: overrides.plan ?? 'pro',
-			status: overrides.status ?? 'active',
-			renewsAt: overrides.renewsAt,
-			endsAt: overrides.endsAt
+	it('cancelled subscription with future endsAt still counts as Pro', async () => {
+		const { project, post } = await setup()
+		await createSubscription(project.id, {
+			status: 'cancelled',
+			endsAt: new Date(Date.now() + 7 * 24 * 3600 * 1000)
 		})
-		.returning()
-	return sub
-}
+		await seedCounter(project.id, FREE_VOTES_LIMIT)
+
+		const res = await POST(
+			voteRequest({ postId: post.id, guestKey: 'guest-limit-00000004' })
+		)
+		expect(res.status).toBe(200)
+	})
+})

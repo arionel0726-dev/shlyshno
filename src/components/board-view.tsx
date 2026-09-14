@@ -78,6 +78,7 @@ export function BoardView({
 	const [popular, setPopular] = useState(true)
 	const [query, setQuery] = useState('')
 	const [composerOpen, setComposerOpen] = useState(false)
+	const [limitNotice, setLimitNotice] = useState(false)
 	const pathname = usePathname()
 	const router = useRouter()
 
@@ -126,7 +127,29 @@ export function BoardView({
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ postId, guestKey: getGuestKey() })
 		})
-		if (!r.ok) router.refresh()
+		const data = await r.json().catch(() => ({}))
+		if (!r.ok) {
+			// откатываем оптимистичное обновление
+			setMyVotes(s => {
+				const n = new Set(s)
+				was ? n.add(postId) : n.delete(postId)
+				return n
+			})
+			setPosts(ps =>
+				ps.map(p =>
+					p.id === postId
+						? { ...p, votesCount: p.votesCount + (was ? 1 : -1) }
+						: p
+				)
+			)
+			if (data.error === 'limit') {
+				setLimitNotice(true)
+				// в кабинете (app-shell) откроется UpgradeModal
+				window.dispatchEvent(new Event('slyshno:vote-limit'))
+			} else {
+				router.refresh()
+			}
+		}
 	}
 
 	const tabs = [
@@ -144,6 +167,17 @@ export function BoardView({
 				search={query}
 				onSearch={setQuery}
 			/>
+			{limitNotice && (
+				<div className="mb-4 flex items-center justify-between rounded-xl border border-border bg-surface px-4 py-3 text-sm text-fg-secondary">
+					<span>{t('usage.limitNotice')}</span>
+					<button
+						onClick={() => setLimitNotice(false)}
+						className="text-fg-muted hover:text-fg"
+					>
+						✕
+					</button>
+				</div>
+			)}
 
 			{/* Фильтры-табы статусов */}
 			<div className="border-b border-border">
@@ -441,7 +475,9 @@ function Composer({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
+			setError(
+				(await r.json().catch(() => ({}))).error ?? t('common.error.short')
+			)
 			return
 		}
 		setSent(true)
@@ -507,7 +543,9 @@ function Composer({
 								disabled={saving}
 								className="mt-1 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
 							>
-								{saving ? t('portal.composer.sending') : t('portal.composer.send')}
+								{saving
+									? t('portal.composer.sending')
+									: t('portal.composer.send')}
 							</button>
 						</form>
 					</>
