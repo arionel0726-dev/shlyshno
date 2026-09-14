@@ -372,11 +372,7 @@ export default async function Home() {
 			</section>
 
 			<SiteFooter />
-			<script
-				src="https://www.slyshno.app/widget.js"
-				data-slyshno-key="68c6b8f72ac98cf6f54fff579a469cc3"
-				async
-			></script>
+			<script src="https://www.slyshno.app/widget.js" data-slyshno-key="68c6b8f72ac98cf6f54fff579a469cc3" async></script>
 		</div>
 	)
 }
