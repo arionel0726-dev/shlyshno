@@ -139,3 +139,20 @@ export const subscriptions = pgTable('subscriptions', {
 	renewsAt: timestamp('renews_at'),
 	endsAt: timestamp('ends_at')
 })
+
+// Счётчик лимитов Free-тарифа. Период = 'YYYY-MM' (серверный UTC) —
+// «сброс каждый месяц» просто сменой ключа, крон не нужен.
+export const usageCounters = pgTable(
+	'usage_counters',
+	{
+		id: uuid('id').defaultRandom().primaryKey(),
+		projectId: uuid('project_id')
+			.notNull()
+			.references(() => projects.id, { onDelete: 'cascade' }),
+		period: text('period').notNull(), // 'YYYY-MM'
+		votesCount: integer('votes_count').notNull().default(0),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull()
+	},
+	t => [uniqueIndex('usage_project_period').on(t.projectId, t.period)]
+)

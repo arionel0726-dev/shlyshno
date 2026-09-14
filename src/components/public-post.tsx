@@ -24,7 +24,11 @@ function getGuestKey(): string {
 	return key
 }
 
-function timeAgo(d: Date, locale: keyof typeof DATE_LOCALE, t: TranslateFn): string {
+function timeAgo(
+	d: Date,
+	locale: keyof typeof DATE_LOCALE,
+	t: TranslateFn
+): string {
 	const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000)
 	if (s < 60) return t('time.justNow')
 	const m = Math.floor(s / 60)
@@ -59,6 +63,7 @@ export function PublicPost({
 	const [email, setEmail] = useState('')
 	const [error, setError] = useState('')
 	const [saving, setSaving] = useState(false)
+	const [limitNotice, setLimitNotice] = useState(false)
 	const router = useRouter()
 	const composerRef = useRef<HTMLTextAreaElement>(null)
 
@@ -79,7 +84,13 @@ export function PublicPost({
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ postId, guestKey: getGuestKey() })
 		})
-		if (!r.ok) router.refresh()
+		const data = await r.json().catch(() => ({}))
+		if (!r.ok) {
+			setMyVote(was)
+			setVotes(v => v + (was ? 1 : -1))
+			if (data.error === 'limit') setLimitNotice(true)
+			else router.refresh()
+		}
 	}
 
 	function replyTo(authorName: string) {
@@ -102,7 +113,9 @@ export function PublicPost({
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
+			setError(
+				(await r.json().catch(() => ({}))).error ?? t('common.error.short')
+			)
 			return
 		}
 		const created = await r.json()
@@ -113,6 +126,9 @@ export function PublicPost({
 
 	return (
 		<div>
+			{limitNotice && (
+				<p className="mt-2 text-xs text-fg-muted">{t('usage.limitNotice')}</p>
+			)}
 			<button
 				onClick={vote}
 				className={`flex min-h-11 items-center gap-1.5 rounded-full border px-4 py-2 text-sm lg:min-h-0 ${

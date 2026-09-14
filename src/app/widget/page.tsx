@@ -108,6 +108,7 @@ function WidgetInner() {
 	const [error, setError] = useState('')
 	const [saving, setSaving] = useState(false)
 	const [sent, setSent] = useState(false)
+	const [limitNotice, setLimitNotice] = useState(false)
 
 	async function load() {
 		const p = await fetch(
@@ -160,11 +161,27 @@ function WidgetInner() {
 					: p
 			)
 		)
-		await fetch('/api/posts/vote', {
+		const r = await fetch('/api/posts/vote', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ postId, guestKey: getGuestKey() })
 		})
+		const data = await r.json().catch(() => ({}))
+		if (!r.ok) {
+			setMyVotes(s => {
+				const n = new Set(s)
+				was ? n.add(postId) : n.delete(postId)
+				return n
+			})
+			setPosts(ps =>
+				ps.map(p =>
+					p.id === postId
+						? { ...p, votesCount: p.votesCount + (was ? 1 : -1) }
+						: p
+				)
+			)
+			if (data.error === 'limit') setLimitNotice(true)
+		}
 	}
 
 	async function submit() {
@@ -181,7 +198,9 @@ function WidgetInner() {
 		})
 		setSaving(false)
 		if (!r.ok) {
-			setError((await r.json().catch(() => ({}))).error ?? t('common.error.short'))
+			setError(
+				(await r.json().catch(() => ({}))).error ?? t('common.error.short')
+			)
 			return
 		}
 		setSent(true)
@@ -226,11 +245,16 @@ function WidgetInner() {
 
 	return (
 		<div className="flex h-screen min-w-0 flex-col overflow-x-hidden bg-background">
+			{limitNotice && (
+				<p className="mt-3 text-xs text-fg-muted">{t('usage.limitNotice')}</p>
+			)}
 			{view === 'home' && (
 				<>
 					<div className="flex items-start justify-between border-b border-border p-5">
 						<div>
-							<p className="text-lg font-bold text-fg">{t('widget.greeting')}</p>
+							<p className="text-lg font-bold text-fg">
+								{t('widget.greeting')}
+							</p>
 							<p className="text-sm text-fg-secondary">
 								{t('widget.greetingSubtitle')}
 							</p>
@@ -327,7 +351,7 @@ function WidgetInner() {
 									</div>
 									<button
 										onClick={() => vote(p.id)}
-									className={`flex min-h-11 min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border px-2.5 py-1 text-xs sm:min-h-0 sm:min-w-0 ${
+										className={`flex min-h-11 min-w-[44px] shrink-0 items-center justify-center gap-1 rounded-full border px-2.5 py-1 text-xs sm:min-h-0 sm:min-w-0 ${
 											voted
 												? 'border-primary bg-primary text-primary-fg'
 												: 'border-border text-fg-secondary'
@@ -354,7 +378,9 @@ function WidgetInner() {
 			{view === 'submit' && (
 				<>
 					{header(
-						sent ? t('widget.submit.doneHeader') : t('portal.sidebar.leaveFeedback')
+						sent
+							? t('widget.submit.doneHeader')
+							: t('portal.sidebar.leaveFeedback')
 					)}
 					<div className="flex-1 overflow-y-auto p-4">
 						{sent ? (
@@ -412,7 +438,9 @@ function WidgetInner() {
 								disabled={saving || title.trim().length < 3}
 								className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-fg disabled:opacity-40"
 							>
-								{saving ? t('portal.composer.sending') : t('portal.composer.send')}
+								{saving
+									? t('portal.composer.sending')
+									: t('portal.composer.send')}
 							</button>
 						</div>
 					)}
