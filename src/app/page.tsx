@@ -373,8 +373,8 @@ export default async function Home() {
 
 			<SiteFooter />
 			<script
-				src="http://localhost:3000/widget.js"
-				data-slyshno-key="028290e9799712d37163828c09f77c13"
+				src="https://www.slyshno.app/widget.js"
+				data-slyshno-key="68c6b8f72ac98cf6f54fff579a469cc3"
 				async
 			></script>
 		</div>
