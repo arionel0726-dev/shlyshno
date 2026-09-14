@@ -64,7 +64,7 @@ export default async function PublicPostPage({
 				slug={slug}
 				projectName={project.name}
 			/>
-			<div className="mx-auto flex max-w-6xl gap-10 px-6 py-10">
+			<div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:flex-row">
 				<main className="min-w-0 flex-1 max-w-2xl">
 					<p className="text-xs text-fg-muted">
 						{post.authorEmail?.split('@')[0] ?? t('portal.defaultUser')}{' '}
@@ -72,9 +72,11 @@ export default async function PublicPostPage({
 							{t('portal.postedIn', { category: typeLabel })}
 						</span>
 					</p>
-					<h1 className="mt-1.5 text-2xl font-bold text-fg">{post.title}</h1>
+					<h1 className="mt-1.5 break-words text-2xl font-bold text-fg">
+						{post.title}
+					</h1>
 					{post.body && (
-						<p className="mt-3 whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
+						<p className="mt-3 break-words whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
 							{post.body}
 						</p>
 					)}
@@ -102,7 +104,7 @@ export default async function PublicPostPage({
 					</div>
 				</main>
 
-				<aside className="hidden w-60 shrink-0 lg:block">
+				<aside className="w-full shrink-0 lg:w-60">
 					<div className="border-t border-border pt-5">
 						<p className="text-xs font-medium text-fg-faint">
 							{t('portal.sidebar.actionsHeading')}

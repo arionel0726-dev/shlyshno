@@ -150,7 +150,7 @@ function Column({
 }) {
 	const { setNodeRef, isOver } = useDroppable({ id: colKey })
 	return (
-		<section className="w-72 shrink-0">
+		<section className="w-72 shrink-0 snap-start">
 			<div className="flex items-center gap-2 px-1">
 				<span className={`h-2 w-2 rounded-full ${dot}`} />
 				<h2 className="text-sm font-semibold text-fg">{label}</h2>
@@ -217,7 +217,7 @@ export function OwnerRoadmapBoard({
 			sensors={sensors}
 			onDragEnd={onDragEnd}
 		>
-			<div className="flex gap-4 overflow-x-auto pb-4">
+			<div className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain pb-4 touch-pan-x">
 				{COLUMNS.map(col => {
 					const items = posts
 						.filter(p => p.status === col.key)

@@ -372,6 +372,11 @@ export default async function Home() {
 			</section>
 
 			<SiteFooter />
+			<script
+				src="http://localhost:3000/widget.js"
+				data-slyshno-key="028290e9799712d37163828c09f77c13"
+				async
+			></script>
 		</div>
 	)
 }

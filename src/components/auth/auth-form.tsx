@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const inputCls =
-	'h-[52px] w-full rounded-[10px] border border-border bg-background px-4 text-[15px] text-fg outline-none placeholder:text-fg-faint focus:border-border-strong'
+	'h-[52px] w-full rounded-[10px] border border-border bg-background px-4 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-[15px]'
 
 function GoogleIcon() {
 	return (

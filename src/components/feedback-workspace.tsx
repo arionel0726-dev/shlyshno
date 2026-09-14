@@ -54,16 +54,16 @@ export function FeedbackWorkspace({
 	const visibleGroups = GROUPS.filter(g => filter === 'all' || filter === g.key)
 
 	return (
-		<div className="flex gap-8 p-8">
+		<div className="flex min-w-0 flex-col gap-8 p-4 sm:p-8 lg:flex-row">
 			{/* Внутренний сайдбар */}
-			<aside className="w-48 shrink-0">
+			<aside className="min-w-0 lg:w-48 lg:shrink-0">
 				<p className="px-2 text-xs text-fg-faint">
 					{t('appShell.nav.feedback')}
 				</p>
-				<nav className="mt-1 flex flex-col gap-0.5">
+				<nav className="mt-1 flex gap-0.5 overflow-x-auto lg:flex-col lg:overflow-visible">
 					<button
 						onClick={() => setFilter('all')}
-						className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${
+						className={`flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm lg:min-h-0 ${
 							filter === 'all'
 								? 'font-medium text-fg'
 								: 'text-fg-secondary hover:text-fg'
@@ -76,7 +76,7 @@ export function FeedbackWorkspace({
 						<button
 							key={g.key}
 							onClick={() => setFilter(g.key)}
-							className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm ${
+							className={`flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm lg:min-h-0 ${
 								filter === g.key
 									? 'font-medium text-fg'
 									: 'text-fg-secondary hover:text-fg'
@@ -107,13 +107,13 @@ export function FeedbackWorkspace({
 				</div>
 
 				{/* Тулбар */}
-				<div className="mt-6 flex items-center gap-2">
+				<div className="mt-6 flex flex-wrap items-center gap-2">
 					{[{ key: 'all', labelKey: 'feedback.tabAll' as DictionaryKey }, ...GROUPS].map(
 						g => (
 							<button
 								key={g.key}
 								onClick={() => setFilter(g.key)}
-								className={`rounded-full px-4 py-1.5 text-sm ${
+								className={`min-h-11 rounded-full px-4 py-1.5 text-sm lg:min-h-0 ${
 									filter === g.key
 										? 'bg-primary font-medium text-primary-fg'
 										: 'border border-border text-fg-secondary hover:bg-surface'
@@ -123,13 +123,13 @@ export function FeedbackWorkspace({
 							</button>
 						)
 					)}
-					<div className="relative ml-auto">
+					<div className="relative w-full sm:ml-auto sm:w-64">
 						<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-fg-faint" />
 						<input
 							value={query}
 							onChange={e => setQuery(e.target.value)}
 							placeholder={t('feedback.searchPlaceholder')}
-							className="rounded-full border border-border bg-background py-2 pr-4 pl-9 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+							className="min-h-11 w-full rounded-full border border-border bg-background py-2 pr-4 pl-9 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm lg:min-h-0"
 						/>
 					</div>
 				</div>
@@ -154,12 +154,12 @@ export function FeedbackWorkspace({
 									{items.map(p => (
 										<li
 											key={p.id}
-											className="flex items-center gap-3 border-b border-border-soft py-3"
+											className="flex flex-wrap items-center gap-3 border-b border-border-soft py-3"
 										>
 											<span
 												className={`h-2.5 w-2.5 shrink-0 rounded-full border-2 ${g.dot.replace('bg-', 'border-')}`}
 											/>
-											<div className="min-w-0 flex-1">
+											<div className="min-w-0 flex-1 basis-[calc(100%-2rem)] sm:basis-auto">
 												<Link
 													href={`/dashboard/p/${slug}/post/${p.id}`}
 													className="truncate text-sm font-medium text-fg hover:underline"
@@ -177,7 +177,7 @@ export function FeedbackWorkspace({
 												status={p.status}
 											/>
 											<DeletePostButton postId={p.id} />
-											<span className="rounded-full border border-border px-3 py-1 text-xs text-fg-secondary">
+											<span className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border px-3 py-1 text-xs text-fg-secondary lg:min-h-0 lg:min-w-0">
 												↑ {p.votesCount}
 											</span>
 										</li>

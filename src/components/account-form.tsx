@@ -26,7 +26,7 @@ export function AccountForm({ initialName }: { initialName: string }) {
 	return (
 		<form
 			onSubmit={save}
-			className="flex items-end gap-3"
+			className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-end"
 		>
 			<div className="flex-1">
 				<label className="text-xs text-fg-faint">{t('auth.field.name')}</label>
@@ -34,12 +34,12 @@ export function AccountForm({ initialName }: { initialName: string }) {
 					value={name}
 					onChange={e => setName(e.target.value)}
 					required
-					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none focus:border-border-strong"
+					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-base text-fg outline-none focus:border-border-strong sm:text-sm"
 				/>
 			</div>
 			<button
 				disabled={saving}
-				className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-fg disabled:opacity-50"
+				className="min-h-11 w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-fg disabled:opacity-50 sm:w-auto lg:min-h-0"
 			>
 				{saving
 					? t('common.saving')

@@ -45,10 +45,12 @@ export default async function DomainSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('settings.domain.publicBoardUrl')}
 			</p>
-			<div className="mt-3 rounded-2xl border border-border p-6">
-				<div className="flex items-center justify-between gap-4">
-					<p className="truncate font-mono text-sm text-fg">{boardUrl}</p>
-					<CopyButton text={boardUrl} />
+			<div className="mt-3 rounded-2xl border border-border p-4 sm:p-6">
+				<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+					<p className="w-full truncate font-mono text-sm text-fg">{boardUrl}</p>
+					<div className="w-full sm:w-auto [&>button]:w-full">
+						<CopyButton text={boardUrl} />
+					</div>
 				</div>
 				<div className="mt-4 border-t border-border pt-4">
 					<p className="text-sm text-fg-muted">
@@ -60,12 +62,16 @@ export default async function DomainSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('dashboard.widgetForSite')}
 			</p>
-			<div className="mt-3 rounded-2xl border border-border p-6">
-				<div className="flex items-start justify-between gap-4">
-					<pre className="min-w-0 flex-1 overflow-x-auto rounded-lg bg-surface p-4 font-mono text-xs text-fg">{`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}</pre>
-					<CopyButton
-						text={`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}
-					/>
+			<div className="mt-3 min-w-0 rounded-2xl border border-border p-4 sm:p-6">
+				<div className="flex min-w-0 flex-col items-start gap-4 sm:flex-row">
+					<div className="w-full min-w-0 overflow-x-auto rounded-lg bg-surface sm:w-auto sm:flex-1">
+						<pre className="min-w-max p-4 font-mono text-[10px] text-fg sm:text-xs">{`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}</pre>
+					</div>
+					<div className="w-full sm:w-auto [&>button]:w-full">
+						<CopyButton
+							text={`<script src="${process.env.NEXT_PUBLIC_APP_URL}/widget.js" data-slyshno-key="${project.publicKey}" async></script>`}
+						/>
+					</div>
 				</div>
 				<p className="mt-4 border-t border-border pt-4 text-sm text-fg-muted">
 					{t('settings.domain.widgetHint')}
@@ -75,10 +81,10 @@ export default async function DomainSettings({
 			<p className="mt-8 text-sm font-semibold text-fg">
 				{t('settings.domain.customDomain')}
 			</p>
-			<div className="mt-3 rounded-2xl border border-border p-6">
+			<div className="mt-3 rounded-2xl border border-border p-4 sm:p-6">
 				{isPro ? (
 					<div>
-						<div className="flex items-center gap-2">
+					<div className="flex flex-wrap items-center gap-2">
 							<p className="font-mono text-sm text-fg">
 								feedback.yourdomain.com
 							</p>
@@ -91,7 +97,7 @@ export default async function DomainSettings({
 						</p>
 					</div>
 				) : (
-					<div className="flex items-center justify-between gap-4">
+					<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 						<div>
 							<p className="font-mono text-sm text-fg-faint">
 								feedback.yourdomain.com
@@ -102,7 +108,7 @@ export default async function DomainSettings({
 						</div>
 						<button
 							disabled
-							className="shrink-0 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-fg opacity-50"
+							className="min-h-11 w-full shrink-0 rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-fg opacity-50 sm:w-auto lg:min-h-0"
 						>
 							{t('settings.domain.connectButton')}
 						</button>

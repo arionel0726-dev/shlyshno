@@ -44,8 +44,8 @@ export default async function OwnerRoadmap({
 		.where(eq(posts.boardId, board.id))
 
 	return (
-		<div className="p-8">
-			<div className="flex items-center justify-between">
+		<div className="min-w-0 p-4 sm:p-8">
+			<div className="flex items-start justify-between gap-4 lg:items-center">
 				<div>
 					<h1 className="text-2xl font-bold text-fg">{t('roadmap.title')}</h1>
 					<p className="mt-1 text-sm text-fg-secondary">
@@ -54,7 +54,7 @@ export default async function OwnerRoadmap({
 				</div>
 				<Link
 					href={`/dashboard/p/${slug}`}
-					className="rounded-full border border-border px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
+					className="flex min-h-11 shrink-0 items-center rounded-full border border-border px-4 py-2 text-sm text-fg-secondary hover:bg-surface lg:min-h-0"
 				>
 					{t('roadmap.listLink')}
 				</Link>

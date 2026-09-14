@@ -53,12 +53,12 @@ export default async function ChangelogEntry({
 		: []
 
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen overflow-x-hidden">
 			<PortalHeader
 				slug={slug}
 				projectName={project.name}
 			/>
-			<div className="mx-auto flex max-w-6xl gap-10 px-6 py-10">
+			<div className="mx-auto flex min-w-0 max-w-6xl gap-10 px-6 py-10">
 				<article className="min-w-0 flex-1 max-w-2xl">
 					<p className="text-sm text-fg-muted">
 						{entry.publishAt
@@ -72,7 +72,7 @@ export default async function ChangelogEntry({
 								)
 							: ''}
 					</p>
-					<h1 className="mt-2 text-3xl font-bold tracking-tight text-fg">
+					<h1 className="mt-2 break-words text-3xl font-bold tracking-tight text-fg">
 						{entry.title}
 					</h1>
 
@@ -99,7 +99,7 @@ export default async function ChangelogEntry({
 						</div>
 					)}
 
-					<p className="mt-6 whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
+					<p className="mt-6 break-words whitespace-pre-line text-[15px] leading-relaxed text-fg-secondary">
 						{entry.body}
 					</p>
 				</article>

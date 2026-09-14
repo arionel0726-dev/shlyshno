@@ -131,7 +131,7 @@ export function PublicPost({
 			)}
 			<button
 				onClick={vote}
-				className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm ${
+				className={`flex min-h-11 items-center gap-1.5 rounded-full border px-4 py-2 text-sm lg:min-h-0 ${
 					myVote
 						? 'border-primary bg-primary text-primary-fg'
 						: 'border-border text-fg-secondary hover:bg-surface'
@@ -157,13 +157,13 @@ export function PublicPost({
 						placeholder={t('comments.addPlaceholder')}
 						rows={3}
 						required
-						className="w-full resize-none rounded-t-2xl bg-transparent px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint"
+						className="w-full resize-none rounded-t-2xl bg-transparent px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint sm:text-sm"
 					/>
 					<div className="flex items-center justify-between border-t border-border px-3 py-2">
 						<div className="flex items-center gap-1 text-fg-faint"></div>
 						<button
 							disabled={saving || !body.trim()}
-							className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-fg disabled:opacity-40"
+							className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-fg disabled:opacity-40 lg:h-8 lg:w-8"
 							title={t('common.send')}
 						>
 							<Send className="h-4 w-4" />
@@ -172,12 +172,12 @@ export function PublicPost({
 				</div>
 
 				{!isLoggedIn && (
-					<div className="mt-2 flex gap-2">
+					<div className="mt-2 flex flex-col gap-2 sm:flex-row">
 						<input
 							value={name}
 							onChange={e => setName(e.target.value)}
 							placeholder={t('auth.field.name')}
-							className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+							className="min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 						/>
 						<input
 							type="email"
@@ -185,7 +185,7 @@ export function PublicPost({
 							onChange={e => setEmail(e.target.value)}
 							placeholder={t('public.emailRequired')}
 							required
-							className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+							className="min-w-0 flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 						/>
 					</div>
 				)}
@@ -216,12 +216,12 @@ export function PublicPost({
 								</span>{' '}
 								· {timeAgo(c.createdAt, locale, t)}
 							</p>
-							<p className="mt-1 whitespace-pre-line text-sm text-fg">
+							<p className="mt-1 break-words whitespace-pre-line text-sm text-fg">
 								{c.body}
 							</p>
 							<button
 								onClick={() => c.authorName && replyTo(c.authorName)}
-								className="mt-1.5 flex items-center gap-1.5 text-xs text-fg-muted hover:text-fg"
+								className="mt-1.5 flex min-h-11 items-center gap-1.5 text-xs text-fg-muted hover:text-fg lg:min-h-0"
 							>
 								<Reply className="h-3 w-3" />
 								{t('comments.reply')}

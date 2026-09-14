@@ -180,13 +180,13 @@ export function BoardView({
 			)}
 
 			{/* Фильтры-табы статусов */}
-			<div className="border-b border-border">
-				<div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-6 py-3 text-sm">
+			<div className="overflow-x-auto border-b border-border overscroll-x-contain">
+				<div className="mx-auto flex max-w-6xl min-w-max items-center gap-x-5 px-6 py-3 text-sm">
 					{STATUSES.map(s => (
 						<button
 							key={s.key}
 							onClick={() => setStatus(s.key)}
-							className={`flex items-center gap-1.5 ${
+							className={`flex min-h-11 items-center gap-1.5 lg:min-h-0 ${
 								status === s.key
 									? 'font-medium text-fg'
 									: 'text-fg-secondary hover:text-fg'
@@ -199,7 +199,7 @@ export function BoardView({
 					<span className="h-4 w-px bg-border" />
 					<button
 						onClick={() => setPopular(!popular)}
-						className={`flex items-center gap-1.5 ${
+						className={`flex min-h-11 items-center gap-1.5 lg:min-h-0 ${
 							popular ? 'font-medium text-fg' : 'text-fg-secondary'
 						}`}
 					>
@@ -210,7 +210,7 @@ export function BoardView({
 			</div>
 
 			{/* Контент + сайдбар */}
-			<div className="mx-auto flex max-w-6xl gap-10 px-6 py-8">
+			<div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-8 lg:flex-row">
 				<main className="min-w-0 flex-1">
 					{filtered.length === 0 && (
 						<p className="py-12 text-center text-sm text-fg-muted">
@@ -223,6 +223,18 @@ export function BoardView({
 						return (
 							<div
 								key={p.id}
+								onClick={event => {
+									if ((event.target as HTMLElement).closest('button')) return
+									router.push(`/p/${slug}/post/${p.id}`)
+								}}
+								onKeyDown={event => {
+									if (event.key === 'Enter' || event.key === ' ') {
+										event.preventDefault()
+										router.push(`/p/${slug}/post/${p.id}`)
+									}
+								}}
+								role="link"
+								tabIndex={0}
 								className="flex gap-4 border-b border-border-soft py-5"
 							>
 								{p.authorImage ? (
@@ -277,7 +289,7 @@ export function BoardView({
 								</div>
 								<button
 									onClick={() => vote(p.id)}
-									className={`flex h-fit shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
+									className={`flex min-h-11 min-w-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm transition-colors lg:min-h-0 lg:min-w-0 ${
 										voted
 											? 'border-primary bg-primary text-primary-fg'
 											: 'border-border text-fg-secondary hover:bg-surface'
@@ -488,7 +500,7 @@ function Composer({
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
 			<div
 				ref={ref}
-				className="w-full max-w-lg rounded-2xl border border-border bg-background p-6 shadow-xl"
+				className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-background p-4 shadow-xl sm:p-6"
 			>
 				{sent ? (
 					<div className="py-8 text-center">
@@ -507,7 +519,7 @@ function Composer({
 							</h2>
 							<button
 								onClick={onClose}
-								className="rounded-lg p-1.5 text-fg-muted hover:bg-surface"
+								className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-fg-muted hover:bg-surface lg:min-h-0 lg:min-w-0 lg:p-1.5"
 							>
 								<X className="h-4 w-4" />
 							</button>
@@ -522,26 +534,26 @@ function Composer({
 								placeholder={t('portal.composer.titlePlaceholder')}
 								required
 								minLength={3}
-								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							<textarea
 								value={body}
 								onChange={e => setBody(e.target.value)}
 								placeholder={t('portal.composer.bodyPlaceholder')}
 								rows={4}
-								className="resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="resize-none rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							<input
 								type="email"
 								value={email}
 								onChange={e => setEmail(e.target.value)}
 								placeholder={t('portal.composer.emailPlaceholder')}
-								className="rounded-xl border border-border bg-background px-4 py-3 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+								className="rounded-xl border border-border bg-background px-4 py-3 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 							/>
 							{error && <p className="text-sm text-red-600">{error}</p>}
 							<button
 								disabled={saving}
-								className="mt-1 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50"
+								className="mt-1 min-h-11 rounded-xl bg-primary py-3 text-sm font-medium text-primary-fg hover:opacity-90 disabled:opacity-50 lg:min-h-0"
 							>
 								{saving
 									? t('portal.composer.sending')

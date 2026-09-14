@@ -45,7 +45,7 @@ export function EditBrandForm({
 
 	if (!editing) {
 		return (
-			<div className="flex items-center gap-4">
+			<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
 				<span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-lg font-semibold text-fg">
 					{initialName.slice(0, 2).toUpperCase()}
 				</span>
@@ -57,7 +57,7 @@ export function EditBrandForm({
 				</div>
 				<button
 					onClick={() => setEditing(true)}
-					className="rounded-lg border border-border px-4 py-2 text-sm text-fg hover:bg-surface"
+					className="min-h-11 w-full rounded-lg border border-border px-4 py-2 text-sm text-fg hover:bg-surface sm:w-auto lg:min-h-0"
 				>
 					{t('settings.brand.editForm.editButton')}
 				</button>
@@ -78,7 +78,7 @@ export function EditBrandForm({
 					value={name}
 					onChange={e => setName(e.target.value)}
 					required
-					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none focus:border-border-strong"
+					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-base text-fg outline-none focus:border-border-strong sm:text-sm"
 				/>
 			</div>
 			<div>
@@ -89,20 +89,20 @@ export function EditBrandForm({
 					value={website}
 					onChange={e => setWebsite(e.target.value)}
 					placeholder="yourproduct.com"
-					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-fg outline-none placeholder:text-fg-faint focus:border-border-strong"
+					className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-base text-fg outline-none placeholder:text-fg-faint focus:border-border-strong sm:text-sm"
 				/>
 			</div>
-			<div className="flex items-center gap-2">
+			<div className="flex flex-wrap items-center gap-2">
 				<button
 					disabled={saving}
-					className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50"
+					className="min-h-11 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-fg disabled:opacity-50 lg:min-h-0"
 				>
 					{saving ? t('common.saving') : t('common.save')}
 				</button>
 				<button
 					type="button"
 					onClick={() => setEditing(false)}
-					className="rounded-full px-4 py-2 text-sm text-fg-secondary hover:bg-surface"
+					className="min-h-11 rounded-full px-4 py-2 text-sm text-fg-secondary hover:bg-surface lg:min-h-0"
 				>
 					{t('common.cancel')}
 				</button>

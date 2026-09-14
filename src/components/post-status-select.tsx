@@ -50,7 +50,7 @@ export function PostStatusSelect({
 			value={value}
 			onChange={change}
 			disabled={saving}
-			className="rounded-lg border px-2 py-1 text-sm disabled:opacity-50"
+			className="min-h-11 max-w-full rounded-lg border px-2 py-1 text-sm disabled:opacity-50 lg:min-h-0"
 		>
 			{STATUSES.map(s => (
 				<option
